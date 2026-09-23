@@ -1,0 +1,51 @@
+{
+  "id": "microservices-flow",
+  "kind": "data-flow",
+  "artifact": "generated/microservices-flow.en.html",
+  "artifacts": {
+    "en": "generated/microservices-flow.en.html",
+    "es": "generated/microservices-flow.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "2.17.0-dev.1",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Asynchronous work across services",
+      "altText": "An API publishes to an SNS or Kafka message broker, which fans out to customer and payments services, each with its own database, before service responses are returned.",
+      "fallback": "The API publishes work to an SNS or Kafka-style broker. The broker delivers messages to customer and payments services. Each service owns its database and can acknowledge or respond independently, so the system must handle eventual consistency and retries.",
+      "nodes": [
+        { "id": "api", "label": "API" },
+        { "id": "broker", "label": "SNS / Kafka" },
+        { "id": "customer", "label": "Customer service + DB" },
+        { "id": "payments", "label": "Payments service + DB" },
+        { "id": "responses", "label": "Service responses" }
+      ]
+    },
+    "es": {
+      "title": "Trabajo asíncrono entre servicios",
+      "altText": "Una API publica en un intermediario de mensajes como SNS o Kafka, que distribuye el trabajo a los servicios de clientes y pagos, cada uno con su propia base de datos, antes de devolver las respuestas.",
+      "fallback": "La API publica el trabajo en un intermediario como SNS o Kafka. El intermediario entrega los mensajes a los servicios de clientes y pagos. Cada servicio es dueño de su base de datos y puede confirmar o responder de forma independiente, por lo que el sistema debe gestionar la consistencia eventual y los reintentos.",
+      "nodes": [
+        { "id": "api", "label": "API" },
+        { "id": "broker", "label": "SNS / Kafka" },
+        { "id": "customer", "label": "Servicio de clientes + BD" },
+        { "id": "payments", "label": "Servicio de pagos + BD" },
+        { "id": "responses", "label": "Respuestas" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "api", "to": "broker" },
+    { "from": "broker", "to": "customer" },
+    { "from": "broker", "to": "payments" },
+    { "from": "customer", "to": "responses" },
+    { "from": "payments", "to": "responses" }
+  ]
+}

@@ -1,0 +1,38 @@
+---
+title: Monolith vs Microservices
+slug: monolith-vs-microservices
+translationOf: monolith-vs-microservices
+locale: en
+summary: Understand how deployment boundaries, communication paths, and data ownership change as a system grows.
+status: published
+---
+
+## The short version
+
+A monolith keeps most application capabilities in one deployable unit. Microservices split those capabilities into independently deployable services that communicate over a network. Neither shape is automatically better: the right choice depends on team boundaries, scaling needs, operational maturity, and how much coordination the product can tolerate.
+
+## Start with the request path
+
+Architecture becomes easier to compare when we follow one request through each shape. The examples below are intentionally small. They show boundaries and trade-offs, not a prescription for every production system.
+
+:::diagram id="monolith-flow"
+:::
+
+In the monolith example, one application process coordinates the customer and payments capabilities. A shared database keeps the data path straightforward, and a single deployment makes changes easy to release together. The cost is that the unit grows in scope: a small change may require rebuilding, testing, and deploying the whole application.
+
+:::diagram id="microservices-flow"
+:::
+
+In the microservices example, an event or message broker separates the request from downstream work. Customer and payments services own their data stores and can scale or deploy independently. That flexibility introduces distributed-systems work: retries, duplicate messages, observability, data consistency, and more involved local development.
+
+## A useful decision frame
+
+- Choose a monolith when the product and team are still changing quickly, the domain boundaries are unclear, or operational simplicity is the priority.
+- Consider service boundaries when independent scaling, release ownership, or fault isolation is a proven need—not simply because the codebase feels large.
+- Start with clear modules inside a monolith. A well-factored monolith can preserve most domain boundaries while keeping network and operational costs low.
+
+> The architecture should make the next important change easier, not merely make the diagram look more distributed.
+
+## What to remember
+
+The architectural choice is a trade: monoliths concentrate coordination inside one process, while microservices move coordination into the network and the operating environment. Make the boundary explicit, keep the failure modes visible, and revisit the decision as the product and teams evolve.

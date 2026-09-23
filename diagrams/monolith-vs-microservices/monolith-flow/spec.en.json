@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "A request through a monolith",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [1120, 520],
+    "views": [
+      {
+        "id": "request-path",
+        "label": "Request path",
+        "focus": ["api", "customer", "payments", "database", "response"],
+        "note": "Follow the request through capabilities deployed together."
+      }
+    ]
+  },
+  "components": [
+    { "id": "api", "type": "external", "label": "API", "sublabel": "incoming request", "pos": [40, 220], "size": [140, 70] },
+    { "id": "customer", "type": "backend", "label": "Customer", "sublabel": "in-process capability", "pos": [270, 220], "size": [170, 70] },
+    { "id": "payments", "type": "backend", "label": "Payments", "sublabel": "in-process capability", "pos": [510, 220], "size": [170, 70] },
+    { "id": "database", "type": "database", "label": "Shared database", "sublabel": "one data boundary", "pos": [750, 220], "size": [170, 70] },
+    { "id": "response", "type": "external", "label": "Response", "sublabel": "returned to caller", "pos": [980, 220], "size": [140, 70] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "One deployable application", "wraps": ["customer", "payments"], "pad": 28 }
+  ],
+  "connections": [
+    { "id": "api-request", "from": "api", "to": "customer", "label": "request", "variant": "emphasis" },
+    { "id": "customer-payments", "from": "customer", "to": "payments", "label": "in-process call", "labelDy": 59 },
+    { "id": "payments-database", "from": "payments", "to": "database", "label": "read / write", "labelDy": 59 },
+    { "id": "database-response", "from": "database", "to": "response", "label": "response", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Trade-off",
+      "items": [
+        "One application coordinates the capabilities in-process",
+        "The shared database keeps the data path straightforward",
+        "The whole application is the deployment unit"
+      ]
+    }
+  ]
+}

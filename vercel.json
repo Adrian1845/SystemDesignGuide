@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/en/",
+      "permanent": true
+    },
+    {
+      "source": "/topics/:slug/",
+      "destination": "/en/topics/:slug/",
+      "permanent": true
+    }
+  ]
+}

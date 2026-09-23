@@ -1,0 +1,38 @@
+---
+title: Monolito vs microservicios
+slug: monolith-vs-microservices
+translationOf: monolith-vs-microservices
+locale: es
+summary: Comprende cómo cambian los límites de despliegue, las rutas de comunicación y la propiedad de los datos cuando un sistema crece.
+status: published
+---
+
+## La versión corta
+
+Un monolito mantiene la mayoría de las capacidades de una aplicación en una sola unidad desplegable. Los microservicios separan esas capacidades en servicios que se pueden desplegar de forma independiente y que se comunican a través de la red. Ninguna de las dos formas es automáticamente mejor: la elección depende de los límites entre equipos, las necesidades de escalado, la madurez operativa y la coordinación que el producto pueda asumir.
+
+## Empieza por el recorrido de la petición
+
+La arquitectura es más fácil de comparar si seguimos una petición a través de cada forma. Los ejemplos siguientes son intencionadamente pequeños. Muestran límites y compensaciones, no una receta para todos los sistemas de producción.
+
+:::diagram id="monolith-flow"
+:::
+
+En el ejemplo monolítico, un proceso de aplicación coordina las capacidades de clientes y pagos. Una base de datos compartida mantiene sencillo el recorrido de los datos, y un único despliegue facilita publicar los cambios juntos. El coste es que la unidad crece en alcance: un cambio pequeño puede requerir reconstruir, probar y desplegar toda la aplicación.
+
+:::diagram id="microservices-flow"
+:::
+
+En el ejemplo de microservicios, un intermediario de eventos o mensajes separa la petición del trabajo posterior. Los servicios de clientes y pagos son dueños de sus almacenes de datos y pueden escalarse o desplegarse de forma independiente. Esa flexibilidad introduce trabajo propio de los sistemas distribuidos: reintentos, mensajes duplicados, observabilidad, consistencia de datos y un desarrollo local más complejo.
+
+## Un marco útil para decidir
+
+- Elige un monolito cuando el producto y el equipo todavía cambian rápidamente, los límites del dominio no están claros o la prioridad es la simplicidad operativa.
+- Considera separar servicios cuando el escalado independiente, la responsabilidad sobre las publicaciones o el aislamiento de fallos sean necesidades demostradas, no simplemente porque el código parezca grande.
+- Empieza con módulos claros dentro de un monolito. Un monolito bien estructurado puede conservar la mayoría de los límites del dominio con menos costes de red y operación.
+
+> La arquitectura debe facilitar el próximo cambio importante, no limitarse a hacer que el diagrama parezca más distribuido.
+
+## Qué recordar
+
+La elección arquitectónica es una compensación: los monolitos concentran la coordinación dentro de un proceso, mientras que los microservicios trasladan la coordinación a la red y al entorno operativo. Haz explícito el límite, mantén visibles los modos de fallo y revisa la decisión a medida que evolucionen el producto y los equipos.

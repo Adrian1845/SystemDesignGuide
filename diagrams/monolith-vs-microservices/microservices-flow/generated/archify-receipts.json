@@ -1,0 +1,24 @@
+{
+  "tool": "archify",
+  "version": "2.17.0-dev.1",
+  "repository": "https://github.com/tt-a1i/archify",
+  "qualityProfile": "showcase",
+  "validation": { "checksPassed": 9, "checkCount": 9, "compositionStatus": "pass", "errors": 0, "warnings": 0 },
+  "browserEvidence": { "status": "pass", "browser": "Chrome", "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"], "themes": ["light", "dark"], "visualReview": "representative screenshots inspected" },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "d6d5a33192992a7097fdb2e5b745ecefc9478513733dc15ba91261b170377177",
+      "artifact": "microservices-flow.en.html",
+      "artifactSha256": "a8a1ff1c7c8f46abf0956702f81e767f8997f4e23ab00b089cadad26b8ff9654",
+      "artifactBytes": 808348
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "773ca6450249c9051f2cf3ec819bb364ecf9cb18434fd3b15149e168aa7e7e13",
+      "artifact": "microservices-flow.es.html",
+      "artifactSha256": "45c801ed6292125c692cc81d0073feb6eb2a3c12d1d97dc4e045ffa7de2cd58c",
+      "artifactBytes": 808774
+    }
+  }
+}

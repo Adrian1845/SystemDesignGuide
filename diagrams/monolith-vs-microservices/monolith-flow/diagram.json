@@ -1,0 +1,50 @@
+{
+  "id": "monolith-flow",
+  "kind": "architecture",
+  "artifact": "generated/monolith-flow.en.html",
+  "artifacts": {
+    "en": "generated/monolith-flow.en.html",
+    "es": "generated/monolith-flow.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "2.17.0-dev.1",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "A request through a monolith",
+      "altText": "A request travels from an API through customer and payments capabilities to one database, then returns as a response.",
+      "fallback": "The API sends a request to one application. The application coordinates customer and payments capabilities, reads or writes one database, and returns the response. All of these capabilities are deployed together.",
+      "nodes": [
+        { "id": "api", "label": "API" },
+        { "id": "customer", "label": "Customer service" },
+        { "id": "payments", "label": "Payments service" },
+        { "id": "database", "label": "Shared database" },
+        { "id": "response", "label": "Response" }
+      ]
+    },
+    "es": {
+      "title": "Una petición a través de un monolito",
+      "altText": "Una petición viaja desde una API a las capacidades de clientes y pagos, llega a una base de datos y vuelve como respuesta.",
+      "fallback": "La API envía una petición a una sola aplicación. La aplicación coordina las capacidades de clientes y pagos, lee o escribe en una base de datos y devuelve la respuesta. Todas estas capacidades se despliegan juntas.",
+      "nodes": [
+        { "id": "api", "label": "API" },
+        { "id": "customer", "label": "Servicio de clientes" },
+        { "id": "payments", "label": "Servicio de pagos" },
+        { "id": "database", "label": "Base de datos compartida" },
+        { "id": "response", "label": "Respuesta" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "api", "to": "customer" },
+    { "from": "customer", "to": "payments" },
+    { "from": "payments", "to": "database" },
+    { "from": "database", "to": "response" }
+  ]
+}

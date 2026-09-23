@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Asynchronous work across services",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [1080, 620],
+    "views": [
+      {
+        "id": "async-path",
+        "label": "Asynchronous request path",
+        "focus": ["api", "broker", "customer", "customer-db", "payments", "payments-db", "customer-response", "payments-response"],
+        "note": "Follow work from the API through the broker to independently owned services."
+      }
+    ]
+  },
+  "stages": [
+    { "label": "Request" },
+    { "label": "Messaging" },
+    { "label": "Services" },
+    { "label": "Owned data" },
+    { "label": "Outcome" }
+  ],
+  "nodes": [
+    { "id": "api", "type": "external", "label": "API", "sublabel": "publishes work", "stage": 0, "row": 1 },
+    { "id": "broker", "type": "messagebus", "label": "SNS / Kafka", "sublabel": "message broker", "stage": 1, "row": 1 },
+    { "id": "customer", "type": "backend", "label": "Customer service", "sublabel": "independent deploy", "stage": 2, "row": 0, "width": 160 },
+    { "id": "payments", "type": "backend", "label": "Payments service", "sublabel": "independent deploy", "stage": 2, "row": 2, "width": 160 },
+    { "id": "customer-db", "type": "database", "label": "Customer DB", "sublabel": "service-owned", "stage": 3, "row": 0 },
+    { "id": "payments-db", "type": "database", "label": "Payments DB", "sublabel": "service-owned", "stage": 3, "row": 2 },
+    { "id": "customer-response", "type": "external", "label": "Customer response", "sublabel": "independent outcome", "stage": 4, "row": 0, "width": 170 },
+    { "id": "payments-response", "type": "external", "label": "Payments response", "sublabel": "independent outcome", "stage": 4, "row": 2, "width": 170 }
+  ],
+  "flows": [
+    { "id": "api-broker", "from": "api", "to": "broker", "label": "publish event", "classification": "async", "variant": "emphasis" },
+    { "id": "broker-customer", "from": "broker", "to": "customer", "label": "customer work", "classification": "fan-out", "variant": "emphasis" },
+    { "id": "broker-payments", "from": "broker", "to": "payments", "label": "payment work", "classification": "fan-out", "variant": "emphasis" },
+    { "id": "customer-db", "from": "customer", "to": "customer-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "payments-db", "from": "payments", "to": "payments-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "customer-response", "from": "customer-db", "to": "customer-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 },
+    { "id": "payments-response", "from": "payments-db", "to": "payments-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 }
+  ],
+  "cards": [
+    {
+      "dot": "orange",
+      "title": "Distributed-systems work",
+      "items": [
+        "The broker fans work out to independently deployable services",
+        "Each service owns its database",
+        "Retries and eventual consistency become explicit concerns"
+      ]
+    }
+  ]
+}

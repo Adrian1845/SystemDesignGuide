@@ -1,0 +1,24 @@
+{
+  "tool": "archify",
+  "version": "2.17.0-dev.1",
+  "repository": "https://github.com/tt-a1i/archify",
+  "qualityProfile": "showcase",
+  "validation": { "checksPassed": 9, "checkCount": 9, "compositionStatus": "pass", "errors": 0, "warnings": 0 },
+  "browserEvidence": { "status": "pass", "browser": "Chrome", "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"], "themes": ["light", "dark"], "visualReview": "representative screenshots inspected" },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "fffb9639f7ccc9c8f7b2f841fa5437346e2ad24db49006ec2d89264cd27d0784",
+      "artifact": "monolith-flow.en.html",
+      "artifactSha256": "ed2422ddb6ba25c864d2fe0907dc6a59e2656d7a39bf06ecf0325bfedb9b06fd",
+      "artifactBytes": 801276
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "15e012df52eca799a9a4c2d3f0f9bd2d730b9970b0821b2ee42bb2bcd3a82c41",
+      "artifact": "monolith-flow.es.html",
+      "artifactSha256": "fcf5bd3c237f470df407e28e9f2b50a342797d6df6c35478744a57dee6fb7751",
+      "artifactBytes": 801447
+    }
+  }
+}

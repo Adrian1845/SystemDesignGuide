@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Una petición a través de un monolito",
+    "quality_profile": "showcase",
+    "viewBox": [1120, 520],
+    "views": [
+      {
+        "id": "request-path",
+        "label": "Recorrido de la petición",
+        "focus": ["api", "customer", "payments", "database", "response"],
+        "note": "Sigue la petición a través de capacidades desplegadas juntas."
+      }
+    ]
+  },
+  "components": [
+    { "id": "api", "type": "external", "label": "API", "sublabel": "petición entrante", "pos": [40, 220], "size": [140, 70] },
+    { "id": "customer", "type": "backend", "label": "Clientes", "sublabel": "capacidad en proceso", "pos": [270, 220], "size": [170, 70] },
+    { "id": "payments", "type": "backend", "label": "Pagos", "sublabel": "capacidad en proceso", "pos": [510, 220], "size": [170, 70] },
+    { "id": "database", "type": "database", "label": "Base de datos compartida", "sublabel": "un límite de datos", "pos": [750, 220], "size": [170, 70] },
+    { "id": "response", "type": "external", "label": "Respuesta", "sublabel": "devuelta al cliente", "pos": [980, 220], "size": [140, 70] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Una aplicación desplegable", "wraps": ["customer", "payments"], "pad": 28 }
+  ],
+  "connections": [
+    { "id": "api-request", "from": "api", "to": "customer", "label": "petición", "variant": "emphasis" },
+    { "id": "customer-payments", "from": "customer", "to": "payments", "label": "llamada en proceso", "labelDy": 59 },
+    { "id": "payments-database", "from": "payments", "to": "database", "label": "leer / escribir", "labelDy": 59 },
+    { "id": "database-response", "from": "database", "to": "response", "label": "respuesta", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Compensación",
+      "items": [
+        "Una aplicación coordina las capacidades en el mismo proceso",
+        "La base de datos compartida simplifica el recorrido de los datos",
+        "Toda la aplicación es la unidad de despliegue"
+      ]
+    }
+  ]
+}
