@@ -2,16 +2,16 @@
   "schema_version": 1,
   "diagram_type": "dataflow",
   "meta": {
-    "title": "Asynchronous work across services",
+    "title": "Independent services for the booking flow",
     "locale": "en",
     "quality_profile": "showcase",
     "viewBox": [1080, 620],
     "views": [
       {
-        "id": "async-path",
-        "label": "Asynchronous request path",
-        "focus": ["api", "broker", "customer", "customer-db", "payments", "payments-db", "customer-response", "payments-response"],
-        "note": "Follow work from the API through the broker to independently owned services."
+        "id": "service-path",
+        "label": "Asynchronous service paths",
+        "focus": ["api", "broker", "registration", "registration-db", "payments", "payments-db", "email", "email-db", "invoicing", "invoicing-db", "registration-response", "payments-response", "email-response", "invoicing-response"],
+        "note": "Follow a booking event from the API to independently deployable services, including an added invoicing service."
       }
     ]
   },
@@ -23,32 +23,44 @@
     { "label": "Outcome" }
   ],
   "nodes": [
-    { "id": "api", "type": "external", "label": "API", "sublabel": "publishes work", "stage": 0, "row": 1 },
+    { "id": "api", "type": "external", "label": "Booking website", "sublabel": "publishes event", "stage": 0, "row": 1 },
     { "id": "broker", "type": "messagebus", "label": "SNS / Kafka", "sublabel": "message broker", "stage": 1, "row": 1 },
-    { "id": "customer", "type": "backend", "label": "Customer service", "sublabel": "independent deploy", "stage": 2, "row": 0, "width": 160 },
-    { "id": "payments", "type": "backend", "label": "Payments service", "sublabel": "independent deploy", "stage": 2, "row": 2, "width": 160 },
-    { "id": "customer-db", "type": "database", "label": "Customer DB", "sublabel": "service-owned", "stage": 3, "row": 0 },
-    { "id": "payments-db", "type": "database", "label": "Payments DB", "sublabel": "service-owned", "stage": 3, "row": 2 },
-    { "id": "customer-response", "type": "external", "label": "Customer response", "sublabel": "independent outcome", "stage": 4, "row": 0, "width": 170 },
-    { "id": "payments-response", "type": "external", "label": "Payments response", "sublabel": "independent outcome", "stage": 4, "row": 2, "width": 170 }
+    { "id": "registration", "type": "backend", "label": "Registration service", "sublabel": "independent deploy", "stage": 2, "row": 0, "width": 180 },
+    { "id": "payments", "type": "backend", "label": "Payments service", "sublabel": "independent deploy", "stage": 2, "row": 1, "width": 180 },
+    { "id": "email", "type": "backend", "label": "Email service", "sublabel": "independent deploy", "stage": 2, "row": 2, "width": 180 },
+    { "id": "invoicing", "type": "backend", "label": "Invoicing service", "sublabel": "added independently", "stage": 2, "row": 3, "width": 180 },
+    { "id": "registration-db", "type": "database", "label": "Registration DB", "sublabel": "service-owned", "stage": 3, "row": 0 },
+    { "id": "payments-db", "type": "database", "label": "Payments DB", "sublabel": "service-owned", "stage": 3, "row": 1 },
+    { "id": "email-db", "type": "database", "label": "Email DB", "sublabel": "service-owned", "stage": 3, "row": 2 },
+    { "id": "invoicing-db", "type": "database", "label": "Invoicing DB", "sublabel": "service-owned", "stage": 3, "row": 3 },
+    { "id": "registration-response", "type": "external", "label": "Registration result", "sublabel": "independent outcome", "stage": 4, "row": 0, "width": 180 },
+    { "id": "payments-response", "type": "external", "label": "Payment result", "sublabel": "independent outcome", "stage": 4, "row": 1, "width": 180 },
+    { "id": "email-response", "type": "external", "label": "Welcome email", "sublabel": "independent outcome", "stage": 4, "row": 2, "width": 180 },
+    { "id": "invoicing-response", "type": "external", "label": "Invoice result", "sublabel": "independent outcome", "stage": 4, "row": 3, "width": 180 }
   ],
   "flows": [
-    { "id": "api-broker", "from": "api", "to": "broker", "label": "publish event", "classification": "async", "variant": "emphasis" },
-    { "id": "broker-customer", "from": "broker", "to": "customer", "label": "customer work", "classification": "fan-out", "variant": "emphasis" },
-    { "id": "broker-payments", "from": "broker", "to": "payments", "label": "payment work", "classification": "fan-out", "variant": "emphasis" },
-    { "id": "customer-db", "from": "customer", "to": "customer-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "api-broker", "from": "api", "to": "broker", "label": "publish event", "classification": "async", "variant": "emphasis", "labelAt": [225, 330] },
+    { "id": "broker-registration", "from": "broker", "to": "registration", "label": "registration work", "classification": "fan-out", "variant": "emphasis", "labelAt": [405, 225] },
+    { "id": "broker-payments", "from": "broker", "to": "payments", "label": "payment work", "classification": "fan-out", "variant": "emphasis", "labelAt": [500, 330] },
+    { "id": "broker-email", "from": "broker", "to": "email", "label": "email work", "classification": "fan-out", "variant": "emphasis", "labelAt": [500, 440] },
+    { "id": "broker-invoicing", "from": "broker", "to": "invoicing", "label": "invoice work", "classification": "fan-out", "variant": "emphasis", "labelAt": [500, 550] },
+    { "id": "registration-db", "from": "registration", "to": "registration-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
     { "id": "payments-db", "from": "payments", "to": "payments-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
-    { "id": "customer-response", "from": "customer-db", "to": "customer-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 },
-    { "id": "payments-response", "from": "payments-db", "to": "payments-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 }
+    { "id": "email-db", "from": "email", "to": "email-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "invoicing-db", "from": "invoicing", "to": "invoicing-db", "label": "data", "classification": "owned data", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "registration-response", "from": "registration-db", "to": "registration-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 },
+    { "id": "payments-response", "from": "payments-db", "to": "payments-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 },
+    { "id": "email-response", "from": "email-db", "to": "email-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 },
+    { "id": "invoicing-response", "from": "invoicing-db", "to": "invoicing-response", "label": "ack", "classification": "independent outcome", "labelDy": 54 }
   ],
   "cards": [
     {
       "dot": "orange",
-      "title": "Distributed-systems work",
+      "title": "The distributed-systems bill",
       "items": [
-        "The broker fans work out to independently deployable services",
-        "Each service owns its database",
-        "Retries and eventual consistency become explicit concerns"
+        "Registration, payments, email, and invoicing can deploy independently",
+        "A new invoicing service can subscribe without changing the other services",
+        "Logs, retries, testing, and eventual consistency become explicit work"
       ]
     }
   ]

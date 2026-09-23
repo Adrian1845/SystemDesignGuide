@@ -17,34 +17,43 @@
   },
   "locales": {
     "en": {
-      "title": "A request through a monolith",
-      "altText": "A request travels from an API through customer and payments capabilities to one database, then returns as a response.",
-      "fallback": "The API sends a request to one application. The application coordinates customer and payments capabilities, reads or writes one database, and returns the response. All of these capabilities are deployed together.",
+      "title": "A neighborhood bar booking monolith",
+      "altText": "A reservation from a neighborhood bar website moves through user registration, reservations, payments, and a welcome email inside one application with a shared database.",
+      "fallback": "The bar booking website sends a reservation to one application. The application handles registration, reservations, payments, and the welcome email in process. Every module reads or writes the same shared database before the response is returned, and all capabilities are deployed together.",
       "nodes": [
-        { "id": "api", "label": "API" },
-        { "id": "customer", "label": "Customer service" },
-        { "id": "payments", "label": "Payments service" },
+        { "id": "api", "label": "Bar booking website" },
+        { "id": "registration", "label": "User registration" },
+        { "id": "reservations", "label": "Reservations" },
+        { "id": "payments", "label": "Payments" },
+        { "id": "welcome-email", "label": "Welcome email" },
         { "id": "database", "label": "Shared database" },
         { "id": "response", "label": "Response" }
       ]
     },
     "es": {
-      "title": "Una petición a través de un monolito",
-      "altText": "Una petición viaja desde una API a las capacidades de clientes y pagos, llega a una base de datos y vuelve como respuesta.",
-      "fallback": "La API envía una petición a una sola aplicación. La aplicación coordina las capacidades de clientes y pagos, lee o escribe en una base de datos y devuelve la respuesta. Todas estas capacidades se despliegan juntas.",
+      "title": "El monolito de las reservas de un bar",
+      "altText": "Una reserva desde la web de un bar de barrio pasa por el registro de usuarios, las reservas, los pagos y un correo de bienvenida dentro de una aplicación con una base de datos compartida.",
+      "fallback": "La web de reservas del bar envía una reserva a una sola aplicación. La aplicación gestiona en el mismo proceso el registro, las reservas, los pagos y el correo de bienvenida. Cada módulo lee o escribe en la misma base de datos compartida antes de devolver la respuesta, y todas las capacidades se despliegan juntas.",
       "nodes": [
-        { "id": "api", "label": "API" },
-        { "id": "customer", "label": "Servicio de clientes" },
-        { "id": "payments", "label": "Servicio de pagos" },
+        { "id": "api", "label": "Web de reservas del bar" },
+        { "id": "registration", "label": "Registro de usuarios" },
+        { "id": "reservations", "label": "Reservas" },
+        { "id": "payments", "label": "Pagos" },
+        { "id": "welcome-email", "label": "Correo de bienvenida" },
         { "id": "database", "label": "Base de datos compartida" },
         { "id": "response", "label": "Respuesta" }
       ]
     }
   },
   "edges": [
-    { "from": "api", "to": "customer" },
-    { "from": "customer", "to": "payments" },
+    { "from": "api", "to": "registration" },
+    { "from": "registration", "to": "reservations" },
+    { "from": "reservations", "to": "payments" },
+    { "from": "payments", "to": "welcome-email" },
+    { "from": "registration", "to": "database" },
+    { "from": "reservations", "to": "database" },
     { "from": "payments", "to": "database" },
-    { "from": "database", "to": "response" }
+    { "from": "welcome-email", "to": "database" },
+    { "from": "welcome-email", "to": "response" }
   ]
 }

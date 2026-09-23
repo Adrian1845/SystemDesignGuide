@@ -4,21 +4,21 @@
   "repository": "https://github.com/tt-a1i/archify",
   "qualityProfile": "showcase",
   "validation": { "checksPassed": 9, "checkCount": 9, "compositionStatus": "pass", "errors": 0, "warnings": 0 },
-  "browserEvidence": { "status": "pass", "browser": "Chrome", "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"], "themes": ["light", "dark"], "visualReview": "representative screenshots inspected" },
+  "browserEvidence": { "status": "pass", "browser": "Chrome", "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"], "themes": ["light", "dark"], "visualReview": "automated visual check passed; human visual review pending" },
   "locales": {
     "en": {
       "source": "../spec.en.json",
-      "sourceSha256": "d6d5a33192992a7097fdb2e5b745ecefc9478513733dc15ba91261b170377177",
+      "sourceSha256": "d6d0ce36c185c3fa096fc3267ede7c84be1172c0e0c787b07b7351171525d83d",
       "artifact": "microservices-flow.en.html",
-      "artifactSha256": "a8a1ff1c7c8f46abf0956702f81e767f8997f4e23ab00b089cadad26b8ff9654",
-      "artifactBytes": 808348
+      "artifactSha256": "e0f2ff06abfe6a1136f66db0bb9a3c73d6ea4887135543170da50cc0946169bf",
+      "artifactBytes": 820095
     },
     "es": {
       "source": "../spec.es.json",
-      "sourceSha256": "773ca6450249c9051f2cf3ec819bb364ecf9cb18434fd3b15149e168aa7e7e13",
+      "sourceSha256": "eb749712cd0e82101bfe5ec1211304ee8b48c5775b4be2e902240b935dd32321",
       "artifact": "microservices-flow.es.html",
-      "artifactSha256": "45c801ed6292125c692cc81d0073feb6eb2a3c12d1d97dc4e045ffa7de2cd58c",
-      "artifactBytes": 808774
+      "artifactSha256": "fbcaeed73a8320c6019327d309377063a0d9ef579b58c62d367011b2cd0bda31",
+      "artifactBytes": 820861
     }
   }
 }

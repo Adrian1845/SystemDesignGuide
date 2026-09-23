@@ -3,36 +3,65 @@ title: Monolith vs Microservices
 slug: monolith-vs-microservices
 translationOf: monolith-vs-microservices
 locale: en
-summary: Understand how deployment boundaries, communication paths, and data ownership change as a system grows.
+summary: Monoliths are not automatically bad and microservices are not automatically good: the decision depends on the product, the team, and the cost of operating the system.
 status: published
 ---
 
 ## The short version
 
-A monolith keeps most application capabilities in one deployable unit. Microservices split those capabilities into independently deployable services that communicate over a network. Neither shape is automatically better: the right choice depends on team boundaries, scaling needs, operational maturity, and how much coordination the product can tolerate.
+If you work in IT, you have probably heard the monolith described as a dirty word. It is often associated with legacy code, bad practices, and enough bureaucracy that nobody can get it running locally. At the other extreme, microservices are presented as the definitive solution and the Holy Grail of application testing.
 
-## Start with the request path
+The reality is less dramatic: monoliths are not automatically bad, and microservices are not automatically good. Both are ways to reach the same goal, with different strengths and costs. As the saying goes, it is not the car; it is the driver.
 
-Architecture becomes easier to compare when we follow one request through each shape. The examples below are intentionally small. They show boundaries and trade-offs, not a prescription for every production system.
+## Monoliths
+
+A monolith is, at its core, the whole application together. This structure is common and extremely useful for small, low-volume businesses. Think of a barbershop, gym, or restaurant: software is a supporting tool rather than the main product, and the traffic does not demand a distributed platform.
+
+Imagine a neighborhood bar that wants to accept reservations from its website. A monolith can handle everything: user registration, reservations, payments when needed, and the welcome email. It all lives in one application and usually uses one shared database.
 
 :::diagram id="monolith-flow"
 :::
 
-In the monolith example, one application process coordinates the customer and payments capabilities. A shared database keeps the data path straightforward, and a single deployment makes changes easy to release together. The cost is that the unit grows in scope: a small change may require rebuilding, testing, and deploying the whole application.
+That is convenient to develop: the flow is easy to follow and you only need to run one application. The cost appears as the business grows:
+
+- It is difficult to scale only the part that needs it.
+- Parallel work becomes harder.
+- The code is coupled: a change in one module can affect the whole application.
+- Most work has to be synchronous.
+- A critical failure can take down the entire business.
+
+Monoliths can also make pipelines and new technology harder to adopt because changes affect the whole codebase. In my case, our company has microservices that weigh more than 1 GB each; if everything were coupled into one monolith, the application would be larger than 10 GB, have who knows how many thousands of tests, and probably take more than four hours to pass through a pipeline.
+
+## Microservices
+
+Microservices are small, independent pieces of code that interact with one another. In the example above, user registration, payments, and email can live in separate services. If we add an invoicing service, we can connect it to the email service without changing the rest.
 
 :::diagram id="microservices-flow"
 :::
 
-In the microservices example, an event or message broker separates the request from downstream work. Customer and payments services own their data stores and can scale or deploy independently. That flexibility introduces distributed-systems work: retries, duplicate messages, observability, data consistency, and more involved local development.
+This makes it possible to deploy and scale each piece independently. It also lets a team add a code-quality tool to the payments service without affecting the others. It sounds idyllic, but microservices bring the fundamental problem of every distributed system: testing the application and centralizing data become more complex.
 
-## A useful decision frame
+- You need to unify all logs.
+- End-to-end testing requires several services to be running at once.
+- Code drift requires a lot of communication between teams.
+- Asynchronous work increases complexity: retries, duplicates, and eventual consistency become part of the design.
+- In a large company, permissions, VPNs, and team boundaries become part of the daily cost. That is not directly the fault of microservices, but it is part of the real system.
 
-- Choose a monolith when the product and team are still changing quickly, the domain boundaries are unclear, or operational simplicity is the priority.
-- Consider service boundaries when independent scaling, release ownership, or fault isolation is a proven need—not simply because the codebase feels large.
-- Start with clear modules inside a monolith. A well-factored monolith can preserve most domain boundaries while keeping network and operational costs low.
+## Face the system in front of you
 
-> The architecture should make the next important change easier, not merely make the diagram look more distributed.
+If you are asked to build a reservation website for a neighborhood bar, would you build a distributed system? Obviously not: a monolith is a perfect fit. Nobody needs to deploy a Kubernetes cluster for a barbershop. The maintenance cost would outweigh the benefit, and we would be adding complexity for no reason.
 
-## What to remember
+The fact that monoliths have been criticized so heavily does not make them a bad solution by definition. A well-structured monolith with good practices and clean architecture can be a pleasure to work on. Likewise, a microservices ecosystem can be poorly made. For the developer, the work can be equally painful in both cases: distributed microservices or an unmanageable monolith.
 
-The architectural choice is a trade: monoliths concentrate coordination inside one process, while microservices move coordination into the network and the operating environment. Make the boundary explicit, keep the failure modes visible, and revisit the decision as the product and teams evolve.
+A simple interview frame for system design is:
+
+- **Monolith:** when the application is small and explosive short- or medium-term scaling is not expected.
+- **Microservices:** when domain complexity is high, substantial scale is expected, and the team and plan exist to maintain the system long term.
+
+Large-client consulting often encourages the most complex solution possible: technical challenges are fun, and a monolith can feel too ordinary. But if the company ends up paying €3,000 a month to keep an unnecessary asynchronous system afloat, you will be the one living with the consequences of a poor architectural decision.
+
+> Architecture should make the next important change easier, not merely make the diagram look more distributed.
+
+As developers, engineers, and architects, we need to understand both approaches and keep our feet on the ground. Choose the structure that the product and the team can operate confidently.
+
+Thanks for reading. If you want to be part of the journey, consider subscribing.

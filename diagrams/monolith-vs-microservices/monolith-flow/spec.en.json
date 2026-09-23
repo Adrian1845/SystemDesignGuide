@@ -2,43 +2,50 @@
   "schema_version": 1,
   "diagram_type": "architecture",
   "meta": {
-    "title": "A request through a monolith",
+    "title": "A neighborhood bar booking monolith",
     "locale": "en",
     "quality_profile": "showcase",
-    "viewBox": [1120, 520],
+    "viewBox": [1320, 700],
     "views": [
       {
-        "id": "request-path",
-        "label": "Request path",
-        "focus": ["api", "customer", "payments", "database", "response"],
-        "note": "Follow the request through capabilities deployed together."
+        "id": "booking-path",
+        "label": "Booking request path",
+        "focus": ["api", "registration", "reservations", "payments", "welcome-email", "database", "response"],
+        "note": "Follow a neighborhood bar reservation through modules deployed together."
       }
     ]
   },
   "components": [
-    { "id": "api", "type": "external", "label": "API", "sublabel": "incoming request", "pos": [40, 220], "size": [140, 70] },
-    { "id": "customer", "type": "backend", "label": "Customer", "sublabel": "in-process capability", "pos": [270, 220], "size": [170, 70] },
-    { "id": "payments", "type": "backend", "label": "Payments", "sublabel": "in-process capability", "pos": [510, 220], "size": [170, 70] },
-    { "id": "database", "type": "database", "label": "Shared database", "sublabel": "one data boundary", "pos": [750, 220], "size": [170, 70] },
-    { "id": "response", "type": "external", "label": "Response", "sublabel": "returned to caller", "pos": [980, 220], "size": [140, 70] }
+    { "id": "api", "type": "external", "label": "Bar booking website", "sublabel": "incoming reservation", "pos": [30, 300], "size": [170, 80] },
+    { "id": "registration", "type": "backend", "label": "User registration", "sublabel": "in-process module", "pos": [260, 180], "size": [180, 80] },
+    { "id": "reservations", "type": "backend", "label": "Reservations", "sublabel": "in-process module", "pos": [480, 180], "size": [180, 80] },
+    { "id": "payments", "type": "backend", "label": "Payments", "sublabel": "in-process module", "pos": [700, 180], "size": [180, 80] },
+    { "id": "welcome-email", "type": "backend", "label": "Welcome email", "sublabel": "in-process module", "pos": [920, 180], "size": [190, 80] },
+    { "id": "database", "type": "database", "label": "Shared database", "sublabel": "one data boundary", "pos": [700, 480], "size": [180, 80] },
+    { "id": "response", "type": "external", "label": "Response", "sublabel": "returned to caller", "pos": [1140, 300], "size": [150, 80] }
   ],
   "boundaries": [
-    { "kind": "region", "label": "One deployable application", "wraps": ["customer", "payments"], "pad": 28 }
+    { "kind": "region", "label": "One deployable bar-booking application", "wraps": ["registration", "reservations", "payments", "welcome-email"], "pad": 28 }
   ],
   "connections": [
-    { "id": "api-request", "from": "api", "to": "customer", "label": "request", "variant": "emphasis" },
-    { "id": "customer-payments", "from": "customer", "to": "payments", "label": "in-process call", "labelDy": 59 },
-    { "id": "payments-database", "from": "payments", "to": "database", "label": "read / write", "labelDy": 59 },
-    { "id": "database-response", "from": "database", "to": "response", "label": "response", "variant": "emphasis" }
+    { "id": "api-request", "from": "api", "to": "registration", "label": "reservation request", "variant": "emphasis" },
+    { "id": "registration-reservations", "from": "registration", "to": "reservations", "label": "in-process call", "labelDy": -89 },
+    { "id": "reservations-payments", "from": "reservations", "to": "payments", "label": "in-process call", "labelDy": -89 },
+    { "id": "payments-email", "from": "payments", "to": "welcome-email", "label": "in-process call", "labelDy": -89 },
+    { "id": "registration-database", "from": "registration", "to": "database" },
+    { "id": "reservations-database", "from": "reservations", "to": "database" },
+    { "id": "payments-database", "from": "payments", "to": "database", "label": "read / write", "fromSide": "bottom", "toSide": "top", "route": "straight", "labelDy": 54 },
+    { "id": "email-database", "from": "welcome-email", "to": "database" },
+    { "id": "email-response", "from": "welcome-email", "to": "response", "label": "response", "variant": "emphasis" }
   ],
   "cards": [
     {
       "dot": "cyan",
-      "title": "Trade-off",
+      "title": "What the example shows",
       "items": [
-        "One application coordinates the capabilities in-process",
-        "The shared database keeps the data path straightforward",
-        "The whole application is the deployment unit"
+        "Registration, reservations, payments, and email share one process",
+        "Every module reads and writes the same shared database",
+        "The whole bar-booking application is the deployment unit"
       ]
     }
   ]

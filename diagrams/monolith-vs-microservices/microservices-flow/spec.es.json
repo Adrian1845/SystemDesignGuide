@@ -2,15 +2,16 @@
   "schema_version": 1,
   "diagram_type": "dataflow",
   "meta": {
-    "title": "Trabajo asíncrono entre servicios",
+    "title": "Servicios independientes para las reservas",
+    "locale": "en",
     "quality_profile": "showcase",
     "viewBox": [1080, 620],
     "views": [
       {
-        "id": "async-path",
-        "label": "Recorrido asíncrono",
-        "focus": ["api", "broker", "customer", "customer-db", "payments", "payments-db", "customer-response", "payments-response"],
-        "note": "Sigue el trabajo desde la API, a través del intermediario, hasta los servicios con datos propios."
+        "id": "service-path",
+        "label": "Recorridos asíncronos de los servicios",
+        "focus": ["api", "broker", "registration", "registration-db", "payments", "payments-db", "email", "email-db", "invoicing", "invoicing-db", "registration-response", "payments-response", "email-response", "invoicing-response"],
+        "note": "Sigue un evento de reserva hasta servicios desplegables de forma independiente, incluido un servicio nuevo de facturación."
       }
     ]
   },
@@ -22,32 +23,44 @@
     { "label": "Resultado" }
   ],
   "nodes": [
-    { "id": "api", "type": "external", "label": "API", "sublabel": "publica trabajo", "stage": 0, "row": 1 },
+    { "id": "api", "type": "external", "label": "Web de reservas", "sublabel": "publica evento", "stage": 0, "row": 1 },
     { "id": "broker", "type": "messagebus", "label": "SNS / Kafka", "sublabel": "intermediario", "stage": 1, "row": 1 },
-    { "id": "customer", "type": "backend", "label": "Servicio de clientes", "sublabel": "despliegue independiente", "stage": 2, "row": 0, "width": 190 },
-    { "id": "payments", "type": "backend", "label": "Servicio de pagos", "sublabel": "despliegue independiente", "stage": 2, "row": 2, "width": 180 },
-    { "id": "customer-db", "type": "database", "label": "BD de clientes", "sublabel": "propiedad del servicio", "stage": 3, "row": 0 },
-    { "id": "payments-db", "type": "database", "label": "BD de pagos", "sublabel": "propiedad del servicio", "stage": 3, "row": 2 },
-    { "id": "customer-response", "type": "external", "label": "Respuesta de clientes", "sublabel": "resultado independiente", "stage": 4, "row": 0, "width": 180 },
-    { "id": "payments-response", "type": "external", "label": "Respuesta de pagos", "sublabel": "resultado independiente", "stage": 4, "row": 2, "width": 180 }
+    { "id": "registration", "type": "backend", "label": "Servicio de registro", "sublabel": "despliegue independiente", "stage": 2, "row": 0, "width": 190 },
+    { "id": "payments", "type": "backend", "label": "Servicio de pagos", "sublabel": "despliegue independiente", "stage": 2, "row": 1, "width": 180 },
+    { "id": "email", "type": "backend", "label": "Servicio de correos", "sublabel": "despliegue independiente", "stage": 2, "row": 2, "width": 190 },
+    { "id": "invoicing", "type": "backend", "label": "Servicio de facturación", "sublabel": "añadido de forma independiente", "stage": 2, "row": 3, "width": 210 },
+    { "id": "registration-db", "type": "database", "label": "BD de registro", "sublabel": "propiedad del servicio", "stage": 3, "row": 0 },
+    { "id": "payments-db", "type": "database", "label": "BD de pagos", "sublabel": "propiedad del servicio", "stage": 3, "row": 1 },
+    { "id": "email-db", "type": "database", "label": "BD de correos", "sublabel": "propiedad del servicio", "stage": 3, "row": 2 },
+    { "id": "invoicing-db", "type": "database", "label": "BD de facturación", "sublabel": "propiedad del servicio", "stage": 3, "row": 3 },
+    { "id": "registration-response", "type": "external", "label": "Resultado del registro", "sublabel": "resultado independiente", "stage": 4, "row": 0, "width": 190 },
+    { "id": "payments-response", "type": "external", "label": "Resultado del pago", "sublabel": "resultado independiente", "stage": 4, "row": 1, "width": 180 },
+    { "id": "email-response", "type": "external", "label": "Correo de bienvenida", "sublabel": "resultado independiente", "stage": 4, "row": 2, "width": 190 },
+    { "id": "invoicing-response", "type": "external", "label": "Resultado de factura", "sublabel": "resultado independiente", "stage": 4, "row": 3, "width": 190 }
   ],
   "flows": [
-    { "id": "api-broker", "from": "api", "to": "broker", "label": "publicar evento", "classification": "asíncrono", "variant": "emphasis" },
-    { "id": "broker-customer", "from": "broker", "to": "customer", "label": "trabajo de clientes", "classification": "distribución", "variant": "emphasis" },
-    { "id": "broker-payments", "from": "broker", "to": "payments", "label": "trabajo de pagos", "classification": "distribución", "variant": "emphasis" },
-    { "id": "customer-db", "from": "customer", "to": "customer-db", "label": "datos", "classification": "datos propios", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "api-broker", "from": "api", "to": "broker", "label": "publicar evento", "classification": "asíncrono", "variant": "emphasis", "labelAt": [225, 330] },
+    { "id": "broker-registration", "from": "broker", "to": "registration", "label": "trabajo de registro", "classification": "distribución", "variant": "emphasis", "labelAt": [405, 225] },
+    { "id": "broker-payments", "from": "broker", "to": "payments", "label": "trabajo de pagos", "classification": "distribución", "variant": "emphasis", "labelAt": [500, 330] },
+    { "id": "broker-email", "from": "broker", "to": "email", "label": "trabajo de correo", "classification": "distribución", "variant": "emphasis", "labelAt": [500, 440] },
+    { "id": "broker-invoicing", "from": "broker", "to": "invoicing", "label": "trabajo de facturación", "classification": "distribución", "variant": "emphasis", "labelAt": [500, 550] },
+    { "id": "registration-db", "from": "registration", "to": "registration-db", "label": "datos", "classification": "datos propios", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
     { "id": "payments-db", "from": "payments", "to": "payments-db", "label": "datos", "classification": "datos propios", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
-    { "id": "customer-response", "from": "customer-db", "to": "customer-response", "label": "ack", "classification": "resultado independiente", "labelDy": 54 },
-    { "id": "payments-response", "from": "payments-db", "to": "payments-response", "label": "ack", "classification": "resultado independiente", "labelDy": 54 }
+    { "id": "email-db", "from": "email", "to": "email-db", "label": "datos", "classification": "datos propios", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "invoicing-db", "from": "invoicing", "to": "invoicing-db", "label": "datos", "classification": "datos propios", "fromSide": "right", "toSide": "left", "route": "straight", "labelDy": 54 },
+    { "id": "registration-response", "from": "registration-db", "to": "registration-response", "label": "ack", "classification": "resultado independiente", "labelDy": 54 },
+    { "id": "payments-response", "from": "payments-db", "to": "payments-response", "label": "ack", "classification": "resultado independiente", "labelDy": 54 },
+    { "id": "email-response", "from": "email-db", "to": "email-response", "label": "ack", "classification": "resultado independiente", "labelDy": 54 },
+    { "id": "invoicing-response", "from": "invoicing-db", "to": "invoicing-response", "label": "ack", "classification": "resultado independiente", "labelDy": 54 }
   ],
   "cards": [
     {
       "dot": "orange",
-      "title": "Trabajo de sistemas distribuidos",
+      "title": "El coste de los sistemas distribuidos",
       "items": [
-        "El intermediario distribuye el trabajo a servicios desplegables de forma independiente",
-        "Cada servicio es dueño de su base de datos",
-        "Los reintentos y la consistencia eventual se vuelven preocupaciones explícitas"
+        "Registro, pagos, correos y facturación se pueden desplegar por separado",
+        "Un servicio nuevo de facturación puede suscribirse sin cambiar los demás",
+        "Logs, reintentos, pruebas y consistencia eventual pasan a ser trabajo explícito"
       ]
     }
   ]

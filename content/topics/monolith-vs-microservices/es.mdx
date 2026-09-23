@@ -3,36 +3,65 @@ title: Monolito vs microservicios
 slug: monolith-vs-microservices
 translationOf: monolith-vs-microservices
 locale: es
-summary: Comprende cómo cambian los límites de despliegue, las rutas de comunicación y la propiedad de los datos cuando un sistema crece.
+summary: Ni el monolito es tan malo ni los microservicios son tan buenos: la decisión depende del producto, el equipo y el coste de operar el sistema.
 status: published
 ---
 
-## La versión corta
+## La idea rápida
 
-Un monolito mantiene la mayoría de las capacidades de una aplicación en una sola unidad desplegable. Los microservicios separan esas capacidades en servicios que se pueden desplegar de forma independiente y que se comunican a través de la red. Ninguna de las dos formas es automáticamente mejor: la elección depende de los límites entre equipos, las necesidades de escalado, la madurez operativa y la coordinación que el producto pueda asumir.
+Una de las cosas que habrás escuchado cien veces si estás en el sector IT es que el monolito es una mala palabra. Se suele asociar a código legacy, malas prácticas y burocracia suficiente para que nadie consiga arrancarlo en local. En el otro extremo, los microservicios se presentan como la solución definitiva y el Santo Grial para facilitar el testeo.
 
-## Empieza por el recorrido de la petición
+La realidad es menos dramática: ni el monolito es tan malo ni los microservicios son tan buenos. Ambas son formas de llegar a lo mismo, cada una con sus pros y sus contras. Como se suele decir, no es el coche: es el conductor.
 
-La arquitectura es más fácil de comparar si seguimos una petición a través de cada forma. Los ejemplos siguientes son intencionadamente pequeños. Muestran límites y compensaciones, no una receta para todos los sistemas de producción.
+## Monolito
+
+Un monolito es, en esencia, toda la aplicación junta. Esta forma de estructurar el código es muy habitual y sumamente útil para empresas pequeñas con poco volumen. Piensa en una peluquería, un gimnasio o un restaurante: el software es un complemento, no el producto principal, y el tráfico no exige una plataforma distribuida.
+
+Imagina un bar de barrio que quiere recibir reservas desde su web. Un monolito puede encargarse de todo: registrar usuarios, gestionar reservas, cobrar si hace falta y enviar el correo de bienvenida. Todo vive en una aplicación y normalmente utiliza una base de datos compartida.
 
 :::diagram id="monolith-flow"
 :::
 
-En el ejemplo monolítico, un proceso de aplicación coordina las capacidades de clientes y pagos. Una base de datos compartida mantiene sencillo el recorrido de los datos, y un único despliegue facilita publicar los cambios juntos. El coste es que la unidad crece en alcance: un cambio pequeño puede requerir reconstruir, probar y desplegar toda la aplicación.
+Esto resulta cómodo para desarrollar: seguir el flujo es sencillo y solo necesitas levantar una aplicación. El precio aparece cuando el negocio crece:
+
+- Es difícil escalar solo la parte que lo necesita.
+- Trabajar en paralelo se vuelve complejo.
+- El código queda acoplado: un cambio en un módulo puede afectar a toda la aplicación.
+- La mayoría del trabajo tiene que ser síncrono.
+- Un fallo crítico puede tumbar toda la empresa.
+
+También se complica pasar ciertas pipelines o implementar nuevas tecnologías, porque afectan a todo el codebase. En mi caso, en la empresa tenemos microservicios que pesan más de 1 GB; si todo estuviera acoplado en un único monolito, la aplicación pesaría más de 10 GB, tendría a saber cuántos miles de tests y pasar una pipeline tardaría probablemente más de cuatro horas.
+
+## Microservicios
+
+Los microservicios son pequeñas piezas de código independientes que interactúan entre sí. En el ejemplo anterior, el registro de usuarios, los pagos y los correos pueden vivir en servicios separados. Si añadimos un servicio que emite facturas, podemos conectarlo con el servicio de correos sin alterar el resto.
 
 :::diagram id="microservices-flow"
 :::
 
-En el ejemplo de microservicios, un intermediario de eventos o mensajes separa la petición del trabajo posterior. Los servicios de clientes y pagos son dueños de sus almacenes de datos y pueden escalarse o desplegarse de forma independiente. Esa flexibilidad introduce trabajo propio de los sistemas distribuidos: reintentos, mensajes duplicados, observabilidad, consistencia de datos y un desarrollo local más complejo.
+Esto permite desplegar y escalar cada pieza de forma independiente. También permite aplicar una herramienta de calidad de código al servicio de pagos sin que afecte a los demás. Suena idílico, pero los microservicios traen consigo el problema fundamental de todo sistema distribuido: probar la aplicación y centralizar los datos se vuelve más complejo.
 
-## Un marco útil para decidir
+- Necesitas unificar todos los logs.
+- Para probar flujos completos debes levantar varios servicios a la vez.
+- Los desalineamientos de código requieren mucha comunicación entre equipos.
+- El trabajo asíncrono aumenta la complejidad: hay reintentos, duplicados y consistencia eventual.
+- En una empresa grande aparecen permisos, VPNs y fronteras entre equipos. No es culpa directa de los microservicios, pero forma parte del coste real.
 
-- Elige un monolito cuando el producto y el equipo todavía cambian rápidamente, los límites del dominio no están claros o la prioridad es la simplicidad operativa.
-- Considera separar servicios cuando el escalado independiente, la responsabilidad sobre las publicaciones o el aislamiento de fallos sean necesidades demostradas, no simplemente porque el código parezca grande.
-- Empieza con módulos claros dentro de un monolito. Un monolito bien estructurado puede conservar la mayoría de los límites del dominio con menos costes de red y operación.
+## Cara a cara con el sistema
+
+Si te proponen desarrollar la web de reservas de un bar de barrio, ¿montarías un sistema distribuido? Obviamente no: un monolito le viene como anillo al dedo. Nadie necesita desplegar un clúster de Kubernetes para una peluquería. El coste de mantenerlo sería mayor que el beneficio y estaríamos complicando la vida sin necesidad.
+
+Que el monolito haya sido tan criticado no significa que sea una mala solución por definición. Un monolito bien estructurado, con buenas prácticas y arquitectura limpia, da gusto trabajarlo. Del mismo modo, un ecosistema de microservicios puede estar hecho de pena. Para el desarrollador, la faena puede ser igual de mala en ambos casos: microservicios distribuidos o un monolito inmanejable.
+
+Un marco sencillo para una entrevista de diseño de sistemas es:
+
+- **Monolito:** si la aplicación es pequeña y no se prevé una escalabilidad brutal a corto o medio plazo.
+- **Microservicios:** si hay alta complejidad de dominio, se prevé escalar mucho y se cuenta con el equipo y el plan para mantenerlos a largo plazo.
+
+En consultoría para grandes clientes se tiende a vender la solución más compleja posible: a todos nos gustan los retos técnicos y un monolito sabe a poco. Pero si la empresa acaba pagando 3.000 € al mes para mantener un sistema asíncrono que no necesitaba, serás tú quien sufra las consecuencias de una mala decisión de arquitectura.
 
 > La arquitectura debe facilitar el próximo cambio importante, no limitarse a hacer que el diagrama parezca más distribuido.
 
-## Qué recordar
+Como desarrolladores, ingenieros o arquitectos, tenemos que conocer ambas soluciones y mantener los pies en el suelo. Elige la estructura que el producto y el equipo puedan operar con solvencia.
 
-La elección arquitectónica es una compensación: los monolitos concentran la coordinación dentro de un proceso, mientras que los microservicios trasladan la coordinación a la red y al entorno operativo. Haz explícito el límite, mantén visibles los modos de fallo y revisa la decisión a medida que evolucionen el producto y los equipos.
+Muchas gracias por leer. Si quieres ser parte de esta aventura, no dudes en suscribirte.
