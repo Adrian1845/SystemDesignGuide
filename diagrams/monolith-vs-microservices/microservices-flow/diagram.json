@@ -1,0 +1,59 @@
+{
+  "id": "microservices-flow",
+  "kind": "data-flow",
+  "artifact": "generated/microservices-flow.en.html",
+  "artifacts": {
+    "en": "generated/microservices-flow.en.html",
+    "es": "generated/microservices-flow.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "2.17.0-dev.1",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Independent services for the booking flow",
+      "altText": "A bar booking event reaches a message broker, which fans out to registration, payments, email, and invoicing services, each with its own database and outcome.",
+      "fallback": "The bar booking website publishes a reservation event to an SNS or Kafka-style broker. The broker distributes work to registration, payments, email, and invoicing services. Each service owns its database and can deploy independently, so the system must handle logs, retries, end-to-end testing, and eventual consistency.",
+      "nodes": [
+        { "id": "api", "label": "Bar booking website" },
+        { "id": "broker", "label": "SNS / Kafka" },
+        { "id": "registration", "label": "Registration service + DB" },
+        { "id": "payments", "label": "Payments service + DB" },
+        { "id": "email", "label": "Email service + DB" },
+        { "id": "invoicing", "label": "Invoicing service + DB" },
+        { "id": "responses", "label": "Independent outcomes" }
+      ]
+    },
+    "es": {
+      "title": "Servicios independientes para las reservas",
+      "altText": "Un evento de reserva del bar llega a un intermediario de mensajes, que distribuye el trabajo a los servicios de registro, pagos, correos y facturación, cada uno con su base de datos y resultado.",
+      "fallback": "La web de reservas del bar publica un evento en un intermediario como SNS o Kafka. El intermediario distribuye el trabajo a los servicios de registro, pagos, correos y facturación. Cada servicio es dueño de su base de datos y puede desplegarse de forma independiente, por lo que el sistema debe gestionar logs, reintentos, pruebas de extremo a extremo y consistencia eventual.",
+      "nodes": [
+        { "id": "api", "label": "Web de reservas del bar" },
+        { "id": "broker", "label": "SNS / Kafka" },
+        { "id": "registration", "label": "Servicio de registro + BD" },
+        { "id": "payments", "label": "Servicio de pagos + BD" },
+        { "id": "email", "label": "Servicio de correos + BD" },
+        { "id": "invoicing", "label": "Servicio de facturación + BD" },
+        { "id": "responses", "label": "Resultados independientes" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "api", "to": "broker" },
+    { "from": "broker", "to": "registration" },
+    { "from": "broker", "to": "payments" },
+    { "from": "broker", "to": "email" },
+    { "from": "broker", "to": "invoicing" },
+    { "from": "registration", "to": "responses" },
+    { "from": "payments", "to": "responses" },
+    { "from": "email", "to": "responses" },
+    { "from": "invoicing", "to": "responses" }
+  ]
+}

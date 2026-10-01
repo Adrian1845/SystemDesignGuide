@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "El monolito de las reservas de un bar",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [1320, 700],
+    "views": [
+      {
+        "id": "booking-path",
+        "label": "Recorrido de una reserva",
+        "focus": ["api", "registration", "reservations", "payments", "welcome-email", "database", "response"],
+        "note": "Sigue una reserva de un bar de barrio a través de módulos desplegados juntos."
+      }
+    ]
+  },
+  "components": [
+    { "id": "api", "type": "external", "label": "Web de reservas del bar", "sublabel": "reserva entrante", "pos": [30, 300], "size": [170, 80] },
+    { "id": "registration", "type": "backend", "label": "Registro de usuarios", "sublabel": "módulo en proceso", "pos": [260, 180], "size": [180, 80] },
+    { "id": "reservations", "type": "backend", "label": "Reservas", "sublabel": "módulo en proceso", "pos": [480, 180], "size": [180, 80] },
+    { "id": "payments", "type": "backend", "label": "Pagos", "sublabel": "módulo en proceso", "pos": [700, 180], "size": [180, 80] },
+    { "id": "welcome-email", "type": "backend", "label": "Correo de bienvenida", "sublabel": "módulo en proceso", "pos": [920, 180], "size": [190, 80] },
+    { "id": "database", "type": "database", "label": "Base de datos compartida", "sublabel": "un límite de datos", "pos": [700, 480], "size": [180, 80] },
+    { "id": "response", "type": "external", "label": "Respuesta", "sublabel": "devuelta al cliente", "pos": [1140, 300], "size": [150, 80] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Una aplicación desplegable para el bar", "wraps": ["registration", "reservations", "payments", "welcome-email"], "pad": 28 }
+  ],
+  "connections": [
+    { "id": "api-request", "from": "api", "to": "registration", "label": "petición de reserva", "variant": "emphasis" },
+    { "id": "registration-reservations", "from": "registration", "to": "reservations", "label": "llamada en proceso", "labelDy": -89 },
+    { "id": "reservations-payments", "from": "reservations", "to": "payments", "label": "llamada en proceso", "labelDy": -89 },
+    { "id": "payments-email", "from": "payments", "to": "welcome-email", "label": "llamada en proceso", "labelDy": -89 },
+    { "id": "registration-database", "from": "registration", "to": "database" },
+    { "id": "reservations-database", "from": "reservations", "to": "database" },
+    { "id": "payments-database", "from": "payments", "to": "database", "label": "leer / escribir", "fromSide": "bottom", "toSide": "top", "route": "straight", "labelDy": 54 },
+    { "id": "email-database", "from": "welcome-email", "to": "database" },
+    { "id": "email-response", "from": "welcome-email", "to": "response", "label": "respuesta", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Qué muestra el ejemplo",
+      "items": [
+        "Registro, reservas, pagos y correo comparten un proceso",
+        "Cada módulo lee y escribe en la misma base de datos compartida",
+        "Toda la aplicación del bar es la unidad de despliegue"
+      ]
+    }
+  ]
+}
