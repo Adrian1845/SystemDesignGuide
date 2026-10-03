@@ -6,6 +6,8 @@ export const root = fileURLToPath(new URL("../", import.meta.url));
 export const supportedLocales = ["en", "es"];
 
 export function parseFrontmatter(source, filePath) {
+  source = source.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n");
+
   if (!source.startsWith("---\n")) {
     throw new Error(`${filePath}: frontmatter must start with ---`);
   }

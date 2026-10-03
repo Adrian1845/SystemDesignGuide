@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "sequence",
+  "quality": "showcase",
+  "startedAt": "2026-10-01T20:49:34.069Z",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.en.json",
+    "sha256": "b000f3a115492bc9bcb02b4e635c4308daa591cb7b6eae987cd8b4ea85b21dc7",
+    "bytes": 3627
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+    "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+    "bytes": 760150
+  },
+  "stages": {
+    "validate": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": null,
+      "execution": "embedded-in-deliver",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "deliver",
+        "sequence",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.en.json",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": true,
+        "command": "validate",
+        "specification": {
+          "sha256": "b000f3a115492bc9bcb02b4e635c4308daa591cb7b6eae987cd8b4ea85b21dc7",
+          "bytes": 3627
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        }
+      }
+    },
+    "deliver": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 382,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "deliver",
+        "sequence",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.en.json",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "receiptId": "0e32a164-1c8e-4b90-9d64-2322eb8956ad",
+        "ok": true,
+        "command": "deliver",
+        "type": "sequence",
+        "input": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.en.json",
+        "output": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+        "specification": {
+          "sha256": "b000f3a115492bc9bcb02b4e635c4308daa591cb7b6eae987cd8b4ea85b21dc7",
+          "bytes": 3627
+        },
+        "artifact": {
+          "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+          "bytes": 760150
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        },
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      }
+    },
+    "check": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 133,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "check",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+        "--require-provenance"
+      ],
+      "receipt": {
+        "ok": true,
+        "file": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+        "artifact": {
+          "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+          "bytes": 760150
+        },
+        "checks": [
+          {
+            "name": "single_svg",
+            "ok": true,
+            "details": [
+              "found 1 <svg> block(s)"
+            ]
+          },
+          {
+            "name": "finite_svg",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "orthogonal_arrows",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "label_route_clearance",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_crossings",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_corridors",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "container_border_runs",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "route_rhythm",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "legend_clearance",
+            "ok": true,
+            "details": []
+          }
+        ],
+        "composition": {
+          "schemaVersion": 1,
+          "profile": "showcase",
+          "status": "pass",
+          "summary": {
+            "errors": 0,
+            "warnings": 0
+          },
+          "metrics": {
+            "properCrossings": 0,
+            "resolvedCrossovers": 0,
+            "ambiguousCorridors": 0,
+            "arrowheadCollisions": 0,
+            "containerBorderRuns": 0,
+            "labelRouteClearanceIssues": 0,
+            "labelCanvasOverflowIssues": 0,
+            "minLabelRouteClearance": 10,
+            "desktopReadabilityIssues": 0,
+            "viewportHeightIssues": 0,
+            "minProjectedNodeTextPx": 6.027777777777779,
+            "maxBends": 0,
+            "routesOverSuggestedBends": 0,
+            "maxStretch": 1,
+            "routesOverSuggestedStretch": 0,
+            "minSegmentPx": 130.2,
+            "minInteriorSegmentPx": null,
+            "shortSegmentCount": 0,
+            "shortEndpointSegmentCount": 0,
+            "shortInteriorSegmentCount": 0,
+            "microSegmentCount": 0
+          },
+          "suggestedLimits": {
+            "bendsPerRelationship": 2,
+            "stretch": 1.35,
+            "segmentPx": 16,
+            "microSegmentPx": 8
+          },
+          "routeReview": {
+            "crossings": [],
+            "detours": []
+          },
+          "leadingSpace": {
+            "measured": false,
+            "reviewSuggested": false
+          },
+          "sequenceColumnSpace": {
+            "measured": true,
+            "columnFit": "spread",
+            "participantCount": 7,
+            "occupiedRight": 1040,
+            "viewBoxLeft": 0,
+            "canvasWidth": 1080,
+            "emptyRightPx": 40,
+            "emptyRightRatio": 0.037,
+            "typicalParticipantWidth": 113,
+            "reviewSuggested": false
+          },
+          "desktopReadability": {
+            "budgetBasis": "legacy-930",
+            "readerContract": "declared-wide-v1",
+            "availableDiagramWidth": 930,
+            "actualBudgetPx": 930,
+            "limit": "legacy",
+            "requestedTargetPx": null,
+            "requestedTargetMet": null,
+            "hardFloorPx": 6,
+            "hardFloorMet": true,
+            "minimumOwner": {
+              "kind": "node",
+              "id": "user"
+            },
+            "minimumSourceTextPx": 7,
+            "minimumProjectedTextPx": 6.027777777777779,
+            "semanticTextCount": 25
+          },
+          "issues": []
+        },
+        "provenance": "current",
+        "deliveryReceiptId": "0e32a164-1c8e-4b90-9d64-2322eb8956ad"
+      }
+    },
+    "browser-check": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": 6293,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "browser-check",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+        "--json",
+        "--require-provenance",
+        "--out-dir",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\edge-retry-en"
+      ],
+      "execution": "in-process",
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "browser-check",
+        "evidenceKind": "automated-browser",
+        "status": "fail",
+        "visualReview": "not-requested",
+        "provenance": "current",
+        "deliveryReceiptId": "0e32a164-1c8e-4b90-9d64-2322eb8956ad",
+        "artifact": {
+          "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+          "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+          "bytes": 760150
+        },
+        "state": {
+          "detail": "read",
+          "motion": "still"
+        },
+        "chrome": {
+          "status": "available",
+          "executable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+        },
+        "diagnostics": [
+          {
+            "code": "viewer/browser-check-runtime",
+            "severity": "error",
+            "message": "browser-check could not complete its Chrome inspection.",
+            "subject": {
+              "artifact": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html"
+            },
+            "evidence": {
+              "reason": "Chrome DevTools write pipe failed: stream closed\nChrome process: still running.\nChrome stderr:\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:14292:1001/224940.827:ERROR:chrome\\browser\\ui\\edge_window_tab_manager\\api\\wtm_interface_impl.cc:463] Failed to open registry key\r\n[9028:14292:1001/224940.827:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:17828:1001/224940.828:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: La operación se completó correctamente. (0x0)\r\n[9028:14292:1001/224940.860:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.873:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.874:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:14292:1001/224940.882:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.889:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.889:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:13656:1001/224940.895:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:251] Failed to get location access status: El parámetro no es correcto. (0x80070057)\r\n[9028:14292:1001/224940.896:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.896:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:436] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.19.0, libuv 1.52.1, win32; pid=9028, exitCode=null, signalCode=null.\nChrome read pipe: readable=true, ended=false, destroyed=false, receivedBytes=2108, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=true, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+            },
+            "supportedFixes": [
+              "resolve the reported Chrome inspection error, then rerun browser-check"
+            ]
+          }
+        ],
+        "containment": {
+          "status": "fail",
+          "policy": "fit-or-reader-declared-readable-vertical-scroll",
+          "viewports": []
+        },
+        "themeStates": {
+          "status": "fail",
+          "viewports": []
+        },
+        "readability": {
+          "status": "fail",
+          "minimumProjectedNodeTextPx": 6,
+          "viewports": []
+        },
+        "viewerChrome": {
+          "status": "fail",
+          "viewports": []
+        },
+        "captures": {
+          "status": "not-requested",
+          "screenshots": [],
+          "contactSheet": null
+        },
+        "sidecars": {
+          "directory": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\edge-retry-en",
+          "receipt": "registration-response-paths.en.browser-check.json",
+          "files": []
+        },
+        "error": "Chrome DevTools write pipe failed: stream closed\nChrome process: still running.\nChrome stderr:\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:14292:1001/224940.827:ERROR:chrome\\browser\\ui\\edge_window_tab_manager\\api\\wtm_interface_impl.cc:463] Failed to open registry key\r\n[9028:14292:1001/224940.827:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:17828:1001/224940.828:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: La operación se completó correctamente. (0x0)\r\n[9028:14292:1001/224940.860:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.873:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.874:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:14292:1001/224940.882:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.889:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.889:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:13656:1001/224940.895:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:251] Failed to get location access status: El parámetro no es correcto. (0x80070057)\r\n[9028:14292:1001/224940.896:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.896:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:436] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.19.0, libuv 1.52.1, win32; pid=9028, exitCode=null, signalCode=null.\nChrome read pipe: readable=true, ended=false, destroyed=false, receivedBytes=2108, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=true, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "viewer/browser-check-runtime",
+      "severity": "error",
+      "message": "browser-check could not complete its Chrome inspection.",
+      "subject": {
+        "artifact": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html"
+      },
+      "evidence": {
+        "reason": "Chrome DevTools write pipe failed: stream closed\nChrome process: still running.\nChrome stderr:\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:14292:1001/224940.827:ERROR:chrome\\browser\\ui\\edge_window_tab_manager\\api\\wtm_interface_impl.cc:463] Failed to open registry key\r\n[9028:14292:1001/224940.827:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:17828:1001/224940.828:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: La operación se completó correctamente. (0x0)\r\n[9028:14292:1001/224940.860:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.873:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.874:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:14292:1001/224940.882:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.889:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.889:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:13656:1001/224940.895:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:251] Failed to get location access status: El parámetro no es correcto. (0x80070057)\r\n[9028:14292:1001/224940.896:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.896:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:436] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.19.0, libuv 1.52.1, win32; pid=9028, exitCode=null, signalCode=null.\nChrome read pipe: readable=true, ended=false, destroyed=false, receivedBytes=2108, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=true, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+      },
+      "supportedFixes": [
+        "resolve the reported Chrome inspection error, then rerun browser-check"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\edge-retry-en\\registration-response-paths.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\edge-retry-en\\registration-response-paths.en.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\edge-retry-en\\registration-response-paths.en.browser-check.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "browser-check",
+  "finishedAt": "2026-10-01T20:49:41.476Z",
+  "durationMs": 7406,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  }
+}

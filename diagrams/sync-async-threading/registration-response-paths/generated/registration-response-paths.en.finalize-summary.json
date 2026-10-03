@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "sequence",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.en.json",
+    "sha256": "b000f3a115492bc9bcb02b4e635c4308daa591cb7b6eae987cd8b4ea85b21dc7",
+    "bytes": 3627
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+    "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+    "bytes": 760150
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "fail"
+  },
+  "failedStage": "browser-check",
+  "diagnostics": [
+    {
+      "code": "viewer/browser-check-runtime",
+      "severity": "error",
+      "message": "browser-check could not complete its Chrome inspection.",
+      "subject": {
+        "artifact": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html"
+      },
+      "evidence": {
+        "reason": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[17200:16788:1001/224200.728:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:270] Failed opening key Software\\Google\\Update\\ClientStateMedium\\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5\r\n[17200:17728:1001/224200.866:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17200:5508:1001/224200.866:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-zs8R1N\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[17200:17728:1001/224200.887:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17200:17728:1001/224200.967:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17200:15480:1001/224200.968:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-zs8R1N\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[17200:17728:1001/224200.988:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17200:17728:1001/224200.995:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17200:10800:1001/224200.995:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-zs8R1N\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[17200:17728:1001/224201.002:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17200:17728:1001/224201.002:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn't usable. Goodbye.\r\n[17200:17824:1001/224201.012:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:251] Failed to get location access status: El parámetro no es correcto. (0x80070057)\nChrome transport: Node v24.19.0, libuv 1.52.1, win32; pid=17200, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=1328, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=false, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+      },
+      "supportedFixes": [
+        "resolve the reported Chrome inspection error, then rerun browser-check"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1329
+}

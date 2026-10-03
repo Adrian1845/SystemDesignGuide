@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "sequence",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.es.json",
+    "sha256": "9f00ead561a23d1a28cdc047f52bbb870d9f70d0f67dce15e810c3fefdc63667",
+    "bytes": 33524
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.es.html",
+    "sha256": "b8f152f24c5a0dc5382cef7b39a6edc79dde77c39cdc887f48c8b86af33f66ac",
+    "bytes": 763150
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\final-es\\registration-response-paths.es.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\final-es\\registration-response-paths.es.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\final-es\\registration-response-paths.es.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2631
+}

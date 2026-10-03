@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Sequential and concurrent invoice data fetching",
+    "locale": "en",
+    "output": "diagrams/sync-async-threading/invoice-fetch-strategies/generated/invoice-fetch-strategies.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "external": { "label": "Request or result" },
+        "backend": { "label": "Processing step" },
+        "database": { "label": "Data source" },
+        "messagebus": { "label": "Concurrency control" }
+      }
+    }
+  },
+  "lanes": [
+    { "id": "sequential", "label": "Sequential strategy" },
+    { "id": "concurrent", "label": "Concurrent coordinator" },
+    { "id": "user_data", "label": "User data" },
+    { "id": "order_data", "label": "Order data" }
+  ],
+  "phases": [
+    { "id": "request", "label": "Request", "fromCol": 0, "toCol": 0 },
+    { "id": "fetch", "label": "Fetch data", "fromCol": 1, "toCol": 3, "variant": "emphasis" },
+    { "id": "assemble", "label": "Assemble invoice", "fromCol": 4, "toCol": 5 }
+  ],
+  "mainPath": ["concurrent_request", "fan_out", "concurrent_user", "join", "concurrent_ready"],
+  "semanticChecks": {
+    "allowedRoots": ["sequential_request", "concurrent_request"],
+    "allowedTerminals": ["sequential_ready", "concurrent_ready"],
+    "requiredPaths": [
+      { "from": "sequential_request", "to": "sequential_ready" },
+      { "from": "concurrent_request", "to": "concurrent_ready" }
+    ]
+  },
+  "nodes": [
+    { "id": "sequential_request", "lane": "sequential", "col": 0, "type": "external", "label": "Invoice request", "sublabel": "start timer", "width": 132 },
+    { "id": "sequential_user", "lane": "sequential", "col": 1, "type": "database", "label": "Fetch user", "sublabel": "wait for result", "width": 132 },
+    { "id": "sequential_order", "lane": "sequential", "col": 3, "type": "database", "label": "Fetch order", "sublabel": "starts afterward", "width": 132 },
+    { "id": "sequential_assemble", "lane": "sequential", "col": 4, "type": "backend", "label": "Build invoice", "sublabel": "both results ready", "width": 132 },
+    { "id": "sequential_ready", "lane": "sequential", "col": 5, "type": "external", "label": "Invoice ready", "sublabel": "sum of both waits", "width": 132 },
+    { "id": "concurrent_request", "lane": "concurrent", "col": 0, "type": "external", "label": "Invoice request", "sublabel": "start timer", "width": 132 },
+    { "id": "fan_out", "lane": "concurrent", "col": 1, "type": "messagebus", "label": "Start both reads", "sublabel": "overlap the waits", "width": 132 },
+    { "id": "concurrent_user", "lane": "user_data", "col": 2, "type": "database", "label": "User database", "sublabel": "fetch user", "width": 132 },
+    { "id": "concurrent_order", "lane": "order_data", "col": 2, "type": "database", "label": "Order database", "sublabel": "fetch order", "width": 132 },
+    { "id": "join", "lane": "concurrent", "col": 4, "type": "backend", "label": "Join results", "sublabel": "wait for both", "width": 132 },
+    { "id": "concurrent_ready", "lane": "concurrent", "col": 5, "type": "external", "label": "Invoice ready", "sublabel": "slowest read dominates", "width": 132 }
+  ],
+  "edges": [
+    { "id": "seq-user", "from": "sequential_request", "to": "sequential_user", "label": "query user", "role": "main" },
+    { "id": "seq-order", "from": "sequential_user", "to": "sequential_order", "label": "then query order", "role": "main" },
+    { "id": "seq-build", "from": "sequential_order", "to": "sequential_assemble", "label": "both results", "role": "main" },
+    { "id": "seq-ready", "from": "sequential_assemble", "to": "sequential_ready", "role": "main" },
+    { "id": "con-start", "from": "concurrent_request", "to": "fan_out", "label": "start", "variant": "emphasis", "role": "main" },
+    { "id": "con-user", "from": "fan_out", "to": "concurrent_user", "label": "fetch user", "variant": "dashed", "role": "async" },
+    { "id": "con-order", "from": "fan_out", "to": "concurrent_order", "label": "fetch order", "variant": "dashed", "role": "async" },
+    { "id": "user-join", "from": "concurrent_user", "to": "join", "label": "user data", "role": "return" },
+    { "id": "order-join", "from": "concurrent_order", "to": "join", "label": "order data", "role": "return" },
+    { "id": "con-ready", "from": "join", "to": "concurrent_ready", "label": "build invoice", "variant": "emphasis", "role": "main" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Different wait shapes",
+      "items": [
+        "Sequential fetching waits for the user read before starting the order read",
+        "Concurrent fetching joins after both reads finish; the slower read dominates"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Concurrency is not a thread model",
+      "items": [
+        "Overlapping work can use async I/O, threads, processes, or workers",
+        "This diagram makes no claim about the implementation mechanism"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Registration response and deferred email",
+    "locale": "en",
+    "output": "diagrams/sync-async-threading/registration-response-paths/generated/registration-response-paths.en.html",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [1080, 600]
+  },
+  "participants": [
+    { "id": "user", "type": "external", "label": "User", "sublabel": "submits registration" },
+    { "id": "web", "type": "frontend", "label": "Web app", "sublabel": "registration screen" },
+    { "id": "api", "type": "backend", "label": "Registration API", "sublabel": "owns the request" },
+    { "id": "database", "type": "database", "label": "User database", "sublabel": "source of truth" },
+    { "id": "broker", "type": "messagebus", "label": "Message broker", "sublabel": "durable event" },
+    { "id": "email_worker", "type": "backend", "label": "Email worker", "sublabel": "independent consumer" },
+    { "id": "email_provider", "type": "cloud", "label": "Email provider", "sublabel": "delivers the message" }
+  ],
+  "segments": [
+    { "from": 150, "to": 380, "label": "Success waits for durable registration" },
+    { "from": 390, "to": 500, "label": "Welcome email continues after the response" }
+  ],
+  "messages": [
+    { "id": "submit-form", "from": "user", "to": "web", "y": 170, "label": "submit form" },
+    { "id": "create-user", "from": "web", "to": "api", "y": 200, "label": "POST /registrations", "variant": "emphasis" },
+    { "id": "persist-user", "from": "api", "to": "database", "y": 230, "label": "insert user", "variant": "emphasis" },
+    { "id": "commit-user", "from": "database", "to": "api", "y": 260, "label": "commit succeeds", "variant": "return" },
+    { "id": "publish-event", "from": "api", "to": "broker", "y": 290, "label": "publish UserRegistered", "variant": "dashed" },
+    { "id": "accept-event", "from": "broker", "to": "api", "y": 320, "label": "event accepted", "variant": "return" },
+    { "id": "registration-created", "from": "api", "to": "web", "y": 350, "label": "201 Created", "variant": "return" },
+    { "id": "show-success", "from": "web", "to": "user", "y": 375, "label": "show success", "variant": "return" },
+    { "id": "consume-event", "from": "broker", "to": "email_worker", "y": 410, "label": "deliver event", "variant": "dashed" },
+    { "id": "send-email", "from": "email_worker", "to": "email_provider", "y": 440, "label": "send welcome email", "variant": "dashed" },
+    { "id": "email-accepted", "from": "email_provider", "to": "email_worker", "y": 470, "label": "message accepted", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "web", "from": 165, "to": 380, "type": "frontend" },
+    { "participant": "api", "from": 195, "to": 355, "type": "backend" },
+    { "participant": "database", "from": 225, "to": 265, "type": "database" },
+    { "participant": "broker", "from": 285, "to": 420, "type": "messagebus" },
+    { "participant": "email_worker", "from": 405, "to": 478, "type": "backend" },
+    { "participant": "email_provider", "from": 435, "to": 475, "type": "cloud" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Response boundary",
+      "items": [
+        "The API confirms success only after the user record is committed",
+        "The broker accepts the event before the API returns 201 Created"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "Deferred work",
+      "items": [
+        "Email delivery runs after the registration response",
+        "The user does not wait for the email provider"
+      ]
+    }
+  ]
+}

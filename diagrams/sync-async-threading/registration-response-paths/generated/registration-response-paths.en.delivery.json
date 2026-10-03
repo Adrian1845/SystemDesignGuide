@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d7f29f24-5c9e-4546-b062-eba859c28545",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\spec.en.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+  "specification": {
+    "sha256": "b000f3a115492bc9bcb02b4e635c4308daa591cb7b6eae987cd8b4ea85b21dc7",
+    "bytes": 3627
+  },
+  "artifact": {
+    "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+    "bytes": 760150
+  }
+}

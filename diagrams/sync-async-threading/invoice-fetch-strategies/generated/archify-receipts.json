@@ -1,0 +1,54 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "workflow",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "browser": "Microsoft Edge (Chromium)",
+    "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"],
+    "themes": ["light", "dark"]
+  },
+  "visualReview": {
+    "status": "pass",
+    "captureViewports": ["1440x900", "2048x1320"],
+    "themes": ["light", "dark"],
+    "observations": "Human inspection found no clipped text, unintended crossings, unreadable labels, horizontal overflow, or unbalanced large-viewport composition.",
+    "correctionRounds": 0
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "a29e600e3ec458dbe089f555e3b6cba981c2f60496059ec24fc3cd5f3b3a0e75",
+      "sourceBytes": 5022,
+      "artifact": "invoice-fetch-strategies.en.html",
+      "artifactSha256": "f55c96743fd6222ab1d5f37c7c04d1a5b1756ba161dae80572e4fc66e6865e89",
+      "artifactBytes": 763523,
+      "finalizeReceipt": "final-en/invoice-fetch-strategies.en.finalize.json",
+      "browserReceipt": "final-en/invoice-fetch-strategies.en.browser-check.json",
+      "visualReceipt": "visual-en/invoice-fetch-strategies.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "f3ba57d90e10ae67449dfe90ea944658b9b66f77c82b683c1446273035db116a",
+      "sourceBytes": 35351,
+      "translationCatalog": "Archify v3.0.1 examples/locales/es.json",
+      "translationKeys": 438,
+      "artifact": "invoice-fetch-strategies.es.html",
+      "artifactSha256": "a30639f6d5b2e8bfc416e12ca5349c65a2899f0bc143659c44a5674da49af12c",
+      "artifactBytes": 767543,
+      "finalizeReceipt": "final-es/invoice-fetch-strategies.es.finalize.json",
+      "browserReceipt": "final-es/invoice-fetch-strategies.es.browser-check.json",
+      "visualReceipt": "visual-es/invoice-fetch-strategies.es.visual-check.json"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "registration-response-paths",
+  "kind": "sequence",
+  "artifact": "generated/registration-response-paths.en.html",
+  "artifacts": {
+    "en": "generated/registration-response-paths.en.html",
+    "es": "generated/registration-response-paths.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Registration response and deferred email",
+      "altText": "A registration request waits for the user record and event to be stored before returning success, while a separate email worker sends the welcome email afterward.",
+      "fallback": "The web app sends a registration request to the API. The API writes the user to the database and publishes a durable UserRegistered event before returning success. After the response, an independent worker consumes the event and asks the email provider to send the welcome message.",
+      "nodes": [
+        { "id": "user", "label": "User" },
+        { "id": "web", "label": "Web app" },
+        { "id": "api", "label": "Registration API" },
+        { "id": "database", "label": "User database" },
+        { "id": "broker", "label": "Message broker" },
+        { "id": "email_worker", "label": "Email worker" },
+        { "id": "email_provider", "label": "Email provider" }
+      ]
+    },
+    "es": {
+      "title": "Respuesta de registro y correo diferido",
+      "altText": "Una petición de registro espera a que el usuario y el evento queden guardados antes de devolver éxito, mientras un worker independiente envía el correo de bienvenida después.",
+      "fallback": "La aplicación web envía la petición de registro a la API. La API guarda el usuario en la base de datos y publica un evento UserRegistered duradero antes de responder con éxito. Después de la respuesta, un worker independiente consume el evento y pide al proveedor de correo que envíe la bienvenida.",
+      "nodes": [
+        { "id": "user", "label": "Usuario" },
+        { "id": "web", "label": "Aplicación web" },
+        { "id": "api", "label": "API de registro" },
+        { "id": "database", "label": "Base de datos" },
+        { "id": "broker", "label": "Broker de mensajes" },
+        { "id": "email_worker", "label": "Worker de correo" },
+        { "id": "email_provider", "label": "Proveedor de correo" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "user", "to": "web" },
+    { "from": "web", "to": "api" },
+    { "from": "api", "to": "database" },
+    { "from": "api", "to": "broker" },
+    { "from": "broker", "to": "email_worker" },
+    { "from": "email_worker", "to": "email_provider" }
+  ]
+}
