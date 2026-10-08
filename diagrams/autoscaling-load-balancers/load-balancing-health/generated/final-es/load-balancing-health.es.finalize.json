@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "startedAt": "2026-10-08T18:09:27.775Z",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\spec.es.json",
+    "sha256": "078ca6e6c92f45fb3a6ee940d2a1fa7a7e8ea0e201e95fb8e63df720feaf8c32",
+    "bytes": 33773
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\load-balancing-health.es.html"
+  },
+  "stages": {
+    "validate": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": null,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "deliver",
+        "architecture",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\spec.es.json",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\load-balancing-health.es.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "deliver",
+        "receiptId": "0a752374-0a81-48c2-9efd-ef88931ab355",
+        "stage": "render",
+        "type": "architecture",
+        "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\spec.es.json",
+        "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\load-balancing-health.es.html",
+        "error": "Architecture layout validation failed:\n- Label \"instancia no saludable\" has only 96px between \"instance_health\" and \"capacity_controller\"; it needs at least 132px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+        "diagnostics": [
+          {
+            "code": "composition/label-gap",
+            "severity": "error",
+            "message": "Label \"instancia no saludable\" has only 96px between \"instance_health\" and \"capacity_controller\"; it needs at least 132px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+            "subject": {
+              "diagramType": "architecture",
+              "collection": "connections",
+              "id": "replacement-signal",
+              "from": "instance_health",
+              "to": "capacity_controller"
+            },
+            "evidence": {
+              "clearGapPx": 96,
+              "minimumGapPx": 132,
+              "labelWidthPx": 115.6,
+              "obstacles": [
+                "instance_health",
+                "capacity_controller"
+              ]
+            },
+            "supportedFixes": [
+              "increase the clear gap between the connected nodes to at least 132px",
+              "reposition the connected nodes together while preserving the full relationship label"
+            ]
+          }
+        ],
+        "provenance": "absent",
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      },
+      "execution": "embedded-in-deliver"
+    },
+    "deliver": {
+      "status": "not-run",
+      "execution": "blocked-by-validate"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "composition/label-gap",
+      "severity": "error",
+      "message": "Label \"instancia no saludable\" has only 96px between \"instance_health\" and \"capacity_controller\"; it needs at least 132px to stay beside its route — increase that clear gap or place the connected nodes on another readable row, preserving the label.",
+      "subject": {
+        "diagramType": "architecture",
+        "collection": "connections",
+        "id": "replacement-signal",
+        "from": "instance_health",
+        "to": "capacity_controller"
+      },
+      "evidence": {
+        "clearGapPx": 96,
+        "minimumGapPx": 132,
+        "labelWidthPx": 115.6,
+        "obstacles": [
+          "instance_health",
+          "capacity_controller"
+        ]
+      },
+      "supportedFixes": [
+        "increase the clear gap between the connected nodes to at least 132px",
+        "reposition the connected nodes together while preserving the full relationship label"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\final-es\\load-balancing-health.es.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\final-es\\load-balancing-health.es.finalize-summary.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "validate",
+  "finishedAt": "2026-10-08T18:09:28.229Z",
+  "durationMs": 454,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  }
+}

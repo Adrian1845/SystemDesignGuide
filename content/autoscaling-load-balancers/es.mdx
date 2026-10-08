@@ -1,0 +1,88 @@
+Cuando empecé a estudiar Cloud Computing (que me hice un curso pocho de Google), nunca llegué a entender completamente este concepto. Para mí no tenía sentido el hecho de que los recursos y servicios estuvieran «en la nube»: no entendía a qué se refería.
+
+Como podéis ver, no era yo el lápiz más afilado del estuche, porque no caí en que era un servidor físico al que simplemente te conectabas desde una interfaz bonita en la web.
+
+Una vez aclarado este punto, llegaron otro tipo de dudas, como la magnitud de un CPD para manejar cierta infraestructura y la habilidad que tenemos para aportar o eliminar recursos de manera flexible a nuestra web.
+
+Aquí vienen los dos conceptos que me vinieron muy bien para visualizar este crecimiento o decrecimiento de la web según la necesidad.
+
+
+
+Escalado automático (Auto Scaling)
+
+El escalado automático no es más que poner más máquinas o poner mejores máquinas.
+
+
+
+Piensa en ello como si tuvieras una empresa de logística: en vez de usar un coche, usas cinco; luego pasas de coches a furgonetas, y de furgonetas a camiones. Simple, ¿no?
+
+Bien, pero hay dos maneras principales de escalar: tenemos el escalado vertical y el escalado horizontal.
+
+
+
+
+
+Escalado vertical (Scale Up / Down): Es justamente cuando pasamos a tener máquinas más potentes. En nuestro ejemplo, pasamos de tener un coche a un camión. Luego podemos pasar de un camión a mover parte de la mercancía en barco… y ya poco más se puede escalar, porque obviamente tiene un límite físico y económico.
+
+
+
+Escalado horizontal (Scale Out / In): Es añadir más coches o más camiones. Esto lo podemos escalar casi hasta el infinito (más o menos).
+
+Ambos escalados funcionan tanto hacia arriba como hacia abajo; es decir, podemos reducir la infraestructura de nuestra web según disminuya el tráfico y el uso de los recursos.
+
+Normalmente se puede configurar el número máximo, mínimo y deseado de máquinas que queremos tener para cubrirnos las espaldas y estar preparados siempre ante cierto volumen. Incluso si sabemos que a cierta hora se produce un pico de tráfico, podemos programarlo para que en esa franja añada más máquinas y, pasadas un par de horas, vuelva a bajar el número.
+
+
+
+Balanceadores de carga (Load Balancers)
+
+Un balanceador de carga, como su propio nombre indica, nos va a ayudar a distribuir el tráfico que llega a nuestras máquinas. Esto es especialmente útil en el escalado horizontal, ya que nos permitirá tener dos máquinas funcionando cada una al 50% de uso, en vez de una ahogándose al 80% y otra rascándose la barriga al 20%.
+
+Los balanceadores de carga son nuestro punto de entrada. En vez de apuntar a nuestra web o a nuestros servicios directamente, la petición se dispara al balanceador y este la redirige a la máquina que le toca.
+
+Además, los balanceadores son capaces de soportar distintos protocolos:
+
+
+
+
+
+Capa 4 (Transporte): TCP, UDP.
+
+
+
+Capa 7 (Aplicación): HTTP, HTTPS, gRPC.
+(Los hay también de capa 3, pero no me quiero liar ahora a explicar eso).
+
+
+
+Chequeos de salud (Healthchecks)
+
+Dependiendo del servicio cloud que utilicéis (o de vuestra propia solución), cabe mencionar que estos dos mecanismos tienen una función llamada healthcheck, que comprueba la salud de la máquina de destino:
+
+
+
+
+
+El autoescalado lo usa para saber si tiene que destruir una máquina colgada y levantar otra nueva.
+
+
+
+El balanceador de carga lo usa para saber si tiene que seguir redirigiéndole tráfico a esa máquina o sacarla de la lista temporalmente.
+
+Estos checks son 100% configurables para que evalúen lo que a ti te interese del estado de tu aplicación.
+
+En nuestro ejemplo de la empresa de transporte, esto sería el equivalente a pasar el camión por el taller para ver si sirve o no. No vamos a cargar mercancía en un camión al que se le ha roto la nodriza, por lo que sea.
+
+
+
+Ascender de nivel
+
+La verdad es que, una vez conoces estos conceptos, todo se simplifica un montón. Probablemente para cualquier trámite burocrático no se usen estos escalados (y así de mal van las webs públicas), pero cualquier empresa medianamente grande que tenga sus servicios en la nube —y no en un portátil viejo en la oficina— usa este patrón de escalado.
+
+Hay bastante más tela que cortar en estos temas, pero esto no es un curso para sacarse una certificación cloud. Así que nos quedamos con el concepto básico: esto va a ir sí o sí en cada diseño de sistemas que hagamos. Que no se os olvide.
+
+Adrián, aka Novato.
+
+
+
+Muchas gracias por leer. Si quieres ser parte de esta aventura, no dudes en suscribirte.

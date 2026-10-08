@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d8aee5be-7b11-4d68-8268-8100600c24b7",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.es.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.es.html",
+  "specification": {
+    "sha256": "feaa5e810f7362a2aae4a26efc41742850c4cadae0e67e546df1354962ceb914",
+    "bytes": 35891
+  },
+  "artifact": {
+    "sha256": "1a534edfc2205b955efda75f27daf84f89872b968285a4bb0b25579779a86c76",
+    "bytes": 769298
+  }
+}

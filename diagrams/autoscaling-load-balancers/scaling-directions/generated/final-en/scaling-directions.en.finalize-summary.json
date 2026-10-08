@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\spec.en.json",
+    "sha256": "c55a9f14a929887b107032d726f013328607261ea387ea69c19ce4f45e73a61d",
+    "bytes": 3800
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\generated\\scaling-directions.en.html",
+    "sha256": "854c5e43d15aeba69764d33681a5f912a3ac3a802464de78dca56928baf51e0b",
+    "bytes": 752244
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\generated\\final-en\\scaling-directions.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\generated\\final-en\\scaling-directions.en.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\generated\\final-en\\scaling-directions.en.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2985
+}

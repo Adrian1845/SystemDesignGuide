@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "sha256": "d0894d7d7c688170e992b6832f0baae6874f1c6a4185748cd00c78e4c4d20eac",
+    "bytes": 6124
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html"
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[6] id \"metrics-policy\" \"metrics\" -> \"evaluate\" shares a 16px corridor with edges[10] id \"repeat-loop\" \"stabilization\" -> \"metrics\" at [34, 119] -> [50, 119] (segments 0 and 2; minimum 8px) — if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 6,
+        "id": "metrics-policy",
+        "from": "metrics",
+        "to": "evaluate"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 10,
+          "id": "repeat-loop",
+          "from": "stabilization",
+          "to": "metrics"
+        },
+        "overlapLengthPx": 16,
+        "minimumPx": 8,
+        "from": [
+          34,
+          119
+        ],
+        "to": [
+          50,
+          119
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 2
+      },
+      "supportedFixes": [
+        "if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en\\autoscaling-control-loop.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en\\autoscaling-control-loop.en.finalize-summary.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 531,
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "constraint": "Preserve unaffected semantics and geometry; do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

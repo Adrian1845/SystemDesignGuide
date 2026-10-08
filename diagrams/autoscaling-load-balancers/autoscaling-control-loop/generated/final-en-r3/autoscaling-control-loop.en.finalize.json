@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "startedAt": "2026-10-08T18:06:54.298Z",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "sha256": "bd4a451971b74ac9c67ee99c47ef102ab7b25a4b3c056bdea1c18bfabdf9505d",
+    "bytes": 6062
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html"
+  },
+  "stages": {
+    "validate": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": null,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "deliver",
+        "workflow",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "deliver",
+        "receiptId": "909d72fd-78a7-497a-aeb4-609546d653f6",
+        "stage": "check",
+        "type": "workflow",
+        "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+        "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+        "error": "Final artifact check failed; the previous artifact was preserved.",
+        "diagnostics": [
+          {
+            "code": "composition/desktop-readability",
+            "severity": "error",
+            "message": "Final artifact failed composition/desktop-readability.",
+            "subject": {
+              "check": "composition",
+              "nodeId": "metrics"
+            },
+            "evidence": {
+              "owner": {
+                "kind": "node",
+                "id": "metrics"
+              },
+              "viewportWidth": 1440,
+              "viewportHeight": 900,
+              "availableDiagramWidth": 930,
+              "budgetBasis": "legacy-930",
+              "readerContract": "declared-wide-v1",
+              "requestedTargetPx": null,
+              "requestedTargetMet": null,
+              "budgetLimit": "legacy",
+              "viewBoxWidth": 1270,
+              "scale": 0.7322834645669292,
+              "text": "rate · queue · utilization",
+              "detail": "context",
+              "sourceFontPx": 8,
+              "projectedFontPx": 5.858267716535433,
+              "minimumProjectedFontPx": 6
+            },
+            "supportedFixes": [
+              "Preserve the semantic text and any supplied coordinates, routes, sides, channels, and labels. Compactly reflow automatic spacing and empty corridors so the complete viewBox width is at most 1240px (current 1270px; 8px source text at 930px desktop budget). If supplied geometry fixes that width, use a renderer-supported semantic text-size setting or renderer-level fix instead. Position-only label controls cannot repair its projection."
+            ]
+          }
+        ],
+        "provenance": "absent",
+        "checker": {
+          "ok": false,
+          "file": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+          "artifact": {
+            "sha256": "00b22502dd59c371774e8bd5c4945d33884be380b724257bd65c83a8695e1931",
+            "bytes": 765656
+          },
+          "checks": [
+            {
+              "name": "single_svg",
+              "ok": true,
+              "details": [
+                "found 1 <svg> block(s)"
+              ]
+            },
+            {
+              "name": "finite_svg",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "orthogonal_arrows",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "label_route_clearance",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "relationship_crossings",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "relationship_corridors",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "container_border_runs",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "route_rhythm",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "legend_clearance",
+              "ok": true,
+              "details": []
+            }
+          ],
+          "composition": {
+            "schemaVersion": 1,
+            "profile": "showcase",
+            "status": "fail",
+            "summary": {
+              "errors": 1,
+              "warnings": 1
+            },
+            "metrics": {
+              "properCrossings": 0,
+              "resolvedCrossovers": 0,
+              "ambiguousCorridors": 0,
+              "arrowheadCollisions": 0,
+              "containerBorderRuns": 0,
+              "labelRouteClearanceIssues": 0,
+              "labelCanvasOverflowIssues": 0,
+              "minLabelRouteClearance": 21,
+              "desktopReadabilityIssues": 1,
+              "viewportHeightIssues": 1,
+              "minProjectedNodeTextPx": 5.858267716535433,
+              "maxBends": 3,
+              "routesOverSuggestedBends": 2,
+              "maxStretch": 1.3,
+              "routesOverSuggestedStretch": 0,
+              "minSegmentPx": 16,
+              "minInteriorSegmentPx": 116.4,
+              "shortSegmentCount": 0,
+              "shortEndpointSegmentCount": 0,
+              "shortInteriorSegmentCount": 0,
+              "microSegmentCount": 0
+            },
+            "suggestedLimits": {
+              "bendsPerRelationship": 2,
+              "stretch": 1.35,
+              "segmentPx": 16,
+              "microSegmentPx": 8
+            },
+            "routeReview": {
+              "crossings": [],
+              "detours": [
+                {
+                  "relationship": {
+                    "id": "metrics-policy",
+                    "from": "metrics",
+                    "to": "evaluate",
+                    "label": "evaluation window",
+                    "collectionIndex": 6,
+                    "artifactIndex": 7
+                  },
+                  "bends": 3,
+                  "stretch": 1.181
+                },
+                {
+                  "relationship": {
+                    "id": "repeat-loop",
+                    "from": "stabilization",
+                    "to": "metrics",
+                    "label": "next window",
+                    "collectionIndex": 10,
+                    "artifactIndex": 11
+                  },
+                  "bends": 3,
+                  "stretch": 1.169
+                }
+              ]
+            },
+            "leadingSpace": {
+              "measured": false,
+              "reviewSuggested": false
+            },
+            "desktopReadability": {
+              "budgetBasis": "legacy-930",
+              "readerContract": "declared-wide-v1",
+              "availableDiagramWidth": 930,
+              "actualBudgetPx": 930,
+              "limit": "legacy",
+              "requestedTargetPx": null,
+              "requestedTargetMet": null,
+              "hardFloorPx": 6,
+              "hardFloorMet": false,
+              "minimumOwner": {
+                "kind": "node",
+                "id": "metrics"
+              },
+              "minimumSourceTextPx": 8,
+              "minimumProjectedTextPx": 5.858267716535433,
+              "semanticTextCount": 32
+            },
+            "issues": [
+              {
+                "severity": "error",
+                "code": "composition/desktop-readability",
+                "nodeId": "metrics",
+                "owner": {
+                  "kind": "node",
+                  "id": "metrics"
+                },
+                "viewportWidth": 1440,
+                "viewportHeight": 900,
+                "availableDiagramWidth": 930,
+                "budgetBasis": "legacy-930",
+                "readerContract": "declared-wide-v1",
+                "requestedTargetPx": null,
+                "requestedTargetMet": null,
+                "budgetLimit": "legacy",
+                "viewBoxWidth": 1270,
+                "scale": 0.7322834645669292,
+                "text": "rate · queue · utilization",
+                "detail": "context",
+                "sourceFontPx": 8,
+                "projectedFontPx": 5.858267716535433,
+                "minimumProjectedFontPx": 6
+              },
+              {
+                "severity": "warning",
+                "code": "composition/viewport-height",
+                "readerFit": null,
+                "viewBoxWidth": 1270,
+                "viewBoxHeight": 900,
+                "viewportWidth": 1440,
+                "viewportHeight": 900,
+                "ratio": 1.41,
+                "wideRatio": 1.55,
+                "svgWidthPx": 1346,
+                "svgHeightPx": 954,
+                "fixedChromePx": 126,
+                "pageHeightPx": 1080,
+                "overflowPx": 180,
+                "detail": "[composition/viewport-height] Preserve every node, relationship, and label. This 1270x900 canvas (ratio 1.41) declares no intrinsic-height fit and is below the 1.55 wide ratio, so the desktop Reader can neither narrow it nor accept vertical scroll: it renders 954px tall at the full 1346px width and the page reaches 1080px before cards against 900px, a certain visual-check failure. Either compact vertical spacing so meta.viewBox height is at most 819 at this width, or spread content sideways so the width is at least 1395 at this height; for architecture, omitting meta.viewBox lets the renderer size the canvas and declare the fit."
+              }
+            ]
+          }
+        },
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      },
+      "execution": "embedded-in-deliver"
+    },
+    "deliver": {
+      "status": "not-run",
+      "execution": "blocked-by-validate"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "composition/desktop-readability",
+      "severity": "error",
+      "message": "Final artifact failed composition/desktop-readability.",
+      "subject": {
+        "check": "composition",
+        "nodeId": "metrics"
+      },
+      "evidence": {
+        "owner": {
+          "kind": "node",
+          "id": "metrics"
+        },
+        "viewportWidth": 1440,
+        "viewportHeight": 900,
+        "availableDiagramWidth": 930,
+        "budgetBasis": "legacy-930",
+        "readerContract": "declared-wide-v1",
+        "requestedTargetPx": null,
+        "requestedTargetMet": null,
+        "budgetLimit": "legacy",
+        "viewBoxWidth": 1270,
+        "scale": 0.7322834645669292,
+        "text": "rate · queue · utilization",
+        "detail": "context",
+        "sourceFontPx": 8,
+        "projectedFontPx": 5.858267716535433,
+        "minimumProjectedFontPx": 6
+      },
+      "supportedFixes": [
+        "Preserve the semantic text and any supplied coordinates, routes, sides, channels, and labels. Compactly reflow automatic spacing and empty corridors so the complete viewBox width is at most 1240px (current 1270px; 8px source text at 930px desktop budget). If supplied geometry fixes that width, use a renderer-supported semantic text-size setting or renderer-level fix instead. Position-only label controls cannot repair its projection."
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en-r3\\autoscaling-control-loop.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en-r3\\autoscaling-control-loop.en.finalize-summary.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "validate",
+  "finishedAt": "2026-10-08T18:06:54.928Z",
+  "durationMs": 630,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  }
+}

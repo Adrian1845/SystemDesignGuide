@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "a2ec05a1-5907-471a-bb17-79c323ffb22e",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\spec.es.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\scaling-directions\\generated\\scaling-directions.es.html",
+  "specification": {
+    "sha256": "fc1694345974e37965df88410e7c134b7f2cfaa31e6f41946d7b706b0e3b7e5c",
+    "bytes": 33101
+  },
+  "artifact": {
+    "sha256": "5936fcfebbe063623f6ff0fe9db13f09d761ff2fe9c1708dc75eb9a9e55f5a92",
+    "bytes": 755149
+  }
+}

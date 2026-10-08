@@ -1,0 +1,171 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "The autoscaling control loop",
+    "locale": "en",
+    "output": "diagrams/autoscaling-load-balancers/autoscaling-control-loop/generated/autoscaling-control-loop.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "database": { "label": "Observed signal" },
+        "backend": { "label": "Policy or action" },
+        "cloud": { "label": "Capacity" },
+        "security": { "label": "Safe transition" }
+      }
+    }
+  },
+  "lanes": [
+    { "id": "signals", "label": "Observed demand" },
+    { "id": "schedule", "label": "Scheduled capacity" },
+    { "id": "policy", "label": "Scaling policy" },
+    { "id": "scale_out", "label": "Scale out" },
+    { "id": "scale_in", "label": "Scale in", "variant": "exception" }
+  ],
+  "phases": [
+    { "id": "observe", "label": "Observe", "fromCol": 0, "toCol": 1 },
+    { "id": "decide", "label": "Decide", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "change", "label": "Change safely", "fromCol": 4, "toCol": 5 }
+  ],
+  "mainPath": ["metrics", "evaluate", "decision", "add_capacity", "warm_ready", "stabilization"],
+  "semanticChecks": {
+    "allowedRoots": ["metrics", "scheduled_change"],
+    "requiredPaths": [
+      { "from": "metrics", "to": "stabilization" },
+      { "from": "scheduled_change", "to": "stabilization" }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "metrics",
+      "lane": "signals",
+      "col": 0,
+      "type": "database",
+      "label": "Demand signals",
+      "sublabel": "rate · queue · utilization",
+      "width": 164
+    },
+    {
+      "id": "scheduled_change",
+      "lane": "schedule",
+      "col": 0,
+      "type": "database",
+      "label": "Known traffic window",
+      "sublabel": "scheduled capacity",
+      "width": 168
+    },
+    {
+      "id": "evaluate",
+      "lane": "policy",
+      "col": 1,
+      "type": "backend",
+      "label": "Evaluate policy",
+      "sublabel": "window · target · hysteresis",
+      "width": 168
+    },
+    {
+      "id": "decision",
+      "lane": "policy",
+      "col": 2,
+      "type": "backend",
+      "label": "Apply capacity bounds",
+      "sublabel": "minimum and maximum",
+      "width": 174
+    },
+    {
+      "id": "hold_capacity",
+      "lane": "policy",
+      "col": 3,
+      "type": "backend",
+      "label": "Keep capacity",
+      "sublabel": "inside the stable band",
+      "width": 158
+    },
+    {
+      "id": "add_capacity",
+      "lane": "scale_out",
+      "col": 3,
+      "type": "cloud",
+      "label": "Increase desired count",
+      "sublabel": "provision instances",
+      "width": 176
+    },
+    {
+      "id": "warm_ready",
+      "lane": "scale_out",
+      "col": 4,
+      "type": "security",
+      "label": "Warm and become ready",
+      "sublabel": "then receive traffic",
+      "width": 176
+    },
+    {
+      "id": "remove_capacity",
+      "lane": "scale_in",
+      "col": 2,
+      "type": "cloud",
+      "label": "Decrease desired count",
+      "sublabel": "select targets safely",
+      "width": 176
+    },
+    {
+      "id": "drain_remove",
+      "lane": "scale_in",
+      "col": 4,
+      "type": "security",
+      "label": "Deregister and drain",
+      "sublabel": "then terminate",
+      "width": 170
+    },
+    {
+      "id": "stabilization",
+      "lane": "policy",
+      "col": 5,
+      "type": "backend",
+      "label": "Observe again",
+      "sublabel": "warmup · cooldown",
+      "width": 160
+    }
+  ],
+  "edges": [
+    { "id": "metrics-policy", "from": "metrics", "to": "evaluate", "label": "evaluation window", "role": "main" },
+    { "id": "schedule-policy", "from": "scheduled_change", "to": "evaluate", "label": "planned change", "variant": "dashed", "role": "branch" },
+    { "id": "policy-bounds", "from": "evaluate", "to": "decision", "label": "policy result", "variant": "emphasis", "role": "main" },
+    { "id": "decision-hold", "from": "decision", "to": "hold_capacity", "label": "within band", "role": "branch" },
+    { "id": "decision-out", "from": "decision", "to": "add_capacity", "label": "above target", "variant": "emphasis", "role": "main" },
+    { "id": "out-ready", "from": "add_capacity", "to": "warm_ready", "label": "new capacity", "role": "main" },
+    { "id": "decision-in", "from": "decision", "to": "remove_capacity", "label": "below target", "variant": "dashed", "role": "branch" },
+    { "id": "in-drain", "from": "remove_capacity", "to": "drain_remove", "label": "scale-in candidate", "variant": "dashed", "role": "branch" },
+    { "id": "hold-stabilize", "from": "hold_capacity", "to": "stabilization", "label": "no change", "role": "branch" },
+    { "id": "ready-stabilize", "from": "warm_ready", "to": "stabilization", "label": "healthy capacity", "role": "main" },
+    { "id": "drain-stabilize", "from": "drain_remove", "to": "stabilization", "label": "capacity removed", "role": "branch" },
+    { "id": "repeat-loop", "from": "stabilization", "to": "metrics", "label": "next window", "variant": "dashed", "role": "return" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Choose a useful signal",
+      "items": [
+        "Request rate, queue depth, concurrency, or utilization must correlate with capacity",
+        "Scheduled changes prepare for known demand; desired capacity is a target, not a guarantee"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Prevent oscillation",
+      "items": [
+        "Evaluation windows, hysteresis, warmup, and cooldown stop rapid scale-out and scale-in",
+        "Scale-in drains work before termination; scale-out waits for traffic readiness"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "A separate decision",
+      "items": [
+        "Replacing an unhealthy instance is self-healing, not evidence that demand increased",
+        "A platform may use the same group controller for both operations"
+      ]
+    }
+  ]
+}

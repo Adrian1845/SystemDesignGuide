@@ -1,0 +1,81 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "workflow",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "browser": "Google Chrome",
+    "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"],
+    "themes": ["light", "dark"]
+  },
+  "visualReview": {
+    "status": "pass-with-advisory",
+    "captureViewports": ["1440x900", "2048x1320"],
+    "themes": ["light", "dark"],
+    "observations": "Human inspection of both locales found all nodes, labels, branches, and cards readable with no clipping, route crossings, or horizontal overflow. The metrics-to-policy and below-target routes remain legible but use three bends, matching the finalizer's non-blocking inspect-route-readability advisory.",
+    "correctionRounds": {
+      "en": 7,
+      "es": 5
+    }
+  },
+  "authoritativeEvidence": {
+    "en": "final-en-r8/autoscaling-control-loop.en.finalize.json",
+    "es": "final-es-r6/autoscaling-control-loop.es.finalize.json"
+  },
+  "failedEvidence": {
+    "authoritative": false,
+    "en": [
+      "final-en/autoscaling-control-loop.en.finalize.json",
+      "final-en-r2/autoscaling-control-loop.en.finalize.json",
+      "final-en-r3/autoscaling-control-loop.en.finalize.json",
+      "final-en-r4/autoscaling-control-loop.en.finalize.json",
+      "final-en-r5/autoscaling-control-loop.en.finalize.json",
+      "final-en-r6/autoscaling-control-loop.en.finalize.json",
+      "final-en-r7/autoscaling-control-loop.en.finalize.json"
+    ],
+    "es": [
+      "final-es/autoscaling-control-loop.es.finalize.json",
+      "final-es-r2/autoscaling-control-loop.es.finalize.json",
+      "final-es-r3/autoscaling-control-loop.es.finalize.json",
+      "final-es-r4/autoscaling-control-loop.es.finalize.json",
+      "final-es-r5/autoscaling-control-loop.es.finalize.json"
+    ]
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "af47d2a4c3d4ad47acf35c974ef43402593d90b6ea1d07dcb46269b5251bc460",
+      "sourceBytes": 5938,
+      "artifact": "autoscaling-control-loop.en.html",
+      "artifactSha256": "6a4ba07bdf687b76de31617da172c6edcc8d9229e4f319c99bd53262f0f7383c",
+      "artifactBytes": 765949,
+      "finalizeReceipt": "final-en-r8/autoscaling-control-loop.en.finalize.json",
+      "browserReceipt": "final-en-r8/autoscaling-control-loop.en.browser-check.json",
+      "visualReceipt": "visual-en/autoscaling-control-loop.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "feaa5e810f7362a2aae4a26efc41742850c4cadae0e67e546df1354962ceb914",
+      "sourceBytes": 35891,
+      "translationCatalog": "Archify v3.0.1 archify/examples/locales/es.json",
+      "translationCatalogSha256": "1389068b7dddb5e72ed425d12084ca9104942bef933440a16113d60619f1daf3",
+      "translationKeys": 438,
+      "artifact": "autoscaling-control-loop.es.html",
+      "artifactSha256": "1a534edfc2205b955efda75f27daf84f89872b968285a4bb0b25579779a86c76",
+      "artifactBytes": 769298,
+      "finalizeReceipt": "final-es-r6/autoscaling-control-loop.es.finalize.json",
+      "browserReceipt": "final-es-r6/autoscaling-control-loop.es.browser-check.json",
+      "visualReceipt": "visual-es/autoscaling-control-loop.es.visual-check.json"
+    }
+  }
+}

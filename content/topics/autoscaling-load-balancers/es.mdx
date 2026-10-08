@@ -1,0 +1,131 @@
+---
+title: Escalado automático y balanceadores de carga
+slug: autoscaling-load-balancers
+translationOf: autoscaling-load-balancers
+locale: es
+summary: Aprende a aumentar o reducir capacidad, repartir tráfico y retirar instancias no saludables sin confundir escalado, balanceo y comprobaciones de salud.
+status: published
+---
+
+## Mi curso pocho de Google
+
+Cuando empecé a estudiar cloud computing —con un curso pocho de Google— nunca llegué a entender del todo qué significaba que los recursos estuvieran «en la nube». Como podéis ver, no era yo el lápiz más afilado del estuche: imaginaba una cosa casi mágica hasta que entendí que debajo seguía habiendo centros de datos, redes y máquinas físicas.
+
+La explicación completa tiene un matiz importante. La nube no es simplemente un servidor físico al que te conectas desde una interfaz bonita. Es una forma de consumir máquinas virtuales, contenedores, funciones, almacenamiento, redes y servicios administrados mediante APIs y planos de control. La consola web es solo una de las formas de hablar con ese plano de control.
+
+Una vez aclarado esto, llegaron otras dudas: ¿qué magnitud puede alcanzar un CPD y cómo añadimos o eliminamos recursos cuando cambia la demanda de una web? Aquí aparecen tres ideas que conviene separar desde el principio.
+
+## La idea rápida
+
+- **Escalar** cambia la capacidad disponible.
+- **Balancear** decide a qué destino apto se envía cada conexión o petición.
+- **Comprobar la salud** decide qué destinos están preparados para recibir tráfico o seguir contando como capacidad útil.
+
+Los tres mecanismos suelen colaborar, pero no son lo mismo. Un balanceador no decide por sí solo cuántas máquinas debe haber, y retirar una máquina del tráfico no implica necesariamente destruirla.
+
+## Escalado vertical y horizontal
+
+El escalado consiste, dicho rápido, en usar máquinas más capaces o en usar más máquinas. Piensa en una empresa de logística: puedes sustituir un coche por una furgoneta y luego por un camión, o puedes montar una flota entera de coches y camiones.
+
+### Escalado vertical: scale up y scale down
+
+El **escalado vertical** cambia la capacidad de un único recurso. En nuestro ejemplo, pasamos de un coche a un camión. Podemos añadir CPU, memoria, almacenamiento o capacidad de red y, cuando sobra, reducirlos de nuevo.
+
+Tiene límites físicos, económicos y de catálogo. Además, hacer más grande o pequeño un recurso puede exigir reiniciarlo o sustituirlo. No todos los servicios permiten escalado vertical automático ni sin interrupciones. Y después del camión podríamos mover parte de la mercancía en barco, pero llega un momento en que no existe un barco infinitamente grande.
+
+### Escalado horizontal: scale out y scale in
+
+El **escalado horizontal** cambia el número de recursos que atienden la carga. En vez de comprar un camión gigantesco, añadimos coches, furgonetas o camiones a la flota; cuando baja el trabajo, retiramos algunos.
+
+Esto ofrece mucha elasticidad, pero tampoco escala hasta el infinito. Hay cuotas, capacidad regional, presupuesto, tiempo de arranque, estado de aplicación y límites en bases de datos o servicios dependientes. También necesitamos repartir el trabajo y gestionar sesiones, conexiones y apagados de forma segura.
+
+:::diagram id="scaling-directions"
+:::
+
+Vertical y horizontal describen la **dirección** del cambio. El cambio puede hacerse manualmente o mediante una política automática. Por eso aumentar a mano la memoria de una máquina es escalado vertical, pero no autoescalado.
+
+## Cómo decide el autoescalado
+
+El **autoescalado** ajusta capacidad de forma automática según una política declarada. En grupos de instancias intercambiables es común configurar una capacidad mínima, una máxima y una deseada, aunque no todos los proveedores ni todos los tipos de recurso exponen exactamente ese modelo.
+
+Las políticas suelen encajar en tres familias:
+
+- **Reactivas o de seguimiento de objetivo:** observan señales como CPU, latencia, longitud de cola o peticiones por destino y corrigen la capacidad.
+- **Programadas:** anticipan una franja conocida, como un pico diario, y añaden capacidad antes de que llegue.
+- **Predictivas:** estiman la demanda futura a partir del historial cuando la plataforma ofrece esa función.
+
+El bucle no debería reaccionar con histeria a cada punto de una gráfica. Una política necesita límites, periodos de evaluación y tiempos de calentamiento, enfriamiento o estabilización. Si la métrica está dentro del rango, la decisión correcta puede ser no cambiar nada. Si hay que retirar una instancia, conviene drenar sus conexiones antes de apagarla.
+
+:::diagram id="autoscaling-control-loop"
+:::
+
+La métrica también importa. Escalar una API por CPU puede funcionar, pero una cola quizá deba escalar por mensajes pendientes y un servicio con mucho trabajo de red puede saturarse sin mostrar una CPU elevada. Si el cuello de botella real es la base de datos, crear cien servidores de aplicación solo consigue que cien servidores golpeen la misma base de datos.
+
+## Balanceadores de carga
+
+Un **balanceador de carga** distribuye conexiones o peticiones entre destinos aptos. Resulta especialmente útil con escalado horizontal: evita que todo el tráfico apunte directamente a una sola máquina y permite añadir o retirar destinos sin cambiar la dirección que usa el cliente.
+
+Eso no garantiza que dos máquinas estén exactamente al 50 %. Una petición puede costar mucho más que otra, las conexiones pueden durar tiempos distintos y las cachés o capacidades de las instancias pueden variar. El balanceador aplica un algoritmo —por ejemplo, round robin o menor número de conexiones—; no reparte directamente porcentajes de CPU. Aun así, nos ayuda a evitar que una máquina se ahogue al 80 % mientras otra se rasca la barriga al 20 %.
+
+El balanceador suele proporcionar un punto de entrada estable, pero no siempre es el primer salto público. Delante puede haber DNS, una CDN, un WAF o un API gateway.
+
+Según el tipo, puede trabajar en diferentes capas:
+
+- **Capa 4, transporte:** encamina flujos TCP o UDP usando datos de conexión, sin necesitar comprender HTTP. TLS puede atravesarlo sin terminarse allí.
+- **Capa 7, aplicación:** comprende protocolos como HTTP, HTTPS o gRPC sobre HTTP/2 y puede decidir usando host, ruta, cabeceras u otros datos de la petición. A menudo termina TLS.
+
+Los hay también de capa 3, pero no me quiero liar ahora a explicar eso.
+
+## Chequeos de salud
+
+Un balanceador necesita saber qué destinos están preparados para recibir tráfico. Una comprobación superficial puede verificar que el puerto responde; una comprobación de **readiness** puede confirmar que la aplicación está lista. Hay que diseñarlas con cuidado: si cada health check consulta cinco dependencias durante una caída, puede amplificar el problema que intenta detectar.
+
+Aquí hay dos decisiones distintas:
+
+- El balanceador deja de enviar tráfico nuevo a un destino no saludable o no preparado.
+- El controlador de capacidad puede reemplazar una instancia cuando sus señales indican que no se recuperará.
+
+Pueden compartir señales, pero no tienen por qué usar la misma prueba ni actuar al mismo tiempo. Sacar temporalmente una instancia de rotación no siempre significa destruirla. Y antes de retirar capacidad conviene dejar que terminen las peticiones activas.
+
+En nuestra empresa de transporte, esto sería como pasar el camión por el taller. No vamos a cargar mercancía en un camión al que se le ha roto la nodriza, por lo que sea. El taller puede declararlo temporalmente no apto para una ruta, mientras otra decisión determina si hay que repararlo o sustituirlo.
+
+:::diagram id="load-balancing-health"
+:::
+
+Los checks son configurables dentro de las posibilidades y restricciones de cada plataforma. Conviene separar alcance, preparación para tráfico y salud del proceso en vez de confiar en una única prueba que diga poco o falle por todo.
+
+## Errores habituales
+
+- **La nube no es solo un servidor remoto con una interfaz bonita.** Incluye abstracciones, APIs, automatización y servicios administrados sobre infraestructura física.
+- **Escalar no siempre significa autoescalar.** Vertical y horizontal describen el cambio; el autoescalado describe quién lo decide.
+- **El escalado horizontal no es infinito.** Cuotas, dinero, arranque, estado y dependencias ponen límites reales.
+- **Repartir tráfico no garantiza repartir utilización.** El coste de las peticiones y la duración de las conexiones pueden ser desiguales.
+- **El balanceador no siempre es el primer salto.** Puede estar detrás de DNS, CDN, WAF o gateways.
+- **Salud para tráfico y salud para reemplazo no son la misma decisión.** Una instancia puede salir de rotación sin ser destruida.
+- **No todos los sistemas necesitan este patrón completo.** Capacidad estable, serverless y servicios administrados pueden ocultar o eliminar parte de estas responsabilidades.
+
+## Guía práctica para diseñarlo
+
+Antes de dibujar veinte cajas de máquinas, pregunta:
+
+- ¿Cómo varía la demanda y cuánto duran los picos?
+- ¿Cuánto tarda una instancia en arrancar y estar realmente preparada?
+- ¿Qué métrica representa mejor el trabajo pendiente o la experiencia del usuario?
+- ¿Dónde viven el estado y las sesiones?
+- ¿Cómo se drenan conexiones y se realiza un apagado ordenado?
+- ¿Qué cuotas, costes y límites regionales existen?
+- ¿La base de datos y los servicios dependientes soportan la capacidad añadida?
+- ¿Cómo se comportan los reintentos cuando una parte del sistema falla?
+- ¿Puede el equipo observar y operar el bucle de control?
+
+Empieza con límites conservadores y mide. La elasticidad rápida queda muy bonita en una diapositiva, pero una instancia que tarda diez minutos en calentarse no arregla un pico de dos minutos si la política reacciona cuando ya es tarde.
+
+## Ascender de nivel
+
+Una vez conoces estos conceptos, todo se simplifica un montón. Probablemente para algún trámite burocrático no se use demasiado la elasticidad —y así de bien van ciertas webs públicas—, pero cualquier equipo que espere demanda variable debería al menos evaluar estos patrones antes de dejar sus servicios en un portátil viejo en la oficina.
+
+Hay bastante más tela que cortar, pero esto no es un curso para sacarse una certificación cloud. Nos quedamos con la idea importante: escalado, balanceo y salud son responsabilidades diferentes que colaboran para adaptar capacidad y mantener el servicio disponible. Aparecerán a menudo en diseños de sistemas, pero no son casillas obligatorias en todos ellos.
+
+**Adrián, aka Novato.**
+
+Muchas gracias por leer. Si quieres ser parte de esta aventura, no dudes en suscribirte.

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "sha256": "370c50d8e7a186cef73934578045cdf62cebc2bc8fbca861e0df00d123257164",
+    "bytes": 6052
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html"
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"decision-in\" has explicit geometry that violates explicit route-route crossing.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "decision-in",
+        "from": "decision",
+        "to": "remove_capacity"
+      },
+      "evidence": {
+        "invariant": "explicit route-route crossing",
+        "conflictingPins": [
+          {
+            "edge": "decision-in",
+            "field": "route",
+            "path": "/edges/6/route",
+            "value": "drop"
+          },
+          {
+            "edge": "decision-in",
+            "field": "fromSide",
+            "path": "/edges/6/fromSide",
+            "value": "bottom"
+          },
+          {
+            "edge": "decision-in",
+            "field": "toSide",
+            "path": "/edges/6/toSide",
+            "value": "top"
+          }
+        ],
+        "point": [
+          503.4,
+          533
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 1,
+        "routeSegments": [
+          {
+            "edge": "decision-in",
+            "from": [
+              503.4,
+              393
+            ],
+            "to": [
+              503.4,
+              589
+            ]
+          },
+          {
+            "edge": "ready-stabilize",
+            "from": [
+              991.8000000000001,
+              533
+            ],
+            "to": [
+              20,
+              533
+            ]
+          }
+        ],
+        "sourceRouteSegments": [
+          {
+            "edge": "decision-in",
+            "from": [
+              503.4,
+              393
+            ],
+            "to": [
+              503.4,
+              589
+            ]
+          },
+          {
+            "edge": "ready-stabilize",
+            "from": [
+              991.8000000000001,
+              533
+            ],
+            "to": [
+              20,
+              533
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en-r6\\autoscaling-control-loop.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en-r6\\autoscaling-control-loop.en.finalize-summary.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 816,
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "constraint": "Preserve unaffected semantics and geometry; do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Traffic distribution and target health",
+    "locale": "en",
+    "output": "diagrams/autoscaling-load-balancers/load-balancing-health/generated/load-balancing-health.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "external": { "label": "Traffic source" },
+        "cloud": { "label": "Managed control" },
+        "backend": { "label": "Routing or compute" },
+        "security": { "label": "Health decision" }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "clients",
+      "type": "external",
+      "label": "Clients",
+      "sublabel": "connections or requests",
+      "pos": [40, 300],
+      "size": [150, 68]
+    },
+    {
+      "id": "load_balancer",
+      "type": "cloud",
+      "label": "Load balancer listener",
+      "sublabel": "L4 or L7",
+      "tag": "data plane",
+      "pos": [320, 300],
+      "size": [184, 72]
+    },
+    {
+      "id": "target_pool",
+      "type": "backend",
+      "label": "Eligible target pool",
+      "sublabel": "instances A · B · C",
+      "tag": "data plane",
+      "pos": [640, 300],
+      "size": [190, 76]
+    },
+    {
+      "id": "traffic_health",
+      "type": "security",
+      "label": "Traffic health checker",
+      "sublabel": "can it serve new traffic?",
+      "tag": "control plane",
+      "pos": [320, 90],
+      "size": [188, 76]
+    },
+    {
+      "id": "instance_health",
+      "type": "security",
+      "label": "Instance health monitor",
+      "sublabel": "should it be replaced?",
+      "tag": "control plane",
+      "pos": [640, 90],
+      "size": [190, 76]
+    },
+    {
+      "id": "capacity_controller",
+      "type": "cloud",
+      "label": "Capacity controller",
+      "sublabel": "desired count + self-healing",
+      "tag": "control plane",
+      "pos": [930, 90],
+      "size": [200, 76]
+    }
+  ],
+  "connections": [
+    {
+      "id": "client-traffic",
+      "from": "clients",
+      "to": "load_balancer",
+      "label": "connection / request",
+      "variant": "emphasis"
+    },
+    {
+      "id": "route-target",
+      "from": "load_balancer",
+      "to": "target_pool",
+      "label": "select an eligible target",
+      "variant": "emphasis"
+    },
+    {
+      "id": "probe-targets",
+      "from": "traffic_health",
+      "to": "target_pool",
+      "label": "readiness probe",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "eligible-set",
+      "from": "traffic_health",
+      "to": "load_balancer",
+      "label": "eligible target set",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "instance-status",
+      "from": "instance_health",
+      "to": "target_pool",
+      "label": "instance health",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "replacement-signal",
+      "from": "instance_health",
+      "to": "capacity_controller",
+      "label": "unhealthy instance",
+      "variant": "security"
+    },
+    {
+      "id": "replace-target",
+      "from": "capacity_controller",
+      "to": "target_pool",
+      "label": "create / terminate",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "right"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "L4 and L7",
+      "items": [
+        "L4 routes TCP or UDP connections from transport metadata; TLS may pass through or terminate depending on the product",
+        "L7 understands HTTP semantics and can route HTTP, HTTPS, or gRPC by host, path, header, or other request data"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Algorithms distribute work, not CPU",
+      "items": [
+        "Round robin, weights, least connections, or hashing select a target according to product capabilities",
+        "Long-lived connections, affinity, and unequal request cost can still produce uneven utilization"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Two health decisions",
+      "items": [
+        "Traffic readiness controls new routing after success or failure thresholds",
+        "Instance health can trigger replacement; it does not mean demand increased, and draining protects in-flight work"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+---
+title: Autoscaling and load balancers
+slug: autoscaling-load-balancers
+translationOf: autoscaling-load-balancers
+locale: en
+summary: Learn how to add or remove capacity, distribute traffic, and remove unhealthy instances without conflating scaling, load balancing, and health checks.
+status: published
+---
+
+## My dodgy Google course
+
+When I started learning cloud computing —through a slightly dodgy Google course— I never fully understood what it meant for resources to be “in the cloud.” As you can see, I was not the sharpest pencil in the case: I imagined something almost magical until I understood that data centres, networks, and physical machines still exist underneath it all.
+
+The complete explanation needs one important qualification. The cloud is not merely a physical server reached through a pretty web interface. It is a way to consume virtual machines, containers, functions, storage, networks, and managed services through APIs and control planes. The web console is only one client of that control plane.
+
+Once that was clear, other questions arrived. How large does a data centre need to be, and how can we add or remove resources as demand on a website changes? Three ideas help answer that, and we should keep them separate from the start.
+
+## The short version
+
+- **Scaling** changes the available capacity.
+- **Load balancing** chooses which eligible target receives a connection or request.
+- **Health evaluation** decides which targets are ready for traffic or should remain part of the useful capacity pool.
+
+The three mechanisms often cooperate, but they are not the same thing. A load balancer does not decide by itself how many machines should exist, and removing a machine from traffic does not necessarily mean destroying it.
+
+## Vertical and horizontal scaling
+
+Scaling, in short, means using more capable machines or using more machines. Think of a logistics company: you can replace a car with a van and then a lorry, or you can build an entire fleet of cars and lorries.
+
+### Vertical scaling: scale up and scale down
+
+**Vertical scaling** changes the capacity of one resource. In our example, we move from a car to a lorry. We can add CPU, memory, storage, or network capacity and reduce them again when they are no longer needed.
+
+This has physical, economic, and product-catalogue limits. Making a resource larger or smaller may also require a restart or replacement. Not every service supports automatic vertical scaling or a disruption-free change. After the lorry, we might move some cargo by ship, but eventually there is no infinitely large ship to buy.
+
+### Horizontal scaling: scale out and scale in
+
+**Horizontal scaling** changes how many resources serve the workload. Instead of buying one enormous lorry, we add cars, vans, or lorries to the fleet; when demand falls, we remove some of them.
+
+This offers a great deal of elasticity, but it does not scale to infinity either. Quotas, regional capacity, budget, startup time, application state, databases, and downstream services all impose limits. We also need a safe way to distribute work and manage sessions, connections, and shutdowns.
+
+:::diagram id="scaling-directions"
+:::
+
+Vertical and horizontal describe the **direction** of a capacity change. That change can be manual or driven by an automatic policy. Manually adding memory to a machine is therefore vertical scaling, but it is not autoscaling.
+
+## How autoscaling decides
+
+**Autoscaling** adjusts capacity automatically according to a declared policy. For groups of interchangeable instances, it is common to configure minimum, maximum, and desired capacity, although not every provider or resource type exposes exactly that model.
+
+Policies usually fit into three broad families:
+
+- **Reactive or target-tracking policies** observe signals such as CPU, latency, queue depth, or requests per target and adjust capacity.
+- **Scheduled policies** anticipate a known window, such as a daily peak, and add capacity before it begins.
+- **Predictive policies** estimate future demand from historical patterns when the platform offers that capability.
+
+The loop should not panic at every point on a graph. A policy needs bounds, evaluation windows, and warm-up, cooldown, or stabilization periods. When the signal is inside its intended range, doing nothing can be the correct decision. When an instance must be removed, its connections should normally drain before shutdown.
+
+:::diagram id="autoscaling-control-loop"
+:::
+
+The chosen signal matters too. Scaling an API on CPU may work, but a queue might need to scale on pending messages, and a network-heavy service can saturate without high CPU. If the real bottleneck is the database, creating one hundred application servers simply gives one hundred servers the opportunity to hit the same database.
+
+## Load balancers
+
+A **load balancer** distributes connections or requests across eligible targets. It is especially useful with horizontal scaling: clients can use one stable endpoint while targets are added or removed behind it.
+
+That does not guarantee two machines will each run at exactly 50 percent. One request may cost much more than another, connections can have different lifetimes, and caches or instance capacities may differ. The balancer applies an algorithm —round robin or least connections, for example— rather than distributing CPU percentages directly. It still helps avoid one machine drowning at 80 percent while another scratches its belly at 20 percent.
+
+The load balancer commonly provides a stable entry tier, but it is not always the first public hop. DNS, a CDN, WAF, or API gateway may sit in front of it.
+
+Different load balancers can operate at different layers:
+
+- **Layer 4, transport:** routes TCP or UDP flows using connection information without needing to understand HTTP. TLS can pass through without being terminated there.
+- **Layer 7, application:** understands protocols such as HTTP, HTTPS, or gRPC over HTTP/2 and can make decisions using the host, path, headers, or other request data. It commonly terminates TLS.
+
+Layer 3 options exist too, but I do not want to disappear down that particular rabbit hole right now.
+
+## Health checks
+
+A load balancer needs to know which targets are ready to receive traffic. A shallow check might verify that a port responds; a **readiness** check can confirm that the application is prepared. Checks need care: if every probe calls five dependencies during an outage, it may amplify the incident it is supposed to detect.
+
+There are two separate decisions here:
+
+- The load balancer stops sending new traffic to an unhealthy or unready target.
+- The capacity controller may replace an instance when its signals suggest it will not recover.
+
+They can share signals, but they do not have to use the same probe or act at the same time. Temporarily removing an instance from rotation does not always mean destroying it. Active requests should also be allowed to drain before capacity is terminated.
+
+In our transport company, this is like sending the lorry to the workshop. We will not load cargo into a lorry whose tractor unit has broken, for whatever reason. The workshop can declare it temporarily unfit for a route, while a separate decision determines whether to repair or replace it.
+
+:::diagram id="load-balancing-health"
+:::
+
+Checks are configurable within each platform's capabilities and constraints. It is better to distinguish reachability, traffic readiness, and process health than to rely on one probe that says too little or fails because of everything.
+
+## Common mistakes
+
+- **The cloud is not just a remote server with a pretty interface.** It includes abstractions, APIs, automation, and managed services built on physical infrastructure.
+- **Scaling does not always mean autoscaling.** Vertical and horizontal describe the change; autoscaling describes who decides to make it.
+- **Horizontal scaling is not infinite.** Quotas, money, startup time, state, and dependencies impose real limits.
+- **Balanced traffic does not guarantee balanced utilization.** Request cost and connection duration can be uneven.
+- **The load balancer is not always the first hop.** DNS, CDNs, WAFs, or gateways may precede it.
+- **Traffic health and replacement health are different decisions.** An instance may leave rotation without being destroyed.
+- **Not every system needs this whole pattern.** Stable provisioned capacity, serverless products, and managed services may hide or remove some of these responsibilities.
+
+## A practical design guide
+
+Before drawing twenty boxes full of machines, ask:
+
+- How does demand vary, and how long do bursts last?
+- How long does an instance take to start and become genuinely ready?
+- Which metric best represents pending work or user experience?
+- Where do state and sessions live?
+- How will connections drain and shutdown complete gracefully?
+- Which quotas, costs, and regional limits apply?
+- Can the database and downstream services handle the added capacity?
+- How do retries behave when part of the system fails?
+- Can the team observe and operate the control loop?
+
+Start with conservative bounds and measure. Rapid elasticity looks lovely on a slide, but an instance that needs ten minutes to warm up cannot fix a two-minute burst if the policy reacts after the traffic has already arrived.
+
+## Level up
+
+Once you know these concepts, a lot of system design becomes simpler. A bureaucratic public-service form may not make especially good use of elasticity —which might explain a few government websites— but any team expecting variable demand should at least evaluate these patterns before leaving its services on an old laptop in the office.
+
+There is plenty more to cover, but this is not a cloud-certification course. Keep the important idea: scaling, balancing, and health are separate responsibilities that cooperate to adapt capacity and keep a service available. They will appear often in system designs, but they are not mandatory boxes in every one.
+
+**Adrián, aka Novato.**
+
+Thanks for reading. If you want to be part of this journey, consider subscribing.

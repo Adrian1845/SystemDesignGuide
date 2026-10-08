@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "startedAt": "2026-10-08T18:06:44.762Z",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "sha256": "8a2e9c191259348d75e8355a5e396fac80301c885bd46eb51e0e8e3be3d22106",
+    "bytes": 6131
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html"
+  },
+  "stages": {
+    "validate": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": null,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "deliver",
+        "workflow",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "deliver",
+        "receiptId": "9be779b7-0484-4b3b-80fb-44a14e94c0b7",
+        "stage": "render",
+        "type": "workflow",
+        "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+        "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+        "error": "Workflow edge \"repeat-loop\" cannot satisfy route preset \"bottom-channel\" under readable-v2 constraints (minimum 8px endpoint stubs, 16px interior turns, and 28px direct clearance).",
+        "diagnostics": [
+          {
+            "code": "workflow/route-preset-conflict",
+            "severity": "error",
+            "message": "Workflow edge \"repeat-loop\" cannot satisfy route preset \"bottom-channel\" under readable-v2 constraints (minimum 8px endpoint stubs, 16px interior turns, and 28px direct clearance).",
+            "subject": {
+              "diagramType": "workflow",
+              "edge": "repeat-loop",
+              "from": "stabilization",
+              "to": "metrics",
+              "route": "bottom-channel"
+            },
+            "evidence": {
+              "attemptedCandidateFamily": "bottom-channel",
+              "points": [
+                [
+                  1137.6,
+                  765
+                ],
+                [
+                  1137.6,
+                  797
+                ],
+                [
+                  132,
+                  797
+                ],
+                [
+                  132,
+                  145
+                ]
+              ],
+              "fromSide": "bottom",
+              "toSide": "bottom",
+              "requiredEndpointStubPx": 8,
+              "requiredInteriorSegmentPx": 16,
+              "requiredDirectClearancePx": 28
+            },
+            "supportedFixes": [
+              "remove route from edge \"repeat-loop\" so readable-v2 can use its verified automatic candidate"
+            ]
+          }
+        ],
+        "provenance": "absent",
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      },
+      "execution": "embedded-in-deliver"
+    },
+    "deliver": {
+      "status": "not-run",
+      "execution": "blocked-by-validate"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "workflow/route-preset-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"repeat-loop\" cannot satisfy route preset \"bottom-channel\" under readable-v2 constraints (minimum 8px endpoint stubs, 16px interior turns, and 28px direct clearance).",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "repeat-loop",
+        "from": "stabilization",
+        "to": "metrics",
+        "route": "bottom-channel"
+      },
+      "evidence": {
+        "attemptedCandidateFamily": "bottom-channel",
+        "points": [
+          [
+            1137.6,
+            765
+          ],
+          [
+            1137.6,
+            797
+          ],
+          [
+            132,
+            797
+          ],
+          [
+            132,
+            145
+          ]
+        ],
+        "fromSide": "bottom",
+        "toSide": "bottom",
+        "requiredEndpointStubPx": 8,
+        "requiredInteriorSegmentPx": 16,
+        "requiredDirectClearancePx": 28
+      },
+      "supportedFixes": [
+        "remove route from edge \"repeat-loop\" so readable-v2 can use its verified automatic candidate"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en-r2\\autoscaling-control-loop.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en-r2\\autoscaling-control-loop.en.finalize-summary.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "validate",
+  "finishedAt": "2026-10-08T18:06:45.465Z",
+  "durationMs": 702,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  }
+}

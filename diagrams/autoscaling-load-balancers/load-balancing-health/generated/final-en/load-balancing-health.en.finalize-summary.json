@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\spec.en.json",
+    "sha256": "2f534629e452efd6f304609690bf3932f59b03e60587dab93796c8cc9436205f",
+    "bytes": 4326
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\load-balancing-health.en.html",
+    "sha256": "7236f59206fc241a09087ca18393d8e6d8755c17fddd150f20fc79903522dae0",
+    "bytes": 757787
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\final-en\\load-balancing-health.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\final-en\\load-balancing-health.en.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\final-en\\load-balancing-health.en.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2345,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 3
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "probe-targets",
+            "from": "traffic_health",
+            "to": "target_pool",
+            "label": "readiness probe",
+            "collectionIndex": 2,
+            "artifactIndex": 3
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "eligible-set",
+            "from": "traffic_health",
+            "to": "load_balancer",
+            "label": "eligible target set",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "bends": 4,
+          "stretch": 1.235
+        },
+        {
+          "relationship": {
+            "id": "replace-target",
+            "from": "capacity_controller",
+            "to": "target_pool",
+            "label": "create / terminate",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "traffic_health → target_pool needs 3 bends: move node traffic_health or target_pool so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "traffic_health → load_balancer needs 4 bends: move node traffic_health or load_balancer so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "capacity_controller → target_pool needs 3 bends: move node capacity_controller or target_pool so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}
