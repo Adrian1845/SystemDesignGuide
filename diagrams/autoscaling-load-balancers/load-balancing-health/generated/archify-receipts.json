@@ -1,0 +1,66 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "architecture",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "browser": "Google Chrome",
+    "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"],
+    "themes": ["light", "dark"]
+  },
+  "visualReview": {
+    "status": "pass-with-advisory",
+    "captureViewports": ["1440x900", "2048x1320"],
+    "themes": ["light", "dark"],
+    "observations": "Human inspection of both locales found a clear left-to-right data plane and distinct control plane, readable labels and cards, and no clipping, crossings, or horizontal overflow. The readiness and replacement control routes use deliberate multi-bend paths and remain visually unambiguous.",
+    "correctionRounds": {
+      "en": 0,
+      "es": 1
+    }
+  },
+  "authoritativeEvidence": {
+    "en": "final-en/load-balancing-health.en.finalize.json",
+    "es": "final-es-r2/load-balancing-health.es.finalize.json"
+  },
+  "failedEvidence": {
+    "authoritative": false,
+    "es": ["final-es/load-balancing-health.es.finalize.json"]
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "2f534629e452efd6f304609690bf3932f59b03e60587dab93796c8cc9436205f",
+      "sourceBytes": 4326,
+      "artifact": "load-balancing-health.en.html",
+      "artifactSha256": "7236f59206fc241a09087ca18393d8e6d8755c17fddd150f20fc79903522dae0",
+      "artifactBytes": 757787,
+      "finalizeReceipt": "final-en/load-balancing-health.en.finalize.json",
+      "browserReceipt": "final-en/load-balancing-health.en.browser-check.json",
+      "visualReceipt": "visual-en/load-balancing-health.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "45efbfd601a77f3f3cf853793c7d7a64bdc2585a24cd05e10fbaa53fb8ca7c85",
+      "sourceBytes": 33773,
+      "translationCatalog": "Archify v3.0.1 archify/examples/locales/es.json",
+      "translationCatalogSha256": "1389068b7dddb5e72ed425d12084ca9104942bef933440a16113d60619f1daf3",
+      "translationKeys": 438,
+      "artifact": "load-balancing-health.es.html",
+      "artifactSha256": "323d40c08fcdb4f69c3cb10429667216918c51140b3b0d89627be9d4e51c85bf",
+      "artifactBytes": 760574,
+      "finalizeReceipt": "final-es-r2/load-balancing-health.es.finalize.json",
+      "browserReceipt": "final-es-r2/load-balancing-health.es.browser-check.json",
+      "visualReceipt": "visual-es/load-balancing-health.es.visual-check.json"
+    }
+  }
+}

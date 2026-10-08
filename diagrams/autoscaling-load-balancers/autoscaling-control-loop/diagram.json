@@ -1,0 +1,65 @@
+{
+  "id": "autoscaling-control-loop",
+  "kind": "workflow",
+  "artifact": "generated/autoscaling-control-loop.en.html",
+  "artifacts": {
+    "en": "generated/autoscaling-control-loop.en.html",
+    "es": "generated/autoscaling-control-loop.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "The autoscaling control loop",
+      "altText": "Demand signals or a schedule feed a bounded scaling policy, which may add, keep, or safely remove capacity before warmup or cooldown and the next observation window.",
+      "fallback": "An autoscaler evaluates demand signals such as request rate, queue depth, or utilization, and may also apply a scheduled capacity change. The policy stays within minimum and maximum bounds. Scale-out provisions instances and waits for traffic readiness; scale-in deregisters and drains targets before termination. Warmup, cooldown, and hysteresis prevent oscillation. Replacing an unhealthy instance is a separate self-healing decision, even when the same group controller performs it.",
+      "nodes": [
+        { "id": "metrics", "label": "Demand signals" },
+        { "id": "scheduled_change", "label": "Known traffic window" },
+        { "id": "evaluate", "label": "Evaluate policy" },
+        { "id": "decision", "label": "Apply capacity bounds" },
+        { "id": "add_capacity", "label": "Increase desired count" },
+        { "id": "warm_ready", "label": "Warm and become ready" },
+        { "id": "remove_capacity", "label": "Decrease desired count" },
+        { "id": "drain_remove", "label": "Deregister and drain" },
+        { "id": "stabilization", "label": "Observe again" }
+      ]
+    },
+    "es": {
+      "title": "El bucle de control del autoescalado",
+      "altText": "Las señales de demanda o una programación alimentan una política de escalado con límites, que puede añadir, mantener o retirar capacidad con seguridad antes del arranque o cooldown y una nueva observación.",
+      "fallback": "Un autoescalador evalúa señales de demanda como la tasa de peticiones, la profundidad de la cola o la utilización, y también puede aplicar un cambio de capacidad programado. La política respeta límites mínimos y máximos. Scale out aprovisiona instancias y espera a que puedan recibir tráfico; scale in desregistra y drena destinos antes de terminarlos. El arranque, el cooldown y la histéresis evitan oscilaciones. Reemplazar una instancia no saludable es una decisión separada de autorreparación, aunque la ejecute el mismo controlador de grupo.",
+      "nodes": [
+        { "id": "metrics", "label": "Señales de demanda" },
+        { "id": "scheduled_change", "label": "Tráfico conocido" },
+        { "id": "evaluate", "label": "Evaluar política" },
+        { "id": "decision", "label": "Aplicar límites" },
+        { "id": "add_capacity", "label": "Aumentar capacidad deseada" },
+        { "id": "warm_ready", "label": "Arrancar y estar disponible" },
+        { "id": "remove_capacity", "label": "Reducir capacidad deseada" },
+        { "id": "drain_remove", "label": "Desregistrar y drenar" },
+        { "id": "stabilization", "label": "Observar de nuevo" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "metrics", "to": "evaluate" },
+    { "from": "scheduled_change", "to": "evaluate" },
+    { "from": "evaluate", "to": "decision" },
+    { "from": "decision", "to": "add_capacity" },
+    { "from": "add_capacity", "to": "warm_ready" },
+    { "from": "decision", "to": "remove_capacity" },
+    { "from": "remove_capacity", "to": "drain_remove" },
+    { "from": "warm_ready", "to": "stabilization" },
+    { "from": "drain_remove", "to": "stabilization" },
+    { "from": "stabilization", "to": "metrics" }
+  ]
+}

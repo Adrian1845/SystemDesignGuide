@@ -1,0 +1,55 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "workflow",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "browser": "Google Chrome",
+    "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"],
+    "themes": ["light", "dark"]
+  },
+  "visualReview": {
+    "status": "pass",
+    "captureViewports": ["1440x900", "2048x1320"],
+    "themes": ["light", "dark"],
+    "observations": "Human inspection of both locales found two clearly comparable lanes, readable labels and cards, no clipped text, unintended crossings, or horizontal overflow.",
+    "correctionRounds": 0
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "c55a9f14a929887b107032d726f013328607261ea387ea69c19ce4f45e73a61d",
+      "sourceBytes": 3800,
+      "artifact": "scaling-directions.en.html",
+      "artifactSha256": "854c5e43d15aeba69764d33681a5f912a3ac3a802464de78dca56928baf51e0b",
+      "artifactBytes": 752244,
+      "finalizeReceipt": "final-en/scaling-directions.en.finalize.json",
+      "browserReceipt": "final-en/scaling-directions.en.browser-check.json",
+      "visualReceipt": "visual-en/scaling-directions.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "fc1694345974e37965df88410e7c134b7f2cfaa31e6f41946d7b706b0e3b7e5c",
+      "sourceBytes": 33101,
+      "translationCatalog": "Archify v3.0.1 archify/examples/locales/es.json",
+      "translationCatalogSha256": "1389068b7dddb5e72ed425d12084ca9104942bef933440a16113d60619f1daf3",
+      "translationKeys": 438,
+      "artifact": "scaling-directions.es.html",
+      "artifactSha256": "5936fcfebbe063623f6ff0fe9db13f09d761ff2fe9c1708dc75eb9a9e55f5a92",
+      "artifactBytes": 755149,
+      "finalizeReceipt": "final-es/scaling-directions.es.finalize.json",
+      "browserReceipt": "final-es/scaling-directions.es.browser-check.json",
+      "visualReceipt": "visual-es/scaling-directions.es.visual-check.json"
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "startedAt": "2026-10-08T18:06:32.101Z",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+    "sha256": "d0894d7d7c688170e992b6832f0baae6874f1c6a4185748cd00c78e4c4d20eac",
+    "bytes": 6124
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html"
+  },
+  "stages": {
+    "validate": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": null,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Adrian\\AppData\\Local\\Temp\\system-design-guide-archify-10722002\\archify\\bin\\archify.mjs",
+        "deliver",
+        "workflow",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+        "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "deliver",
+        "receiptId": "3a2e63b7-ff01-486e-a9c9-c50e68023dd5",
+        "stage": "render",
+        "type": "workflow",
+        "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\spec.en.json",
+        "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\autoscaling-control-loop.en.html",
+        "error": "Workflow layout validation failed:\n- [composition/ambiguous-corridor] showcase workflow edges[6] id \"metrics-policy\" \"metrics\" -> \"evaluate\" shares a 16px corridor with edges[10] id \"repeat-loop\" \"stabilization\" -> \"metrics\" at [34, 119] -> [50, 119] (segments 0 and 2; minimum 8px) — if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+        "diagnostics": [
+          {
+            "code": "composition/ambiguous-corridor",
+            "severity": "error",
+            "message": "[composition/ambiguous-corridor] showcase workflow edges[6] id \"metrics-policy\" \"metrics\" -> \"evaluate\" shares a 16px corridor with edges[10] id \"repeat-loop\" \"stabilization\" -> \"metrics\" at [34, 119] -> [50, 119] (segments 0 and 2; minimum 8px) — if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+            "subject": {
+              "diagramType": "workflow",
+              "collection": "edges",
+              "index": 6,
+              "id": "metrics-policy",
+              "from": "metrics",
+              "to": "evaluate"
+            },
+            "evidence": {
+              "otherRelationship": {
+                "diagramType": "workflow",
+                "collection": "edges",
+                "index": 10,
+                "id": "repeat-loop",
+                "from": "stabilization",
+                "to": "metrics"
+              },
+              "overlapLengthPx": 16,
+              "minimumPx": 8,
+              "from": [
+                34,
+                119
+              ],
+              "to": [
+                50,
+                119
+              ],
+              "segmentIndex": 0,
+              "otherSegmentIndex": 2
+            },
+            "supportedFixes": [
+              "if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+            ]
+          }
+        ],
+        "provenance": "absent",
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      },
+      "execution": "embedded-in-deliver"
+    },
+    "deliver": {
+      "status": "not-run",
+      "execution": "blocked-by-validate"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[6] id \"metrics-policy\" \"metrics\" -> \"evaluate\" shares a 16px corridor with edges[10] id \"repeat-loop\" \"stabilization\" -> \"metrics\" at [34, 119] -> [50, 119] (segments 0 and 2; minimum 8px) — if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 6,
+        "id": "metrics-policy",
+        "from": "metrics",
+        "to": "evaluate"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 10,
+          "id": "repeat-loop",
+          "from": "stabilization",
+          "to": "metrics"
+        },
+        "overlapLengthPx": 16,
+        "minimumPx": 8,
+        "from": [
+          34,
+          119
+        ],
+        "to": [
+          50,
+          119
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 2
+      },
+      "supportedFixes": [
+        "if the authored route/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en\\autoscaling-control-loop.en.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\autoscaling-control-loop\\generated\\final-en\\autoscaling-control-loop.en.finalize-summary.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "validate",
+  "finishedAt": "2026-10-08T18:06:32.632Z",
+  "durationMs": 531,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  }
+}

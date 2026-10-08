@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "6c2f56eb-83fd-423b-bc32-621db594d650",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\spec.es.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\autoscaling-load-balancers\\load-balancing-health\\generated\\load-balancing-health.es.html",
+  "specification": {
+    "sha256": "45efbfd601a77f3f3cf853793c7d7a64bdc2585a24cd05e10fbaa53fb8ca7c85",
+    "bytes": 33773
+  },
+  "artifact": {
+    "sha256": "323d40c08fcdb4f69c3cb10429667216918c51140b3b0d89627be9d4e51c85bf",
+    "bytes": 760574
+  }
+}

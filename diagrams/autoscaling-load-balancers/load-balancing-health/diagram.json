@@ -1,0 +1,56 @@
+{
+  "id": "load-balancing-health",
+  "kind": "architecture",
+  "artifact": "generated/load-balancing-health.en.html",
+  "artifacts": {
+    "en": "generated/load-balancing-health.en.html",
+    "es": "generated/load-balancing-health.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Traffic distribution and target health",
+      "altText": "Client traffic passes through an L4 or L7 load balancer to an eligible target pool, while separate control paths assess traffic readiness and instance health before routing or replacement decisions.",
+      "fallback": "Clients send connections or requests to an L4 or L7 listener, which selects an eligible target from a pool. A traffic health checker decides whether a target should receive new traffic. A separate instance-health decision can ask the capacity controller to replace an unhealthy instance; replacement is self-healing, not evidence of increased demand. Algorithms distribute connections or requests and do not guarantee equal CPU utilization.",
+      "nodes": [
+        { "id": "clients", "label": "Clients" },
+        { "id": "load_balancer", "label": "Load balancer listener" },
+        { "id": "target_pool", "label": "Eligible target pool" },
+        { "id": "traffic_health", "label": "Traffic health checker" },
+        { "id": "instance_health", "label": "Instance health monitor" },
+        { "id": "capacity_controller", "label": "Capacity controller" }
+      ]
+    },
+    "es": {
+      "title": "Reparto de tráfico y salud de los destinos",
+      "altText": "El tráfico de los clientes pasa por un balanceador L4 o L7 hacia un pool de destinos aptos, mientras rutas de control separadas evalúan la disponibilidad para tráfico y la salud de la instancia antes de enrutar o reemplazar.",
+      "fallback": "Los clientes envían conexiones o peticiones a un listener L4 o L7, que elige un destino apto del pool. Un chequeo de tráfico decide si un destino debe recibir peticiones nuevas. Una decisión separada sobre la salud de la instancia puede pedir al controlador de capacidad que reemplace una instancia no saludable; ese reemplazo es autorreparación, no evidencia de más demanda. Los algoritmos reparten conexiones o peticiones y no garantizan una utilización de CPU idéntica.",
+      "nodes": [
+        { "id": "clients", "label": "Clientes" },
+        { "id": "load_balancer", "label": "Listener del balanceador" },
+        { "id": "target_pool", "label": "Pool de destinos aptos" },
+        { "id": "traffic_health", "label": "Chequeo para tráfico" },
+        { "id": "instance_health", "label": "Monitor de la instancia" },
+        { "id": "capacity_controller", "label": "Controlador de capacidad" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "clients", "to": "load_balancer" },
+    { "from": "load_balancer", "to": "target_pool" },
+    { "from": "traffic_health", "to": "target_pool" },
+    { "from": "traffic_health", "to": "load_balancer" },
+    { "from": "instance_health", "to": "target_pool" },
+    { "from": "instance_health", "to": "capacity_controller" },
+    { "from": "capacity_controller", "to": "target_pool" }
+  ]
+}

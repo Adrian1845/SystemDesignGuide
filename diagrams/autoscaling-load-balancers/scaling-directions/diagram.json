@@ -1,0 +1,53 @@
+{
+  "id": "scaling-directions",
+  "kind": "workflow",
+  "artifact": "generated/scaling-directions.en.html",
+  "artifacts": {
+    "en": "generated/scaling-directions.en.html",
+    "es": "generated/scaling-directions.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Vertical and horizontal scaling",
+      "altText": "Vertical scaling changes the CPU or memory of one instance, while horizontal scaling changes the number of interchangeable instances behind a load balancer.",
+      "fallback": "Vertical scaling keeps one instance and changes its CPU or memory, so machine sizes, cost, and possible restart or migration set a ceiling. Horizontal scaling adds or removes interchangeable instances behind a load balancer, but state, quotas, downstream capacity, warmup, and budget still impose limits.",
+      "nodes": [
+        { "id": "vertical_start", "label": "One instance" },
+        { "id": "vertical_adjust", "label": "Resize one machine" },
+        { "id": "vertical_result", "label": "One resized instance" },
+        { "id": "horizontal_start", "label": "Small target pool" },
+        { "id": "horizontal_adjust", "label": "Adjust target count" },
+        { "id": "horizontal_result", "label": "Larger or smaller pool" }
+      ]
+    },
+    "es": {
+      "title": "Escalado vertical y horizontal",
+      "altText": "El escalado vertical cambia la CPU o la memoria de una instancia, mientras el horizontal cambia el número de instancias intercambiables detrás de un balanceador.",
+      "fallback": "El escalado vertical mantiene una instancia y cambia su CPU o memoria, así que los tamaños disponibles, el coste y un posible reinicio o migración ponen un techo. El escalado horizontal añade o retira instancias intercambiables detrás de un balanceador, pero el estado, las cuotas, los sistemas dependientes, el arranque y el presupuesto todavía imponen límites.",
+      "nodes": [
+        { "id": "vertical_start", "label": "Una instancia" },
+        { "id": "vertical_adjust", "label": "Redimensionar máquina" },
+        { "id": "vertical_result", "label": "Una instancia ajustada" },
+        { "id": "horizontal_start", "label": "Pool pequeño" },
+        { "id": "horizontal_adjust", "label": "Ajustar número de destinos" },
+        { "id": "horizontal_result", "label": "Pool mayor o menor" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "vertical_start", "to": "vertical_adjust" },
+    { "from": "vertical_adjust", "to": "vertical_result" },
+    { "from": "horizontal_start", "to": "horizontal_adjust" },
+    { "from": "horizontal_adjust", "to": "horizontal_result" }
+  ]
+}

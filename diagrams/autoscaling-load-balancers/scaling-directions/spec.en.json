@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Vertical and horizontal scaling",
+    "locale": "en",
+    "output": "diagrams/autoscaling-load-balancers/scaling-directions/generated/scaling-directions.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "cloud": { "label": "Deployed capacity" },
+        "backend": { "label": "Capacity change" }
+      }
+    }
+  },
+  "lanes": [
+    { "id": "vertical", "label": "Vertical · scale up / down" },
+    { "id": "horizontal", "label": "Horizontal · scale out / in" }
+  ],
+  "phases": [
+    { "id": "before", "label": "Starting point", "fromCol": 0, "toCol": 1 },
+    { "id": "change", "label": "Capacity change", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "after", "label": "Result", "fromCol": 4, "toCol": 5 }
+  ],
+  "mainPath": ["horizontal_start", "horizontal_adjust", "horizontal_result"],
+  "semanticChecks": {
+    "allowedRoots": ["vertical_start", "horizontal_start"],
+    "allowedTerminals": ["vertical_result", "horizontal_result"],
+    "requiredPaths": [
+      { "from": "vertical_start", "to": "vertical_result" },
+      { "from": "horizontal_start", "to": "horizontal_result" }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "vertical_start",
+      "lane": "vertical",
+      "col": 0,
+      "type": "cloud",
+      "label": "One instance",
+      "sublabel": "fixed CPU and RAM",
+      "width": 150
+    },
+    {
+      "id": "vertical_adjust",
+      "lane": "vertical",
+      "col": 2,
+      "type": "backend",
+      "label": "Resize one machine",
+      "sublabel": "change CPU or RAM",
+      "width": 158
+    },
+    {
+      "id": "vertical_result",
+      "lane": "vertical",
+      "col": 5,
+      "type": "cloud",
+      "label": "One resized instance",
+      "sublabel": "same failure boundary",
+      "width": 166
+    },
+    {
+      "id": "horizontal_start",
+      "lane": "horizontal",
+      "col": 0,
+      "type": "cloud",
+      "label": "Small target pool",
+      "sublabel": "interchangeable instances",
+      "width": 158
+    },
+    {
+      "id": "horizontal_adjust",
+      "lane": "horizontal",
+      "col": 2,
+      "type": "backend",
+      "label": "Adjust target count",
+      "sublabel": "add or remove instances",
+      "width": 164
+    },
+    {
+      "id": "horizontal_result",
+      "lane": "horizontal",
+      "col": 5,
+      "type": "cloud",
+      "label": "Larger or smaller pool",
+      "sublabel": "behind a load balancer",
+      "width": 174
+    }
+  ],
+  "edges": [
+    {
+      "id": "vertical-resize",
+      "from": "vertical_start",
+      "to": "vertical_adjust",
+      "label": "scale up / down",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "vertical-capacity",
+      "from": "vertical_adjust",
+      "to": "vertical_result",
+      "label": "new machine size",
+      "role": "main"
+    },
+    {
+      "id": "horizontal-resize",
+      "from": "horizontal_start",
+      "to": "horizontal_adjust",
+      "label": "scale out / in",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "horizontal-capacity",
+      "from": "horizontal_adjust",
+      "to": "horizontal_result",
+      "label": "new pool size",
+      "role": "main"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Vertical trade-off",
+      "items": [
+        "A larger machine keeps one runtime and one failure boundary",
+        "Available sizes, cost, and possible restart or migration set a hard ceiling"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Horizontal trade-off",
+      "items": [
+        "Traffic is spread across multiple interchangeable targets",
+        "State, quotas, downstream capacity, warmup, and budget still impose limits"
+      ]
+    }
+  ]
+}
