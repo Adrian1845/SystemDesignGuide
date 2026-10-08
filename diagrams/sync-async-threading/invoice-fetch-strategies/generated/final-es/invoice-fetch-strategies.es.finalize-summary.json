@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\spec.es.json",
+    "sha256": "f3ba57d90e10ae67449dfe90ea944658b9b66f77c82b683c1446273035db116a",
+    "bytes": 35351
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\generated\\invoice-fetch-strategies.es.html",
+    "sha256": "a30639f6d5b2e8bfc416e12ca5349c65a2899f0bc143659c44a5674da49af12c",
+    "bytes": 767543
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\generated\\final-es\\invoice-fetch-strategies.es.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\generated\\final-es\\invoice-fetch-strategies.es.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\generated\\final-es\\invoice-fetch-strategies.es.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2655
+}

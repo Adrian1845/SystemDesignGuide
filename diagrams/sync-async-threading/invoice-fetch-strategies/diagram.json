@@ -1,0 +1,62 @@
+{
+  "id": "invoice-fetch-strategies",
+  "kind": "workflow",
+  "artifact": "generated/invoice-fetch-strategies.en.html",
+  "artifacts": {
+    "en": "generated/invoice-fetch-strategies.en.html",
+    "es": "generated/invoice-fetch-strategies.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Sequential and concurrent invoice data fetching",
+      "altText": "The sequential strategy fetches user data and then order data, while the concurrent strategy starts both independent reads together and joins their results before building the invoice.",
+      "fallback": "A sequential invoice flow waits for the user lookup to finish before starting the order lookup, so both waits add together. A concurrent flow starts both independent lookups, waits at a join for both results, and then builds the invoice. Concurrency describes overlapping work and does not require a particular threading model.",
+      "nodes": [
+        { "id": "sequential_request", "label": "Sequential request" },
+        { "id": "sequential_user", "label": "Fetch user" },
+        { "id": "sequential_order", "label": "Fetch order" },
+        { "id": "sequential_ready", "label": "Invoice ready" },
+        { "id": "concurrent_request", "label": "Concurrent request" },
+        { "id": "fan_out", "label": "Start both reads" },
+        { "id": "join", "label": "Join results" },
+        { "id": "concurrent_ready", "label": "Invoice ready" }
+      ]
+    },
+    "es": {
+      "title": "Consulta secuencial y concurrente para emitir una factura",
+      "altText": "La estrategia secuencial consulta primero los datos del usuario y después los del pedido, mientras la estrategia concurrente inicia ambas consultas independientes y une los resultados antes de crear la factura.",
+      "fallback": "Un flujo secuencial espera a que termine la consulta del usuario antes de iniciar la del pedido, por lo que ambas esperas se suman. Un flujo concurrente inicia las dos consultas independientes, espera sus resultados en un punto de unión y después crea la factura. La concurrencia describe trabajo solapado y no exige un modelo de hilos concreto.",
+      "nodes": [
+        { "id": "sequential_request", "label": "Solicitud secuencial" },
+        { "id": "sequential_user", "label": "Consultar usuario" },
+        { "id": "sequential_order", "label": "Consultar pedido" },
+        { "id": "sequential_ready", "label": "Factura lista" },
+        { "id": "concurrent_request", "label": "Solicitud concurrente" },
+        { "id": "fan_out", "label": "Iniciar ambas consultas" },
+        { "id": "join", "label": "Unir resultados" },
+        { "id": "concurrent_ready", "label": "Factura lista" }
+      ]
+    }
+  },
+  "edges": [
+    { "from": "sequential_request", "to": "sequential_user" },
+    { "from": "sequential_user", "to": "sequential_order" },
+    { "from": "sequential_order", "to": "sequential_ready" },
+    { "from": "concurrent_request", "to": "fan_out" },
+    { "from": "fan_out", "to": "concurrent_user" },
+    { "from": "fan_out", "to": "concurrent_order" },
+    { "from": "concurrent_user", "to": "join" },
+    { "from": "concurrent_order", "to": "join" },
+    { "from": "join", "to": "concurrent_ready" }
+  ]
+}

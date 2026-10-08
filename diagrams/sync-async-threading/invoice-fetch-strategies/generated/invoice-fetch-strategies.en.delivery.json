@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "db8205c9-8f08-4e24-a31f-945a981a1a48",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\spec.en.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\invoice-fetch-strategies\\generated\\invoice-fetch-strategies.en.html",
+  "specification": {
+    "sha256": "a29e600e3ec458dbe089f555e3b6cba981c2f60496059ec24fc3cd5f3b3a0e75",
+    "bytes": 5022
+  },
+  "artifact": {
+    "sha256": "f55c96743fd6222ab1d5f37c7c04d1a5b1756ba161dae80572e4fc66e6865e89",
+    "bytes": 763523
+  }
+}

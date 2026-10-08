@@ -1,0 +1,118 @@
+---
+title: Síncrono vs. asíncrono: monohilo vs. multihilo
+slug: sync-async-threading
+translationOf: sync-async-threading
+locale: es
+summary: La coordinación síncrona o asíncrona no es lo mismo que la ejecución monohilo o multihilo. Aprende ambos ejes con ejemplos de registro y facturación.
+status: published
+---
+
+## Mi profesor de historia hablaba de hilos
+
+Cuando iba a 4.º de la ESO, tenía un profesor de historia que decía lo siguiente: «Los hombres solo podemos hacer una cosa; las mujeres pueden hacer varias a la vez». A mí me daba la risa porque yo no sé él, pero yo por lo menos a varias cosas estoy pendiente en el trabajo. Este tío lo que pasa es que estaba muy comido de la cabeza y decía todo el rato que las mujeres eran el sexo superior o movidas así. El caso es que mi profesor, un visionario, estaba hablando de hilos pero a un nivel algo más sofisticado; solo tardé en descubrirlo unos 5 años, pero el tío iba bien encaminado.
+
+Para este funcionario, nosotros los hombres éramos máquinas con un hilo síncrono: una tarea cada vez, con su input y su output, algo al estilo FIFO, o first in, first out. En cambio, las mujeres eran multihilo, asíncronas y usaban Round Robin. Y como los programas los creamos nosotros y se basan un poco en cómo haríamos las propias tareas, vamos a repasar estos conceptos hoy.
+
+La anécdota se queda porque me sigue haciendo gracia. Como modelo técnico, eso sí, la analogía está gloriosamente equivocada. Las personas no son estrategias de ejecución y aquí se mezclan tres preguntas diferentes: si quien llama espera, cuántos hilos ejecutan trabajo y cómo el planificador escoge la siguiente tarea. FIFO y Round Robin son políticas de planificación, no definiciones de código síncrono, asíncrono, monohilo o multihilo.
+
+## La idea rápida
+
+Hay dos ejes independientes:
+
+- **Síncrono o asíncrono** describe la coordinación: ¿quien inicia la operación espera el resultado que necesita o puede continuar mientras otro resultado llega más tarde?
+- **Monohilo o multihilo** describe los recursos de ejecución: ¿un único hilo puede ejecutar instrucciones o pueden hacerlo varios?
+
+Podemos combinarlos de distintas formas. Un solo hilo puede coordinar muchas operaciones de entrada y salida asíncronas mediante un bucle de eventos. Un programa multihilo puede hacer una llamada síncrona y bloquear el hilo que la realiza. Ninguno de los ejes determina el otro.
+
+## Síncrono vs. asíncrono
+
+Una operación síncrona mantiene a quien la llama esperando hasta que está disponible el resultado necesario. Piensa en cargar los datos que necesitas para mostrar una página: hasta que lleguen, la página no puede completar ese paso. Es el modelo cotidiano de «le doy al botón de la tele y se enciende».
+
+La coordinación síncrona encaja bien cuando:
+
+- El siguiente paso necesita el resultado de inmediato.
+- Cada paso depende del anterior.
+- Quien llama necesita un éxito o un error definitivo antes de continuar.
+- La simplicidad y un flujo fácil de seguir importan más que solapar trabajo.
+
+Su principal coste es la espera. Una dependencia lenta alarga todo el camino crítico y probar algo que está al final de un flujo largo puede obligarte a esperar como un condenado a que terminen todos los pasos anteriores.
+
+Una operación asíncrona permite que quien la inicia continúe sin esperar a que termine todo el trabajo diferido. El resultado puede llegar mediante un evento, callback, promesa, tarea u otro mecanismo de coordinación. Una cola o un broker de mensajería es una forma de construir un flujo asíncrono, pero no es lo que convierte el flujo en asíncrono.
+
+La coordinación asíncrona resulta útil cuando:
+
+- El trabajo no debe formar parte del camino crítico que percibe el usuario.
+- Una operación puede terminar más tarde sin invalidar el resultado inmediato.
+- Podemos solapar operaciones de entrada y salida independientes.
+- Un productor y un consumidor necesitan absorber tráfico a ritmos diferentes.
+
+Esta libertad tiene un precio. Hay que razonar sobre fallos posteriores a la petición original, contrapresión, reintentos, entregas duplicadas, idempotencia, orden, observabilidad y consistencia eventual. En desarrollo, reproducir un entorno parecido a producción con varios servicios y colas también puede costar horrores.
+
+### Registro: espera a la base de datos, no al correo
+
+Pensemos en el botón de registrarte en una web. La petición de registro debe esperar a que el usuario se guarde correctamente en la base de datos. Solo entonces puede devolver éxito: afirmar que una cuenta existe antes de persistirla de forma duradera sería mentirle al usuario.
+
+El correo de bienvenida es diferente. Una vez aceptado el registro, su envío siempre queda diferido. El sistema puede guardar un evento de forma segura, por ejemplo mediante un outbox transaccional, y dejar que una cola o broker y un worker de correo se encarguen después. El usuario no espera a que el proveedor entregue el mensaje y puede utilizar la cuenta creada aunque el correo necesite un reintento.
+
+:::diagram id="registration-response-paths"
+:::
+
+Esa separación es la decisión importante: persistir en la base de datos forma parte del camino de respuesta obligatorio; enviar el correo de bienvenida nunca. La cola, el broker y el worker son decisiones de implementación para el camino diferido, no la definición del trabajo asíncrono.
+
+Piensa en esto así: mientras me descargo un juego, puedo estar con el móvil viendo qué ha subido Noobie. Sigo necesitando que la descarga termine para jugar, pero no necesito quedarme mirando la barra de progreso mientras ocurre.
+
+## Monohilo vs. multihilo
+
+Aquí cambiamos la pregunta. Ya no tratamos de ver si quien inicia una acción espera o no, sino qué recursos de ejecución procesan el trabajo.
+
+Imagina que vas al gimnasio y, para tu desgracia, te ha tocado el abuelete que hace 15 series en la única máquina de pecho. Te toca esperar como un pelele a que el tío termine: una sola máquina es un cuello de botella en hora punta. En cambio, si hay 20 máquinas, varias personas pueden entrenar a la vez. Esta analogía habla de capacidad de ejecución disponible, no de coordinación síncrona o asíncrona.
+
+Un programa **monohilo** ejecuta las instrucciones de la aplicación en un solo hilo cada vez. Eso no lo obliga a completar todos los trabajos de principio a fin antes de mirar otro. Un bucle de eventos puede intercalar muchas tareas limitadas por entrada y salida en un único hilo mientras las bases de datos y los servicios de red hacen su parte.
+
+Un programa **multihilo** dispone de varios hilos que pueden avanzar concurrentemente y, cuando los núcleos y el entorno de ejecución lo permiten, trabajar en paralelo. Esto puede ayudar con tareas limitadas por CPU y algunas cargas bloqueantes. También introduce peligros al compartir estado, como condiciones de carrera e interbloqueos, hace más difícil depurar y puede agotar la memoria o la capacidad del planificador si el número de hilos crece sin control.
+
+Un hilo no es lento por definición y añadir hilos no da velocidad gratis. El modelo adecuado depende de la carga, el entorno de ejecución, los límites de recursos y la cantidad de estado compartido.
+
+### Factura: peticiones secuenciales o entrada y salida concurrente
+
+Imagina que necesito emitir una factura usando información del usuario y del pedido que se encuentra detrás de dos servicios independientes. Podría consultar primero el usuario, esperar su respuesta y consultar después el pedido. Es sencillo, pero las dos esperas de red se suman.
+
+Si ninguna petición depende de la otra, puedo lanzar ambas, solapar sus operaciones de entrada y salida y unir los resultados cuando lleguen los dos. La factura sigue sin poder crearse hasta tener ambos resultados obligatorios, pero su latencia se acerca más a la de la petición más lenta que a la suma de las dos.
+
+:::diagram id="invoice-fetch-strategies"
+:::
+
+Esto es **entrada y salida concurrente**, no una prueba de que exista multihilo. Puede ejecutarse en un solo hilo con un bucle de eventos, utilizar un pool de hilos o apoyarse en otro modelo de ejecución. Concurrencia significa que varias tareas están en progreso durante periodos solapados; paralelismo significa que el trabajo se ejecuta literalmente al mismo tiempo.
+
+## Errores habituales
+
+- **Asíncrono no significa broker.** Un broker puede desacoplar productores y consumidores, pero también podemos coordinar trabajo diferido con callbacks, promesas, bucles de eventos o almacenes duraderos de tareas.
+- **Monohilo no significa FIFO.** FIFO decide el orden; un hilo describe la capacidad de ejecución. Un planificador monohilo también puede usar prioridades o Round Robin.
+- **Multihilo no significa Round Robin.** Round Robin es una política de planificación y puede aplicarse en distintos modelos de ejecución.
+- **Concurrencia no garantiza paralelismo.** Varias tareas pueden solaparse en el tiempo mientras un único hilo alterna entre ellas.
+- **Asíncrono no significa que nadie espere nunca.** En el ejemplo de la factura, el servicio espera en la unión porque necesita ambos resultados. En el registro, quien llama espera la persistencia en la base de datos, pero no el envío del correo.
+
+## Guía práctica para decidir
+
+Antes de elegir un modelo, pregunta:
+
+- **Dependencias:** ¿debe existir un resultado antes de iniciar la siguiente operación?
+- **Latencia para el usuario:** ¿qué trabajo es imprescindible antes de responder?
+- **Carga:** ¿el cuello de botella es trabajo de CPU o tiempo esperando entrada y salida?
+- **Capacidad:** ¿qué límites existen en hilos, conexiones, memoria, servicios dependientes y colas?
+- **Contrapresión:** ¿qué ocurre si los productores crean trabajo más rápido de lo que los consumidores lo terminan?
+- **Fallos:** ¿dónde ocurrirán los reintentos y el procesamiento repetido será idempotente?
+- **Estado:** ¿varios caminos de ejecución modificarán datos compartidos y cómo evitaremos las carreras?
+- **Operación:** ¿puede el equipo observar, depurar, probar y mantener el diseño más complejo?
+
+Empieza con el modelo más sencillo que cumpla los requisitos de dependencias y latencia. Añade límites asíncronos o capacidad de ejecución cuando las mediciones y el comportamiento ante fallos lo justifiquen, no porque una etiqueta suene más moderna.
+
+## Cerebro
+
+El problema de mi profesor yo creo que era otro. Nunca me cayó muy bien, la verdad; casi me suspende por vacilarle. Aun así, nos dejó una excusa útil para aprender que los sistemas pueden coordinar y ejecutar el trabajo de varias maneras.
+
+La lección valiosa no es que el «cerebro de un hombre» sea un hilo síncrono o que el «cerebro de una mujer» sea multihilo. Eso es el chiste, no el modelo. En una arquitectura real, un bucle de eventos monohilo puede atender un volumen enorme de entrada y salida, mientras que un sistema multihilo mal controlado puede caerse por consumir sus propios recursos. Entiende los dos ejes, mide el cuello de botella real y elige los compromisos que el equipo pueda operar.
+
+**Adrián, aka Novato.**
+
+Muchas gracias por leer. Si quieres ser parte de esta aventura, no dudes en suscribirte.

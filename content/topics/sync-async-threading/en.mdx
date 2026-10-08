@@ -1,0 +1,118 @@
+---
+title: Synchronous vs. asynchronous: single-threaded vs. multithreaded
+slug: sync-async-threading
+translationOf: sync-async-threading
+locale: en
+summary: Synchronous and asynchronous coordination are not the same as single-threaded and multithreaded execution. Learn the two axes through registration and invoicing examples.
+status: published
+---
+
+## My history teacher was talking about threads
+
+When I was in my fourth year of secondary school, I had a history teacher who used to say: «Men can only do one thing; women can do several at once». It made me laugh because I do not know about him, but at work I can at least keep an eye on several things. The bloke was obsessed with saying that women were the superior sex and similar stuff. The thing is, my teacher, a visionary, was talking about threads at a slightly more sophisticated level. It only took me about five years to discover it, but the bloke was onto something.
+
+For this civil servant, we men were machines with one synchronous thread: one task at a time, with its input and output, something like FIFO, or first in, first out. Women, meanwhile, were multithreaded, asynchronous, and used Round Robin. Since we create programs and partly base them on how we would do the work ourselves, let us go over these concepts today.
+
+The anecdote stays because it still makes me laugh. The analogy, however, is gloriously wrong as a technical model. People are not execution strategies, and it mixes together three separate questions: whether a caller waits, how many threads execute work, and how a scheduler chooses the next task. FIFO and Round Robin are scheduling policies, not definitions of synchronous, asynchronous, single-threaded, or multithreaded code.
+
+## The short version
+
+There are two independent axes:
+
+- **Synchronous or asynchronous** describes coordination: does the caller wait for the result it needs, or can it continue while another result arrives later?
+- **Single-threaded or multithreaded** describes execution resources: can one thread execute instructions, or can several threads do so?
+
+You can combine them in different ways. A single thread can coordinate many asynchronous I/O operations through an event loop. A multithreaded program can still make a synchronous call and block the calling thread. Neither axis determines the other.
+
+## Synchronous vs. asynchronous
+
+A synchronous operation keeps its caller waiting until the required outcome is available. Think of loading the data you need to show a page: until those data arrive, the page cannot complete that step. It is the familiar «I press the television button and it turns on» model.
+
+Synchronous coordination is a good fit when:
+
+- The next step requires the result immediately.
+- Each step depends on the previous one.
+- The caller needs a definitive success or failure before continuing.
+- Simplicity and a straightforward execution path matter more than overlapping work.
+
+Its main cost is waiting. A slow dependency lengthens the whole critical path, and testing something at the end of a long flow can mean waiting like a condemned soul for every earlier step.
+
+An asynchronous operation lets the caller continue without waiting for all deferred work to finish. The result may arrive through an event, callback, promise, task, or another coordination mechanism. A queue or message broker is one way to build an asynchronous workflow, but it is not what makes the workflow asynchronous.
+
+Asynchronous coordination is useful when:
+
+- Work does not belong on the user-visible critical path.
+- An operation may finish later without invalidating the immediate result.
+- Independent I/O can overlap.
+- A producer and consumer need to absorb traffic at different rates.
+
+This freedom has a price. You need to reason about failure after the original request, backpressure, retries, duplicate delivery, idempotency, ordering, observability, and eventual consistency. In development, reproducing a production-style setup with several services and queues can also be a proper pain.
+
+### Registration: wait for the database, not the email
+
+Take the registration button on a website. The registration request must wait until the user has been persisted successfully in the database. Only then can the application return success: claiming that an account exists before durable persistence would be lying to the user.
+
+The welcome email is different. Once registration has been accepted, email delivery is deferred. The system can safely record an event, for example with a transactional outbox, and let a queue or broker and an email worker handle it later. The user does not wait for the provider to deliver the message and can use the successfully created account even if the email needs a retry.
+
+:::diagram id="registration-response-paths"
+:::
+
+That split is the important design choice: database persistence belongs to the required response path; the welcome email never does. The queue, broker, and worker are implementation choices for the deferred path, not the definition of asynchronous work.
+
+Think of it like this: while a game downloads, I can use my phone to see what Noobie has uploaded. I still need the download to finish before I can play, but I do not need to stare at the progress bar while it happens.
+
+## Single-threaded vs. multithreaded
+
+Now we change the question. We are no longer asking whether a caller waits; we are asking which execution resources process the work.
+
+Imagine you go to the gym and, unfortunately, the old bloke doing 15 sets is using the only chest machine. You wait like a lemon until he finishes: one machine is a capacity bottleneck at rush hour. If there are 20 machines, several people can train at once. That analogy is about available execution capacity, not about synchronous or asynchronous coordination.
+
+A **single-threaded** program executes application instructions on one thread at a time. That does not force it to process every job from start to finish before looking at another one. An event loop can interleave many I/O-bound tasks on a single thread while databases and network services do their own work.
+
+A **multithreaded** program has several threads that may make progress concurrently and, when cores and the runtime permit it, execute in parallel. This can help CPU-bound work and some blocking workloads. It also introduces shared-state hazards such as races and deadlocks, makes debugging harder, and can exhaust memory or scheduler capacity when thread counts grow without control.
+
+One thread is not automatically slow, and more threads are not free speed. The right model depends on the workload, runtime, resource limits, and amount of shared state.
+
+### Invoice: sequential requests or concurrent I/O
+
+Suppose I need to issue an invoice using user data and order data stored behind two independent services. I could request the user first, wait for that response, and only then request the order. That is simple, but the two network waits add up.
+
+If neither request depends on the other, I can start both, let their I/O overlap, and join the results when both arrive. The invoice still cannot be created until it has both required results, but its latency is closer to the slower request than to the sum of both requests.
+
+:::diagram id="invoice-fetch-strategies"
+:::
+
+This is **concurrent I/O**, not proof of multithreading. It could run on one event-loop thread, use a thread pool, or rely on another execution model. Concurrency means tasks are in progress during overlapping periods; parallelism means work is literally executing at the same instant.
+
+## Common misconceptions
+
+- **Asynchronous does not mean broker.** Brokers can decouple producers and consumers, but callbacks, promises, event loops, and durable job stores can also coordinate deferred work.
+- **Single-threaded does not mean FIFO.** FIFO decides ordering; one thread describes execution capacity. A single-threaded scheduler can use priorities or Round Robin instead.
+- **Multithreaded does not mean Round Robin.** Round Robin is a scheduling policy and can be applied in different execution models.
+- **Concurrency does not guarantee parallelism.** Tasks can overlap in time while a single thread alternates between them.
+- **Asynchronous does not mean no waiting anywhere.** In the invoice example, the service waits at the join because both results are required. In registration, the caller waits for database persistence but not for email delivery.
+
+## A practical decision guide
+
+Before choosing a model, ask:
+
+- **Dependencies:** Must one result exist before the next operation can start?
+- **User-visible latency:** Which work is truly required before responding?
+- **Workload:** Is the bottleneck CPU work or time spent waiting for I/O?
+- **Capacity:** What limits exist on threads, connections, memory, downstream services, and queues?
+- **Backpressure:** What happens when producers create work faster than consumers finish it?
+- **Failure:** Where will retries happen, and is repeated processing idempotent?
+- **State:** Will multiple execution paths mutate shared data, and how will races be prevented?
+- **Operations:** Can the team observe, debug, test, and run the more complex design?
+
+Start with the simplest model that meets the dependency and latency requirements. Add asynchronous boundaries or execution capacity where measurements and failure behavior justify them, not because one label sounds more modern.
+
+## Brain
+
+I think my teacher's problem was something else. I never liked him much, to be honest; he almost failed me for winding him up. Still, he left us a useful excuse to learn that systems can coordinate and execute work in several ways.
+
+The valuable lesson is not that a «man's brain» is a synchronous single thread or that a «woman's brain» is multithreaded. That is the joke, not the model. In a real architecture, a single-threaded event loop can serve a huge volume of I/O, while a badly controlled multithreaded system can fall over under its own resource use. Understand the two axes, measure the actual bottleneck, and choose the trade-offs the team can operate.
+
+**Adrián, aka Novato.**
+
+Thanks for reading. If you want to be part of the journey, consider subscribing.

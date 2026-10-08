@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "browser-check",
+  "evidenceKind": "automated-browser",
+  "status": "fail",
+  "visualReview": "not-requested",
+  "provenance": "current",
+  "deliveryReceiptId": "0e32a164-1c8e-4b90-9d64-2322eb8956ad",
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html",
+    "sha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+    "bytes": 760150
+  },
+  "state": {
+    "detail": "read",
+    "motion": "still"
+  },
+  "chrome": {
+    "status": "available",
+    "executable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+  },
+  "diagnostics": [
+    {
+      "code": "viewer/browser-check-runtime",
+      "severity": "error",
+      "message": "browser-check could not complete its Chrome inspection.",
+      "subject": {
+        "artifact": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\registration-response-paths.en.html"
+      },
+      "evidence": {
+        "reason": "Chrome DevTools write pipe failed: stream closed\nChrome process: still running.\nChrome stderr:\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:14292:1001/224940.827:ERROR:chrome\\browser\\ui\\edge_window_tab_manager\\api\\wtm_interface_impl.cc:463] Failed to open registry key\r\n[9028:14292:1001/224940.827:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:17828:1001/224940.828:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: La operación se completó correctamente. (0x0)\r\n[9028:14292:1001/224940.860:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.873:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.874:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:14292:1001/224940.882:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.889:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.889:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:13656:1001/224940.895:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:251] Failed to get location access status: El parámetro no es correcto. (0x80070057)\r\n[9028:14292:1001/224940.896:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.896:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:436] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.19.0, libuv 1.52.1, win32; pid=9028, exitCode=null, signalCode=null.\nChrome read pipe: readable=true, ended=false, destroyed=false, receivedBytes=2108, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=true, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+      },
+      "supportedFixes": [
+        "resolve the reported Chrome inspection error, then rerun browser-check"
+      ]
+    }
+  ],
+  "containment": {
+    "status": "fail",
+    "policy": "fit-or-reader-declared-readable-vertical-scroll",
+    "viewports": []
+  },
+  "themeStates": {
+    "status": "fail",
+    "viewports": []
+  },
+  "readability": {
+    "status": "fail",
+    "minimumProjectedNodeTextPx": 6,
+    "viewports": []
+  },
+  "viewerChrome": {
+    "status": "fail",
+    "viewports": []
+  },
+  "captures": {
+    "status": "not-requested",
+    "screenshots": [],
+    "contactSheet": null
+  },
+  "sidecars": {
+    "directory": "E:\\Python\\SystemDesignGuide\\diagrams\\sync-async-threading\\registration-response-paths\\generated\\edge-retry-en",
+    "receipt": "registration-response-paths.en.browser-check.json",
+    "files": []
+  },
+  "error": "Chrome DevTools write pipe failed: stream closed\nChrome process: still running.\nChrome stderr:\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:17828:1001/224935.410:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:544] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set usagestats; result: 5\r\n[9028:9652:1001/224940.827:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:587] Failed opening key Software\\Microsoft\\EdgeUpdate\\ClientStateMedium\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062} to set urlstats; result: 5\r\n[9028:14292:1001/224940.827:ERROR:chrome\\browser\\ui\\edge_window_tab_manager\\api\\wtm_interface_impl.cc:463] Failed to open registry key\r\n[9028:14292:1001/224940.827:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:17828:1001/224940.828:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: La operación se completó correctamente. (0x0)\r\n[9028:14292:1001/224940.860:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.873:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.874:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:14292:1001/224940.882:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.889:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:6208:1001/224940.889:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Adrian\\AppData\\Local\\Temp\\archify-visual-check-profile-HyiUAy\\GPUPersistentCache\\DawnGraphiteCache\\TLVJWQT6NJWKNBUVMWJ4BCR6DK7MJALX\", error: 0: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso. (0x20)\r\n[9028:13656:1001/224940.895:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:251] Failed to get location access status: El parámetro no es correcto. (0x80070057)\r\n[9028:14292:1001/224940.896:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1190] GPU process exited unexpectedly: exit_code=-1073741790\r\n[9028:14292:1001/224940.896:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:436] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.19.0, libuv 1.52.1, win32; pid=9028, exitCode=null, signalCode=null.\nChrome read pipe: readable=true, ended=false, destroyed=false, receivedBytes=2108, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=true, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+}

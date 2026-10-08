@@ -1,0 +1,54 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "sequence",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "browser": "Microsoft Edge (Chromium)",
+    "viewports": ["1440x900", "1600x1000", "1920x1080", "2048x1320"],
+    "themes": ["light", "dark"]
+  },
+  "visualReview": {
+    "status": "pass",
+    "captureViewports": ["1440x900", "2048x1320"],
+    "themes": ["light", "dark"],
+    "observations": "Human inspection found no clipped text, unintended crossings, unreadable labels, horizontal overflow, or unbalanced large-viewport composition.",
+    "correctionRounds": 1
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "b000f3a115492bc9bcb02b4e635c4308daa591cb7b6eae987cd8b4ea85b21dc7",
+      "sourceBytes": 3627,
+      "artifact": "registration-response-paths.en.html",
+      "artifactSha256": "4978d3553b385901344a26e57c07c5fc49e34cff501c3f39089e7ac641565eba",
+      "artifactBytes": 760150,
+      "finalizeReceipt": "final-en/registration-response-paths.en.finalize.json",
+      "browserReceipt": "final-en/registration-response-paths.en.browser-check.json",
+      "visualReceipt": "visual-en/registration-response-paths.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "9f00ead561a23d1a28cdc047f52bbb870d9f70d0f67dce15e810c3fefdc63667",
+      "sourceBytes": 33524,
+      "translationCatalog": "Archify v3.0.1 examples/locales/es.json",
+      "translationKeys": 438,
+      "artifact": "registration-response-paths.es.html",
+      "artifactSha256": "b8f152f24c5a0dc5382cef7b39a6edc79dde77c39cdc887f48c8b86af33f66ac",
+      "artifactBytes": 763150,
+      "finalizeReceipt": "final-es/registration-response-paths.es.finalize.json",
+      "browserReceipt": "final-es/registration-response-paths.es.browser-check.json",
+      "visualReceipt": "visual-es/registration-response-paths.es.visual-check.json"
+    }
+  }
+}

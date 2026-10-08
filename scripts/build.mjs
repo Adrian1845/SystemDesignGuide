@@ -8,6 +8,7 @@ const dist = path.join(root, "dist");
 const localeCopy = {
   en: {
     siteName: "System Design Guide", home: "Home", language: "Language", switchTo: "Switch to Spanish", skip: "Skip to content", diagram: "diagram", topicGuide: "Topic guide", foundations: "Foundations",
+    diagramKinds: { sequence: "sequence", workflow: "workflow", architecture: "architecture", "data-flow": "data-flow", lifecycle: "lifecycle" },
     footerOne: "Clear foundations for designing reliable systems.", footerTwo: "Static, repository-authored, and built for learning.",
     heroEyebrow: "A practical systems library", heroTitle: "Design with clarity.<br><em>Build with confidence.</em>",
     heroSummary: "A growing, visual guide to the trade-offs behind the systems we build—from the first request to the last stored record.",
@@ -16,6 +17,7 @@ const localeCopy = {
   },
   es: {
     siteName: "Guía de Diseño de Sistemas", home: "Inicio", language: "Idioma", switchTo: "Cambiar a inglés", skip: "Saltar al contenido", diagram: "diagrama", topicGuide: "Guía temática", foundations: "Fundamentos",
+    diagramKinds: { sequence: "secuencia", workflow: "flujo de trabajo", architecture: "arquitectura", "data-flow": "flujo de datos", lifecycle: "ciclo de vida" },
     footerOne: "Fundamentos claros para diseñar sistemas fiables.", footerTwo: "Estático, escrito en el repositorio y creado para aprender.",
     heroEyebrow: "Una biblioteca práctica de sistemas", heroTitle: "Diseña con claridad.<br><em>Construye con confianza.</em>",
     heroSummary: "Una guía visual en crecimiento sobre las decisiones y compensaciones de los sistemas que construimos, desde la primera petición hasta el último registro almacenado.",
@@ -72,6 +74,8 @@ function routeFor(locale, slug = "") {
 
 function renderDiagram(diagram, locale, topicSlug) {
   const copy = diagram.locales[locale];
+  const kindLabel = localeCopy[locale].diagramKinds[diagram.kind] ?? diagram.kind;
+  const typeLabel = locale === "es" ? `${localeCopy[locale].diagram} de ${kindLabel}` : `${kindLabel} ${localeCopy[locale].diagram}`;
   const nodes = copy.nodes.map((node) => `<span class="diagram-node">${escapeHtml(node.label)}</span>`).join('<span class="diagram-arrow" aria-hidden="true">&rarr;</span>');
   const artifactPath = diagram.artifacts?.[locale] ?? diagram.artifact;
   const artifactUrl = artifactPath ? `/diagrams/${topicSlug}/${diagram.id}/${artifactPath.split("\\").join("/")}` : null;
@@ -79,7 +83,7 @@ function renderDiagram(diagram, locale, topicSlug) {
     ? `<iframe class="diagram-frame" src="${escapeHtml(artifactUrl)}" title="${escapeHtml(copy.altText)}" loading="lazy"></iframe>`
     : `<div class="diagram-preview" role="img" aria-label="${escapeHtml(copy.altText)}">${nodes}</div>`;
   return `<figure class="diagram-card" aria-labelledby="diagram-${escapeHtml(diagram.id)}-title">
-    <div class="diagram-heading"><div><p class="eyebrow">${escapeHtml(diagram.kind)} ${escapeHtml(localeCopy[locale].diagram)}</p><h3 id="diagram-${escapeHtml(diagram.id)}-title">${escapeHtml(copy.title)}</h3></div></div>
+    <div class="diagram-heading"><div><p class="eyebrow">${escapeHtml(typeLabel)}</p><h3 id="diagram-${escapeHtml(diagram.id)}-title">${escapeHtml(copy.title)}</h3></div></div>
     ${visual}
     <figcaption>${escapeHtml(copy.fallback)}</figcaption>
   </figure>`;
