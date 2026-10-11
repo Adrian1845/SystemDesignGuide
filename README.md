@@ -34,3 +34,9 @@ The initial site is available in both languages:
 ```
 
 Topic translations use `en.mdx` and `es.mdx` files in each topic folder.
+
+## Vercel Analytics
+
+The generated English and Spanish pages include the Vercel Web Analytics script.
+To collect visits, enable Analytics for the project in the Vercel dashboard and
+redeploy the site. A local preview does not deliver analytics.

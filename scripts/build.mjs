@@ -103,6 +103,7 @@ function layout({ title, description, locale, route, content, topics, activeSlug
     ${supportedLocales.map((candidate) => `<link rel="alternate" hreflang="${candidate}" href="${alternateRoutes[candidate]}">`).join("\n    ")}
     <link rel="alternate" hreflang="x-default" href="${alternateRoutes.en}">
     <title>${escapeHtml(title)} · ${escapeHtml(copy.siteName)}</title><link rel="stylesheet" href="/styles.css">
+    <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">${escapeHtml(copy.skip)}</a>
