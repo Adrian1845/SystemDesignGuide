@@ -1,0 +1,60 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "workflow",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "source": "finalize browser-check receipts"
+  },
+  "visualEvidence": {
+    "status": "pass",
+    "source": "visual-check receipts",
+    "visualReview": "separate"
+  },
+  "visualReview": {
+    "status": "pass-at-1440-light",
+    "captureViewports": [
+      "1440x900"
+    ],
+    "themes": [
+      "light"
+    ],
+    "observations": "Inspected both localized captures: labels, nodes, relationships, legends, and outcome branches are readable without clipping. Other generated viewports and dark captures have automated visual-check evidence only."
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "d8cca028a114d7285cd3b6e9b4574b7baf169912b59d233cf0cd3d765f82b129",
+      "sourceBytes": 3772,
+      "artifact": "cache-aside-read.en.html",
+      "artifactSha256": "3bbcdf164be4cc89f1b8b5436a5a6e65b165afec67aeda61dee416ad599bce41",
+      "artifactBytes": 753431,
+      "finalizeReceipt": "final-en-v2/cache-aside-read.en.finalize.json",
+      "browserReceipt": "final-en-v2/cache-aside-read.en.browser-check.json",
+      "visualReceipt": "visual-en-v2/cache-aside-read.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "33251b1d2179011ab8883dd122eb6713a851e1bd6b8b958c7c865d4c1e73fb90",
+      "sourceBytes": 32822,
+      "artifact": "cache-aside-read.es.html",
+      "artifactSha256": "d6ac27c213a3df9039ff7fd3dfb785d3b0f7c0ebb95393da5ac6757ea32000ad",
+      "artifactBytes": 756352,
+      "finalizeReceipt": "final-es-v2/cache-aside-read.es.finalize.json",
+      "browserReceipt": "final-es-v2/cache-aside-read.es.browser-check.json",
+      "visualReceipt": "visual-es-v2/cache-aside-read.es.visual-check.json",
+      "translationCatalog": "../../locale.es.json",
+      "translationCatalogSha256": "1389068b7dddb5e72ed425d12084ca9104942bef933440a16113d60619f1daf3"
+    }
+  }
+}

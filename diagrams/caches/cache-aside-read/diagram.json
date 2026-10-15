@@ -1,0 +1,109 @@
+{
+  "id": "cache-aside-read",
+  "kind": "workflow",
+  "artifact": "generated/cache-aside-read.en.html",
+  "artifacts": {
+    "en": "generated/cache-aside-read.en.html",
+    "es": "generated/cache-aside-read.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Cache-aside: hit and miss",
+      "altText": "The application looks up a key in the cache. A valid hit returns immediately; a miss reads the source database, stores a copy with a TTL, and returns the value.",
+      "fallback": "With cache-aside, the application checks the cache first. A valid hit avoids a database read. On a miss, it reads the database, stores the result with an expiration policy, and replies. The database remains the source of truth; a cache hit can still be stale if invalidation is delayed.",
+      "nodes": [
+        {
+          "id": "request",
+          "label": "Read request"
+        },
+        {
+          "id": "lookup",
+          "label": "Look up K"
+        },
+        {
+          "id": "hit",
+          "label": "Valid hit"
+        },
+        {
+          "id": "source",
+          "label": "Read source"
+        },
+        {
+          "id": "store",
+          "label": "Store with TTL"
+        },
+        {
+          "id": "response",
+          "label": "Return value"
+        }
+      ]
+    },
+    "es": {
+      "title": "Cache-aside: acierto y fallo",
+      "altText": "La aplicación busca una clave en la caché. Si encuentra una copia válida responde; si no, consulta la base de datos, guarda una copia con TTL y devuelve el dato.",
+      "fallback": "Con cache-aside, la aplicación consulta primero la caché. Un acierto válido evita leer la base de datos. Ante un fallo, consulta la base de datos, guarda el resultado con una política de caducidad y responde. La base de datos sigue siendo la fuente de verdad; un acierto puede estar desactualizado si se retrasa la invalidación.",
+      "nodes": [
+        {
+          "id": "request",
+          "label": "Petición de lectura"
+        },
+        {
+          "id": "lookup",
+          "label": "Buscar K"
+        },
+        {
+          "id": "hit",
+          "label": "Acierto válido"
+        },
+        {
+          "id": "source",
+          "label": "Leer origen"
+        },
+        {
+          "id": "store",
+          "label": "Guardar con TTL"
+        },
+        {
+          "id": "response",
+          "label": "Devolver dato"
+        }
+      ]
+    }
+  },
+  "edges": [
+    {
+      "from": "request",
+      "to": "lookup"
+    },
+    {
+      "from": "lookup",
+      "to": "hit"
+    },
+    {
+      "from": "hit",
+      "to": "response"
+    },
+    {
+      "from": "lookup",
+      "to": "source"
+    },
+    {
+      "from": "source",
+      "to": "store"
+    },
+    {
+      "from": "store",
+      "to": "response"
+    }
+  ]
+}

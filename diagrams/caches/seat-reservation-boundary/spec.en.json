@@ -1,0 +1,229 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "A cache lock is not the booking authority",
+    "locale": "en",
+    "output": "diagrams/caches/seat-reservation-boundary/generated/seat-reservation-boundary.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "frontend": {
+          "label": "Application"
+        },
+        "backend": {
+          "label": "Cache action"
+        },
+        "database": {
+          "label": "Stored data"
+        },
+        "security": {
+          "label": "Temporary hold"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "application",
+      "label": "Customer request"
+    },
+    {
+      "id": "cache",
+      "label": "Temporary cache hold"
+    },
+    {
+      "id": "database",
+      "label": "Booking database"
+    }
+  ],
+  "phases": [
+    {
+      "id": "claim",
+      "label": "Attempt hold",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "commit",
+      "label": "Authoritative commit",
+      "fromCol": 2,
+      "toCol": 3
+    },
+    {
+      "id": "result",
+      "label": "Outcome",
+      "fromCol": 4,
+      "toCol": 5
+    }
+  ],
+  "mainPath": [
+    "request",
+    "hold",
+    "book",
+    "committed",
+    "confirm"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "request"
+    ],
+    "allowedTerminals": [
+      "confirm",
+      "reject"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "application",
+      "col": 0,
+      "type": "frontend",
+      "label": "Select seat",
+      "sublabel": "one request",
+      "width": 164
+    },
+    {
+      "id": "hold",
+      "lane": "cache",
+      "col": 1,
+      "type": "security",
+      "label": "Atomic hold with TTL",
+      "sublabel": "temporary claim",
+      "width": 164
+    },
+    {
+      "id": "conflict",
+      "lane": "cache",
+      "col": 3,
+      "type": "security",
+      "label": "Hold conflict",
+      "sublabel": "another request holds it",
+      "width": 164
+    },
+    {
+      "id": "book",
+      "lane": "database",
+      "col": 2,
+      "type": "database",
+      "label": "Try booking transaction",
+      "sublabel": "unique seat constraint",
+      "width": 164
+    },
+    {
+      "id": "committed",
+      "lane": "database",
+      "col": 4,
+      "type": "database",
+      "label": "Commit succeeds",
+      "sublabel": "seat assigned once",
+      "width": 164
+    },
+    {
+      "id": "release",
+      "lane": "cache",
+      "col": 4,
+      "type": "backend",
+      "label": "Release hold",
+      "sublabel": "on failed commit",
+      "width": 164
+    },
+    {
+      "id": "reject",
+      "lane": "application",
+      "col": 4,
+      "type": "frontend",
+      "label": "Reject or retry",
+      "sublabel": "no booking confirmed",
+      "width": 164
+    },
+    {
+      "id": "confirm",
+      "lane": "application",
+      "col": 5,
+      "type": "frontend",
+      "label": "Confirm booking",
+      "sublabel": "only after commit",
+      "width": 164
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-hold",
+      "from": "request",
+      "to": "hold",
+      "label": "attempt claim",
+      "role": "main"
+    },
+    {
+      "id": "hold-book",
+      "from": "hold",
+      "to": "book",
+      "label": "hold acquired",
+      "role": "main"
+    },
+    {
+      "id": "hold-conflict",
+      "from": "hold",
+      "to": "conflict",
+      "label": "already held",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "conflict-reject",
+      "from": "conflict",
+      "to": "reject",
+      "label": "no hold",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "book-committed",
+      "from": "book",
+      "to": "committed",
+      "label": "unique insert succeeds",
+      "role": "main"
+    },
+    {
+      "id": "committed-confirm",
+      "from": "committed",
+      "to": "confirm",
+      "label": "transaction committed",
+      "role": "main"
+    },
+    {
+      "id": "book-release",
+      "from": "book",
+      "to": "release",
+      "label": "conflict or failure",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "release-reject",
+      "from": "release",
+      "to": "reject",
+      "label": "retry later",
+      "role": "branch",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Cache coordinates briefly",
+      "items": [
+        "An atomic hold with a TTL reduces clashes but can expire or disappear."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Database decides",
+      "items": [
+        "A transaction and uniqueness rule prevent two confirmed bookings for one seat."
+      ]
+    }
+  ]
+}

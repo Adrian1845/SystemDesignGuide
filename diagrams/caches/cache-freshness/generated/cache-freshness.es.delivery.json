@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "b1c7772d-d9e8-4d32-8ee4-116893d9b5ac",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-freshness\\spec.es.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-freshness\\generated\\cache-freshness.es.html",
+  "specification": {
+    "sha256": "fc62b2672058c2b63f91aa5c77f7219ac1c19287c9cc3776cdc0aa239ae4b69d",
+    "bytes": 33115
+  },
+  "artifact": {
+    "sha256": "bcd4a10bf3d0889e75775e17636c99718ba8fac0572201a26c60b9e166e492b6",
+    "bytes": 758156
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4a4e1c6d-672f-46b4-99ac-b60a85c3e812",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\spec.en.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\generated\\seat-reservation-boundary.en.html",
+  "specification": {
+    "sha256": "33fbf9f23a8d6ea430ac33e29843e1bcaa329a91e138381c4fd03f160153a8b5",
+    "bytes": 4671
+  },
+  "artifact": {
+    "sha256": "af7d3b5b4e55e2c9389ec5cda02b75256bcd5561945855f05f03148cbbd546c8",
+    "bytes": 758474
+  }
+}

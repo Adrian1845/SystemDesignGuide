@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "968b16b8-500d-45cf-a589-c5105103b34b",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\spec.es.json",
+  "output": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\generated\\cache-aside-read.es.html",
+  "specification": {
+    "sha256": "33251b1d2179011ab8883dd122eb6713a851e1bd6b8b958c7c865d4c1e73fb90",
+    "bytes": 32822
+  },
+  "artifact": {
+    "sha256": "d6ac27c213a3df9039ff7fd3dfb785d3b0f7c0ebb95393da5ac6757ea32000ad",
+    "bytes": 756352
+  }
+}

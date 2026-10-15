@@ -1,0 +1,194 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Cache-aside: hit and miss",
+    "locale": "en",
+    "output": "diagrams/caches/cache-aside-read/generated/cache-aside-read.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "frontend": {
+          "label": "Application"
+        },
+        "backend": {
+          "label": "Cache action"
+        },
+        "database": {
+          "label": "Stored data"
+        },
+        "security": {
+          "label": "Temporary hold"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "application",
+      "label": "Application"
+    },
+    {
+      "id": "cache",
+      "label": "Cache"
+    },
+    {
+      "id": "source",
+      "label": "Source database"
+    }
+  ],
+  "phases": [
+    {
+      "id": "read",
+      "label": "Read",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "branch",
+      "label": "Hit or miss",
+      "fromCol": 2,
+      "toCol": 3
+    },
+    {
+      "id": "answer",
+      "label": "Reply",
+      "fromCol": 4,
+      "toCol": 5
+    }
+  ],
+  "mainPath": [
+    "request",
+    "lookup",
+    "source",
+    "store",
+    "response"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "request"
+    ],
+    "allowedTerminals": [
+      "response"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "application",
+      "col": 0,
+      "type": "frontend",
+      "label": "Read request",
+      "sublabel": "key K",
+      "width": 164
+    },
+    {
+      "id": "lookup",
+      "lane": "cache",
+      "col": 1,
+      "type": "database",
+      "label": "Look up K",
+      "sublabel": "cached copy",
+      "width": 164
+    },
+    {
+      "id": "hit",
+      "lane": "cache",
+      "col": 3,
+      "type": "database",
+      "label": "Valid hit",
+      "sublabel": "reuse cached value",
+      "width": 164
+    },
+    {
+      "id": "source",
+      "lane": "source",
+      "col": 3,
+      "type": "database",
+      "label": "Read source",
+      "sublabel": "on a miss",
+      "width": 164
+    },
+    {
+      "id": "store",
+      "lane": "cache",
+      "col": 4,
+      "type": "backend",
+      "label": "Store with TTL",
+      "sublabel": "bounded lifetime",
+      "width": 164
+    },
+    {
+      "id": "response",
+      "lane": "application",
+      "col": 5,
+      "type": "frontend",
+      "label": "Return value",
+      "sublabel": "hit or fetched",
+      "width": 164
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-lookup",
+      "from": "request",
+      "to": "lookup",
+      "label": "check key",
+      "role": "main"
+    },
+    {
+      "id": "lookup-hit",
+      "from": "lookup",
+      "to": "hit",
+      "label": "found",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "hit-response",
+      "from": "hit",
+      "to": "response",
+      "label": "cached value",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "lookup-source",
+      "from": "lookup",
+      "to": "source",
+      "label": "missing or expired",
+      "role": "main"
+    },
+    {
+      "id": "source-store",
+      "from": "source",
+      "to": "store",
+      "label": "source value",
+      "role": "main"
+    },
+    {
+      "id": "store-response",
+      "from": "store",
+      "to": "response",
+      "label": "fresh value",
+      "role": "main"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Database is authoritative",
+      "items": [
+        "A cache hit avoids an origin read but is only as fresh as its invalidation policy."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "TTL is a limit, not a promise",
+      "items": [
+        "TTL bounds how long a copy may remain; it does not guarantee immediate consistency."
+      ]
+    }
+  ]
+}

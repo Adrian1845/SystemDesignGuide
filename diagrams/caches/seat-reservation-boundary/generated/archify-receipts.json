@@ -1,0 +1,60 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "workflow",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "source": "finalize browser-check receipts"
+  },
+  "visualEvidence": {
+    "status": "pass",
+    "source": "visual-check receipts",
+    "visualReview": "separate"
+  },
+  "visualReview": {
+    "status": "pass-at-1440-light",
+    "captureViewports": [
+      "1440x900"
+    ],
+    "themes": [
+      "light"
+    ],
+    "observations": "Inspected both localized captures: labels, nodes, relationships, legends, and outcome branches are readable without clipping. Other generated viewports and dark captures have automated visual-check evidence only."
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "33fbf9f23a8d6ea430ac33e29843e1bcaa329a91e138381c4fd03f160153a8b5",
+      "sourceBytes": 4671,
+      "artifact": "seat-reservation-boundary.en.html",
+      "artifactSha256": "af7d3b5b4e55e2c9389ec5cda02b75256bcd5561945855f05f03148cbbd546c8",
+      "artifactBytes": 758474,
+      "finalizeReceipt": "final-en-v2/seat-reservation-boundary.en.finalize.json",
+      "browserReceipt": "final-en-v2/seat-reservation-boundary.en.browser-check.json",
+      "visualReceipt": "visual-en-v2/seat-reservation-boundary.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "c5740cac689cade97925c9b9abdba2f4ab6f628b27080917ac3f066b9e47b27b",
+      "sourceBytes": 33787,
+      "artifact": "seat-reservation-boundary.es.html",
+      "artifactSha256": "865f94a2665680283a19505f4b6165a127f33f960df85cd285c13286194b51f8",
+      "artifactBytes": 761759,
+      "finalizeReceipt": "final-es-v2/seat-reservation-boundary.es.finalize.json",
+      "browserReceipt": "final-es-v2/seat-reservation-boundary.es.browser-check.json",
+      "visualReceipt": "visual-es-v2/seat-reservation-boundary.es.visual-check.json",
+      "translationCatalog": "../../locale.es.json",
+      "translationCatalogSha256": "1389068b7dddb5e72ed425d12084ca9104942bef933440a16113d60619f1daf3"
+    }
+  }
+}

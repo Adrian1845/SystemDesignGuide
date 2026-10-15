@@ -1,0 +1,133 @@
+{
+  "id": "seat-reservation-boundary",
+  "kind": "workflow",
+  "artifact": "generated/seat-reservation-boundary.en.html",
+  "artifacts": {
+    "en": "generated/seat-reservation-boundary.en.html",
+    "es": "generated/seat-reservation-boundary.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "A cache lock is not the booking authority",
+      "altText": "A request tries an atomic, expiring cache hold. If it wins, the booking database still enforces unique seat ownership in a transaction; conflicts and failed transactions reject or release the hold.",
+      "fallback": "A short-lived atomic cache hold can reduce contention and give a user time to complete checkout. It is not a confirmed reservation. The booking database must enforce the seat uniqueness rule within a transaction. A hold conflict rejects the request; a database conflict or failure releases the hold. If the cache is lost or delayed, the database constraint still prevents two confirmed bookings for the same seat.",
+      "nodes": [
+        {
+          "id": "request",
+          "label": "Select seat"
+        },
+        {
+          "id": "hold",
+          "label": "Atomic hold with TTL"
+        },
+        {
+          "id": "conflict",
+          "label": "Hold conflict"
+        },
+        {
+          "id": "book",
+          "label": "Try booking transaction"
+        },
+        {
+          "id": "committed",
+          "label": "Commit succeeds"
+        },
+        {
+          "id": "release",
+          "label": "Release hold"
+        },
+        {
+          "id": "reject",
+          "label": "Reject or retry"
+        },
+        {
+          "id": "confirm",
+          "label": "Confirm booking"
+        }
+      ]
+    },
+    "es": {
+      "title": "Un bloqueo en caché no confirma una reserva",
+      "altText": "Una petición intenta un bloqueo atómico y temporal en caché. Si lo consigue, la base de datos de reservas aún debe garantizar la asignación única del asiento en una transacción; los conflictos y fallos rechazan o liberan el bloqueo.",
+      "fallback": "Un bloqueo atómico y temporal en caché puede reducir la contención y dar tiempo para terminar la compra. No es una reserva confirmada. La base de datos debe imponer la unicidad del asiento en una transacción. Un conflicto de bloqueo rechaza la petición; un conflicto o fallo de base de datos libera el bloqueo. Si falla la caché, la restricción de base de datos sigue impidiendo dos reservas confirmadas del mismo asiento.",
+      "nodes": [
+        {
+          "id": "request",
+          "label": "Elegir asiento"
+        },
+        {
+          "id": "hold",
+          "label": "Bloqueo atómico con TTL"
+        },
+        {
+          "id": "conflict",
+          "label": "Conflicto de bloqueo"
+        },
+        {
+          "id": "book",
+          "label": "Intentar transacción"
+        },
+        {
+          "id": "committed",
+          "label": "Confirmación persistida"
+        },
+        {
+          "id": "release",
+          "label": "Liberar bloqueo"
+        },
+        {
+          "id": "reject",
+          "label": "Rechazar o reintentar"
+        },
+        {
+          "id": "confirm",
+          "label": "Confirmar reserva"
+        }
+      ]
+    }
+  },
+  "edges": [
+    {
+      "from": "request",
+      "to": "hold"
+    },
+    {
+      "from": "hold",
+      "to": "book"
+    },
+    {
+      "from": "hold",
+      "to": "conflict"
+    },
+    {
+      "from": "conflict",
+      "to": "reject"
+    },
+    {
+      "from": "book",
+      "to": "committed"
+    },
+    {
+      "from": "committed",
+      "to": "confirm"
+    },
+    {
+      "from": "book",
+      "to": "release"
+    },
+    {
+      "from": "release",
+      "to": "reject"
+    }
+  ]
+}

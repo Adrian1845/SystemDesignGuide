@@ -5,6 +5,14 @@
 - **Decision owner:** architecture_lead, coordinated by the parent agent
 - **Implementation owners:** site_builder and archify_researcher
 
+## Post-implementation cleanup — 2026-10-15
+
+At the user's request, the original staging draft
+`content/autoscaling-load-balancers/es.mdx` was removed after the bilingual
+article was completed. Historical instructions below to keep that draft
+unchanged are superseded; the published topic files under
+`content/topics/autoscaling-load-balancers/` are the maintained content sources.
+
 ## Recommendation
 
 Add `autoscaling-load-balancers` as a bilingual topic in the existing static
@@ -669,7 +677,8 @@ is not part of this architecture record.
 
 ### Content and routes
 
-- `content/autoscaling-load-balancers/es.mdx` is byte-for-byte unchanged.
+- The original `content/autoscaling-load-balancers/es.mdx` staging draft is
+  retired after its content was adapted into the publishable topic.
 - `content/topics/autoscaling-load-balancers/en.mdx` and `es.mdx` exist with
   valid matching identity and equivalent section order.
 - Both localized files contain the approved titles and accurate summaries.
