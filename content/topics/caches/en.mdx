@@ -1,0 +1,84 @@
+---
+title: Caches: faster reads and fresher data
+slug: caches
+translationOf: caches
+locale: en
+summary: Learn when a nearby copy speeds up reads, how to keep it reasonably fresh, and why a cache cannot make the final decision about a seat reservation.
+status: published
+---
+
+## Blueberries in the fridge
+
+I recently started a diet and ended up making the same three meals all week. One step was especially annoying: going down to the storage room for blueberries, coming back up, using them, and putting them away again. After leg day, those trips felt endless. I suggested keeping a small portion in the kitchen fridge.
+
+I had not created more blueberries or changed where we stored the shopping. I had put a **small copy close to where I needed it**. The storage-room fridge was still the source; the kitchen fridge saved me a trip. If the blueberries upstairs ran out, I still had to return to the storage room.
+
+Something similar happens in a system when many users repeatedly ask for the same data or expensive result. A cache can avoid some trips to a database or external service. In return, we have to decide when that copy is no longer valid.
+
+## What a cache is
+
+A **cache** temporarily stores reusable data or results so that some requests can be served without repeating all the work at the origin. It may live in a browser, an application process, a shared store, or a CDN near the user. Its size, location, and speed depend on the design: it is not necessarily a tiny database, and not every cache lives in RAM.
+
+Cookies are different too. A cookie is a way to store and send browser state; a cache reuses a response or value to avoid work. A browser may use both, but they serve different purposes.
+
+In the analogy, the kitchen fridge is the cache and the storage-room fridge is the origin. The first saves a trip when it has what I need. The second is where I go when something is missing or when I need to check the current version.
+
+## Hit and miss: a cache-aside read
+
+Imagine an API returning a public profile. The application checks a key in the cache first. If it finds a valid copy, that is a **hit** and it can respond from the cache. If it does not, that is a **miss**: it reads the origin, stores the result for a while, and responds. This pattern is often called **cache-aside**.
+
+:::diagram id="cache-aside-read"
+:::
+
+A hit avoids reading the origin; a miss adds the cache lookup before going to the origin. A cache therefore does not automatically speed up every request. What matters is how often data repeats, the hit rate, the cost of the original read, and where the cache sits. There is no latency number that applies to every system.
+
+## Freshness: TTL and invalidation
+
+If I change my profile picture, an older copy may remain visible for a while. A **TTL** (time to live) defines how long an entry stays valid under the chosen policy. Once it expires, the next read must treat it as invalid and fetch or revalidate the data; the system need not physically delete the entry at that exact moment.
+
+We can also **invalidate** a key when the origin changes. With cache-aside, the application commits the database write first and then removes the corresponding cached copy. The next read returns to the origin and fills the cache. Failures and races between those steps matter: a failed invalidation may leave an old copy until expiry, and simultaneous requests may compete to refill it.
+
+:::diagram id="cache-freshness"
+:::
+
+A short TTL reduces how long we might serve an old copy, but causes more misses and more origin load. A long one improves the hit rate but accepts older data. The right choice depends on how stale the product can allow a value to be; for some data, even a short TTL is not enough and we must read the origin.
+
+## Where it helps and what can go wrong
+
+Caches often help with repeated reads: public profiles, catalogs, or responses from an external provider that permits reuse. They can also store sessions or help detect duplicate events, but those uses have different requirements. If losing an entry would process a payment twice, a volatile cache alone is not a sufficient idempotency record.
+
+There are costs to measure:
+
+- **Capacity and eviction:** space is limited; entries may disappear before their TTL under the memory policy.
+- **Cold starts:** many requests will miss until the frequently used working set has been loaded.
+- **Simultaneous expiry:** when a popular key expires, many requests may hit the origin together to reload it.
+- **Cache outage:** the service must decide whether to query the origin, return an error, or use another safe response.
+- **Privacy:** a personalized response must never be shared accidentally across users.
+
+## A concert and the last seat
+
+Consider a **hypothetical** ticket sale. A cache can quickly show which seats seem available and may help manage a short hold. But that view can be stale. If two people click the same seat almost simultaneously, reading “available” from a cache does not decide who bought it.
+
+The confirmation must go through an atomic operation in the system that records the reservation, such as a transaction with a uniqueness constraint on the event and seat. One request wins; the other receives a conflict or chooses another seat. Then the cached view is invalidated or updated. A temporary hold may improve the experience or reduce concurrent work, but expiry and failures still need handling; it does not replace final confirmation.
+
+:::diagram id="seat-reservation-boundary"
+:::
+
+This is not a claim about any ticket company's real architecture. The example separates **fast reads** from **decisions that cannot allow two winners**.
+
+## A practical decision guide
+
+Before adding a cache, ask:
+
+- Do reads repeat enough to justify the added complexity?
+- What is the source of truth, and how stale may its copy be?
+- Which writes must invalidate which keys?
+- What happens when a popular key expires or the whole cache fails?
+- Does user data require separate keys, permissions, or cache policies?
+- Which metrics will I watch: hits, misses, origin latency, evictions, and errors?
+
+Back to my blueberries: the kitchen fridge saves me a trip, but I have to restock it and cannot assume fruit will always be there. I still save a few seconds each day, just enough to watch a reel while making my snack.
+
+**Adrián, aka Novato.**
+
+Thanks for reading. To go further, see the [Redis cache-aside guide](https://redis.io/docs/latest/develop/use-cases/cache-aside/) and [MDN's guide to HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching).

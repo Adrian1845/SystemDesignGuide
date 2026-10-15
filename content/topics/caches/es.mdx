@@ -1,0 +1,84 @@
+---
+title: Cachés: lecturas rápidas y datos actualizados
+slug: caches
+translationOf: caches
+locale: es
+summary: Aprende cuándo una copia cercana acelera las lecturas, cómo mantenerla razonablemente fresca y por qué una caché no sustituye la reserva definitiva de un asiento.
+status: published
+---
+
+## Los arándanos de la nevera
+
+Hace poco empecé una dieta y acabé preparando las mismas tres comidas toda la semana. Había un paso especialmente pesado: bajar al trastero a por los arándanos, subir, usarlos y volver a guardarlos. Después de hacer pierna, esos viajes se hacían eternos. Le propuse a mi madre dejar una pequeña cantidad en la nevera de la cocina.
+
+No había creado más arándanos ni había cambiado dónde guardábamos la compra. Había puesto una **copia pequeña cerca de donde la necesitaba**. La nevera del trastero seguía siendo el origen; la de la cocina me ahorraba viajes. Si se acababan los arándanos de arriba, tocaba volver al trastero.
+
+En un sistema ocurre algo parecido cuando muchos usuarios piden una y otra vez el mismo dato o resultado costoso. Una caché puede evitar parte de los viajes a una base de datos o a un servicio externo. A cambio, ahora hay que decidir cuándo esa copia deja de ser válida.
+
+## Qué es una caché
+
+Una **caché** guarda temporalmente datos o resultados reutilizables para atender algunas peticiones sin repetir todo el trabajo del origen. Puede estar en el navegador, en un proceso de aplicación, en un almacén compartido o cerca del usuario en una CDN. Su tamaño, ubicación y velocidad dependen del diseño: no es necesariamente una «mini base de datos» ni toda caché vive en RAM.
+
+Tampoco conviene confundirla con las cookies. Una cookie es un mecanismo para guardar y enviar estado del navegador; una caché reutiliza una respuesta o un dato para evitar trabajo. Un navegador puede usar ambos, pero cumplen funciones distintas.
+
+En la analogía, la nevera de la cocina es la caché y la del trastero es el origen. La primera ahorra un trayecto cuando tiene lo que busco. La segunda sigue siendo el lugar al que recurro si falta o si necesito comprobar la versión actual.
+
+## Acierto y fallo: una lectura con cache-aside
+
+Imagina una API que devuelve un perfil público. La aplicación consulta primero una clave en la caché. Si encuentra una copia válida, hay un **acierto** y puede responder con ella. Si no la encuentra, hay un **fallo**: lee el origen, guarda el resultado durante un tiempo y responde. A este patrón se le suele llamar **cache-aside**.
+
+:::diagram id="cache-aside-read"
+:::
+
+Un acierto evita la lectura del origen; un fallo añade la consulta a la caché antes de ir al origen. Por eso una caché no acelera automáticamente todas las peticiones. Importa qué datos se repiten, cuántos aciertos hay, cuánto cuestan las consultas originales y dónde está situada la caché. No existe una cifra de latencia que sirva para todos los sistemas.
+
+## Frescura: TTL e invalidación
+
+Si cambio mi foto de perfil, una copia anterior puede seguir visible durante un tiempo. **TTL** (time to live) fija cuánto dura la validez de una entrada según la política elegida. Al vencer, la siguiente lectura debe tratarla como no válida y obtener o revalidar el dato; el sistema no tiene por qué borrar físicamente la entrada en ese mismo instante.
+
+También podemos **invalidar** una clave cuando cambia el origen. En un diseño cache-aside, la aplicación confirma primero la escritura en la base de datos y después elimina la copia correspondiente. La siguiente lectura volverá al origen y llenará la caché. Hay que pensar en fallos y carreras entre esos pasos: una invalidación fallida puede dejar una copia antigua hasta que expire, y dos peticiones simultáneas pueden competir por rellenarla.
+
+:::diagram id="cache-freshness"
+:::
+
+Un TTL corto reduce el tiempo durante el que podríamos servir una copia vieja, pero genera más fallos y más carga sobre el origen. Uno largo mejora la tasa de aciertos, pero admite más antigüedad. La elección depende de cuánto tiempo puede tolerar el producto un dato desactualizado; para algunos datos, ni un TTL corto basta y se necesita leer del origen.
+
+## Dónde ayuda y qué puede salir mal
+
+Las cachés suelen ser útiles para lecturas repetidas: perfiles públicos, catálogos o respuestas de un proveedor externo que permita reutilizarlas. También pueden guardar sesiones o ayudar a detectar eventos duplicados, pero esos usos tienen requisitos distintos. Si perder una entrada implicaría procesar dos veces un pago, una caché volátil por sí sola no es un registro de idempotencia suficiente.
+
+Hay costes que conviene medir:
+
+- **Capacidad y expulsión:** el espacio es limitado; pueden desaparecer entradas antes del TTL según la política de memoria.
+- **Arranque en frío:** al principio habrá muchos fallos hasta que se caliente el conjunto de datos más usado.
+- **Caducidad simultánea:** si una clave popular vence y muchas peticiones intentan recargarla a la vez, pueden golpear juntas al origen.
+- **Caída de la caché:** el servicio necesita decidir si consulta directamente el origen, devuelve un error o usa otra respuesta segura.
+- **Privacidad:** nunca debemos compartir por accidente una respuesta personalizada entre usuarios.
+
+## Un concierto y el último asiento
+
+Pensemos en una venta de entradas **hipotética**. La caché puede mostrar rápidamente qué asientos parecen disponibles e incluso ayudar a gestionar una retención breve. Pero esa vista puede estar atrasada. Si dos personas pulsan el mismo asiento casi a la vez, leer «disponible» en caché no decide quién lo compra.
+
+La confirmación debe pasar por una operación atómica en el sistema que guarda la reserva, por ejemplo una transacción con una restricción de unicidad sobre el asiento y el evento. Una solicitud gana; la otra recibe un conflicto o debe elegir otro asiento. Después se invalida o actualiza la vista en caché. Un bloqueo temporal puede mejorar la experiencia o reducir trabajo concurrente, pero requiere tratar vencimientos y fallos; no sustituye la confirmación definitiva.
+
+:::diagram id="seat-reservation-boundary"
+:::
+
+No estoy describiendo la arquitectura real de ninguna empresa de entradas. El ejemplo sirve para separar **lecturas rápidas** de **decisiones que no pueden aceptar dos ganadores**.
+
+## Guía práctica para decidir
+
+Antes de añadir una caché, pregúntate:
+
+- ¿Se repiten las lecturas lo suficiente como para compensar la complejidad?
+- ¿Cuál es el origen de verdad y cuánto tiempo puede estar desactualizada la copia?
+- ¿Qué escritura debe invalidar qué claves?
+- ¿Qué ocurrirá con una clave popular cuando expire o con toda la caché cuando falle?
+- ¿Hay datos de usuario que exijan claves, permisos o políticas de caché separadas?
+- ¿Qué métricas observaré: aciertos, fallos, latencia del origen, expulsiones y errores?
+
+Volviendo a mis arándanos: la nevera de la cocina me ahorra un viaje, pero tengo que reponerla y no puedo asumir que siempre habrá fruta. Me sigo ahorrando unos segundos cada día; lo justo para ver un reel mientras preparo la merienda.
+
+**Adrián, aka Novato.**
+
+Muchas gracias por leer. Si quieres seguir profundizando, consulta la [guía de cache-aside de Redis](https://redis.io/docs/latest/develop/use-cases/cache-aside/) y la [explicación de caché HTTP de MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Caching).

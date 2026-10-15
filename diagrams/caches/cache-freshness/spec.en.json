@@ -1,0 +1,204 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Two ways a cached copy becomes invalid",
+    "locale": "en",
+    "output": "diagrams/caches/cache-freshness/generated/cache-freshness.en.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "frontend": {
+          "label": "Application"
+        },
+        "backend": {
+          "label": "Cache action"
+        },
+        "database": {
+          "label": "Stored data"
+        },
+        "security": {
+          "label": "Temporary hold"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "write",
+      "label": "Source write"
+    },
+    {
+      "id": "expiry",
+      "label": "TTL expiry"
+    },
+    {
+      "id": "reload",
+      "label": "Next read"
+    }
+  ],
+  "phases": [
+    {
+      "id": "change",
+      "label": "Change",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "invalidate",
+      "label": "Invalidate",
+      "fromCol": 2,
+      "toCol": 3
+    },
+    {
+      "id": "refresh",
+      "label": "Refresh on read",
+      "fromCol": 4,
+      "toCol": 5
+    }
+  ],
+  "mainPath": [
+    "edit",
+    "persist",
+    "invalidate",
+    "miss",
+    "reload"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "edit",
+      "cached"
+    ],
+    "allowedTerminals": [
+      "reload"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "edit",
+      "lane": "write",
+      "col": 0,
+      "type": "frontend",
+      "label": "Edit value",
+      "sublabel": "new version",
+      "width": 164
+    },
+    {
+      "id": "persist",
+      "lane": "write",
+      "col": 1,
+      "type": "database",
+      "label": "Commit to source",
+      "sublabel": "authoritative copy",
+      "width": 164
+    },
+    {
+      "id": "invalidate",
+      "lane": "write",
+      "col": 3,
+      "type": "backend",
+      "label": "Invalidate key",
+      "sublabel": "after the write",
+      "width": 164
+    },
+    {
+      "id": "cached",
+      "lane": "expiry",
+      "col": 0,
+      "type": "database",
+      "label": "Cached copy",
+      "sublabel": "has a TTL",
+      "width": 164
+    },
+    {
+      "id": "expires",
+      "lane": "expiry",
+      "col": 3,
+      "type": "backend",
+      "label": "TTL expires",
+      "sublabel": "entry no longer valid",
+      "width": 164
+    },
+    {
+      "id": "miss",
+      "lane": "reload",
+      "col": 4,
+      "type": "database",
+      "label": "Cache miss",
+      "sublabel": "key absent or expired",
+      "width": 164
+    },
+    {
+      "id": "reload",
+      "lane": "reload",
+      "col": 5,
+      "type": "database",
+      "label": "Reload source",
+      "sublabel": "store a fresh copy",
+      "width": 164
+    }
+  ],
+  "edges": [
+    {
+      "id": "edit-persist",
+      "from": "edit",
+      "to": "persist",
+      "label": "write",
+      "role": "main"
+    },
+    {
+      "id": "persist-invalidate",
+      "from": "persist",
+      "to": "invalidate",
+      "label": "committed",
+      "role": "main"
+    },
+    {
+      "id": "invalidate-miss",
+      "from": "invalidate",
+      "to": "miss",
+      "label": "key removed",
+      "role": "main"
+    },
+    {
+      "id": "cached-expires",
+      "from": "cached",
+      "to": "expires",
+      "label": "time passes",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "expires-miss",
+      "from": "expires",
+      "to": "miss",
+      "label": "entry expired",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "miss-reload",
+      "from": "miss",
+      "to": "reload",
+      "label": "cache-aside read",
+      "role": "main"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Explicit invalidation",
+      "items": [
+        "After a committed source change, remove or update the matching cache key."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "TTL and races",
+      "items": [
+        "Expiration limits staleness; delayed invalidation and concurrent reads still need a policy."
+      ]
+    }
+  ]
+}

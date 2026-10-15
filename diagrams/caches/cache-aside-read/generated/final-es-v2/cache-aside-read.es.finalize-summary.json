@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\spec.es.json",
+    "sha256": "33251b1d2179011ab8883dd122eb6713a851e1bd6b8b958c7c865d4c1e73fb90",
+    "bytes": 32822
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\generated\\cache-aside-read.es.html",
+    "sha256": "d6ac27c213a3df9039ff7fd3dfb785d3b0f7c0ebb95393da5ac6757ea32000ad",
+    "bytes": 756352
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\generated\\final-es-v2\\cache-aside-read.es.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\generated\\final-es-v2\\cache-aside-read.es.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\cache-aside-read\\generated\\final-es-v2\\cache-aside-read.es.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3812
+}

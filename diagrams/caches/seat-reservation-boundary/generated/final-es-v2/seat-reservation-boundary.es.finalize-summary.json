@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\spec.es.json",
+    "sha256": "c5740cac689cade97925c9b9abdba2f4ab6f628b27080917ac3f066b9e47b27b",
+    "bytes": 33787
+  },
+  "artifact": {
+    "path": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\generated\\seat-reservation-boundary.es.html",
+    "sha256": "865f94a2665680283a19505f4b6165a127f33f960df85cd285c13286194b51f8",
+    "bytes": 761759
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\generated\\final-es-v2\\seat-reservation-boundary.es.finalize.json",
+    "summaryReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\generated\\final-es-v2\\seat-reservation-boundary.es.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Python\\SystemDesignGuide\\diagrams\\caches\\seat-reservation-boundary\\generated\\final-es-v2\\seat-reservation-boundary.es.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "disabled"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2661
+}

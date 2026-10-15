@@ -1,0 +1,117 @@
+{
+  "id": "cache-freshness",
+  "kind": "workflow",
+  "artifact": "generated/cache-freshness.en.html",
+  "artifacts": {
+    "en": "generated/cache-freshness.en.html",
+    "es": "generated/cache-freshness.es.html"
+  },
+  "renderer": {
+    "name": "archify",
+    "version": "3.0.1",
+    "revision": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+    "qualityProfile": "showcase",
+    "sourceSpecs": {
+      "en": "spec.en.json",
+      "es": "spec.es.json"
+    }
+  },
+  "locales": {
+    "en": {
+      "title": "Two ways a cached copy becomes invalid",
+      "altText": "A write updates the source and invalidates the cached key. Separately, a cached key can expire at its TTL. In either case, a later read misses and reloads from the source.",
+      "fallback": "Two common freshness mechanisms are explicit invalidation after a source write and expiration at a TTL. Both make a subsequent cache lookup miss and fetch the source value again. Invalidation can be delayed or fail, and concurrent reads can race with writes, so strict consistency needs additional coordination.",
+      "nodes": [
+        {
+          "id": "edit",
+          "label": "Edit value"
+        },
+        {
+          "id": "persist",
+          "label": "Commit to source"
+        },
+        {
+          "id": "invalidate",
+          "label": "Invalidate key"
+        },
+        {
+          "id": "cached",
+          "label": "Cached copy"
+        },
+        {
+          "id": "expires",
+          "label": "TTL expires"
+        },
+        {
+          "id": "miss",
+          "label": "Cache miss"
+        },
+        {
+          "id": "reload",
+          "label": "Reload source"
+        }
+      ]
+    },
+    "es": {
+      "title": "Dos formas de invalidar una copia en caché",
+      "altText": "Una escritura actualiza el origen e invalida la clave en caché. Por separado, la clave puede caducar al vencer el TTL. En ambos casos, una lectura posterior falla y recarga el dato del origen.",
+      "fallback": "Dos mecanismos habituales de frescura son la invalidación explícita tras escribir en el origen y la caducidad por TTL. Ambos hacen que una consulta posterior falle en caché y vuelva a obtener el dato del origen. La invalidación puede retrasarse o fallar, y las lecturas concurrentes pueden competir con las escrituras; la consistencia estricta requiere coordinación adicional.",
+      "nodes": [
+        {
+          "id": "edit",
+          "label": "Editar dato"
+        },
+        {
+          "id": "persist",
+          "label": "Persistir en origen"
+        },
+        {
+          "id": "invalidate",
+          "label": "Invalidar clave"
+        },
+        {
+          "id": "cached",
+          "label": "Copia en caché"
+        },
+        {
+          "id": "expires",
+          "label": "Vence el TTL"
+        },
+        {
+          "id": "miss",
+          "label": "Fallo de caché"
+        },
+        {
+          "id": "reload",
+          "label": "Recargar origen"
+        }
+      ]
+    }
+  },
+  "edges": [
+    {
+      "from": "edit",
+      "to": "persist"
+    },
+    {
+      "from": "persist",
+      "to": "invalidate"
+    },
+    {
+      "from": "invalidate",
+      "to": "miss"
+    },
+    {
+      "from": "cached",
+      "to": "expires"
+    },
+    {
+      "from": "expires",
+      "to": "miss"
+    },
+    {
+      "from": "miss",
+      "to": "reload"
+    }
+  ]
+}

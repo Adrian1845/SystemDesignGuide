@@ -1,0 +1,60 @@
+{
+  "tool": "archify",
+  "version": "3.0.1",
+  "checkout": "2ab3cae7ac2c2a55d7386ca789d03c4fcd31816c",
+  "repository": "https://github.com/tt-a1i/archify",
+  "diagramType": "workflow",
+  "qualityProfile": "showcase",
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "browserEvidence": {
+    "status": "pass",
+    "source": "finalize browser-check receipts"
+  },
+  "visualEvidence": {
+    "status": "pass",
+    "source": "visual-check receipts",
+    "visualReview": "separate"
+  },
+  "visualReview": {
+    "status": "pass-at-1440-light",
+    "captureViewports": [
+      "1440x900"
+    ],
+    "themes": [
+      "light"
+    ],
+    "observations": "Inspected both localized captures: labels, nodes, relationships, legends, and outcome branches are readable without clipping. Other generated viewports and dark captures have automated visual-check evidence only."
+  },
+  "locales": {
+    "en": {
+      "source": "../spec.en.json",
+      "sourceSha256": "0033cae1e2c577844d8718c14d62644a89fa736d274b3fd47e95b9d04d28c89a",
+      "sourceBytes": 4008,
+      "artifact": "cache-freshness.en.html",
+      "artifactSha256": "6bd11a2ab0a081a3915bea900ae640d3e8a814aa87a0743cc8861a295174f513",
+      "artifactBytes": 754689,
+      "finalizeReceipt": "final-en-v2/cache-freshness.en.finalize.json",
+      "browserReceipt": "final-en-v2/cache-freshness.en.browser-check.json",
+      "visualReceipt": "visual-en-v2/cache-freshness.en.visual-check.json"
+    },
+    "es": {
+      "source": "../spec.es.json",
+      "sourceSha256": "fc62b2672058c2b63f91aa5c77f7219ac1c19287c9cc3776cdc0aa239ae4b69d",
+      "sourceBytes": 33115,
+      "artifact": "cache-freshness.es.html",
+      "artifactSha256": "bcd4a10bf3d0889e75775e17636c99718ba8fac0572201a26c60b9e166e492b6",
+      "artifactBytes": 758156,
+      "finalizeReceipt": "final-es-v2/cache-freshness.es.finalize.json",
+      "browserReceipt": "final-es-v2/cache-freshness.es.browser-check.json",
+      "visualReceipt": "visual-es-v2/cache-freshness.es.visual-check.json",
+      "translationCatalog": "../../locale.es.json",
+      "translationCatalogSha256": "1389068b7dddb5e72ed425d12084ca9104942bef933440a16113d60619f1daf3"
+    }
+  }
+}
