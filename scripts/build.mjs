@@ -103,6 +103,7 @@ function layout({ title, description, locale, route, content, topics, activeSlug
     ${supportedLocales.map((candidate) => `<link rel="alternate" hreflang="${candidate}" href="${alternateRoutes[candidate]}">`).join("\n    ")}
     <link rel="alternate" hreflang="x-default" href="${alternateRoutes.en}">
     <title>${escapeHtml(title)} · ${escapeHtml(copy.siteName)}</title><link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
@@ -134,6 +135,7 @@ async function build() {
   await fs.rm(dist, { recursive: true, force: true });
   await fs.mkdir(dist, { recursive: true });
   await fs.writeFile(path.join(dist, "styles.css"), await fs.readFile(path.join(root, "src", "styles.css"), "utf8"));
+  await fs.copyFile(path.join(root, "src", "favicon.svg"), path.join(dist, "favicon.svg"));
   const publishedPages = pages.filter((page) => page.data.status === "published");
 
   for (const locale of supportedLocales) {
