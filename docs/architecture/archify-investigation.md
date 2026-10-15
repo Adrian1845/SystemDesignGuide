@@ -59,21 +59,68 @@ page-level title, iframe title, and fallback remain localized by this site.
 Archify diagrams must be presented as a primary visual, not as a small inline
 preview. For every page that embeds an Archify artifact, the builder must:
 
-- let the diagram card use the site shell width, up to 1120px on desktop;
-- keep surrounding explanatory prose at the normal readable article width;
-- use a responsive iframe height large enough to show the diagram and its
-  summary content together; the current reference implementation uses a
-  560px minimum, a viewport-responsive size, and an 800px maximum;
-- avoid making the reader scroll inside a cramped diagram frame where the
-  surrounding page can accommodate a larger frame;
+- let the site shell and diagram track grow on wide and 4K displays instead
+  of retaining the former 1120px desktop cap; choose the final upper bound
+  from browser checks at 1920px and 3840px so the artifact is useful without
+  stretching its authored SVG beyond Archify's readable range;
+- keep surrounding explanatory prose at the normal readable article width
+  (760px on ordinary desktop, 900px from 2400px viewport width) in a separate
+  track, while the diagram figure uses the wider track without viewport-width
+  offsets or horizontal overflow;
+- size a same-origin iframe to its rendered document height after load and
+  when its content or available width changes, so the outer page owns the
+  vertical scroll. Use a reasonable CSS starting height while measurement is
+  pending or unavailable. `height: 100%` alone is insufficient because the
+  iframe's parent has no definite content height;
+- coalesce height updates and stop once dimensions settle. Archify adjusts
+  SVG size to its own viewport, so an unguarded iframe resize can create a
+  feedback loop. Preserve access to zoom and controls, and allow ordinary
+  page scrolling when the full diagram cannot fit on one screen;
 - preserve the iframe title, localized fallback, and readable caption even
   when the artifact is unavailable;
-- check the result at 1440×900 and 1920×1080 at minimum, including narrow
-  screens, and confirm that labels remain legible without horizontal page
-  overflow.
+- check narrow widths, 1440×900, 1920×1080, and 3840×2160 in both locales;
+  confirm that labels remain legible, the figure uses the available width,
+  keyboard controls remain reachable, and neither page nor iframe has
+  unintended horizontal overflow or a clipped inner vertical scroll.
 
 This sizing standard applies to future Archify diagrams unless a topic has a
 documented reason to use a different composition.
+
+### Wide article composition (accepted 2026-10-15)
+
+At 4K widths, a 760px prose column aligned to the left edge of a 2200px shell
+left a large empty area above the first diagram. The implemented
+`article-intro` centers a two-column group within the shell: title and
+summary on the left, and a compact table of contents built from the lesson's
+H2 headings on the right. `article-body` aligns prose with the first column;
+diagram figures still use the wider shell. The normal desktop group uses a
+760px reading column and 300px contents column. From 2400px viewport width,
+the base font size is 19px and the columns grow to 900px and 340px with a
+140px gap. At widths of 1200px or less, the contents list follows the header
+before the body in normal document order. Navigation labels are localized and
+section links use stable heading IDs. There is no scroll tracking or duplicate
+of Archify's node index. The parent agent approved this composition after
+visual review at 1440px, 4K, and mobile widths.
+
+### Temporary rail placement integration (approved 2026-10-15)
+
+The five current Archify 3.0.1 artifacts contain a notes and node-index rail.
+Its renderer defaults to notes and a horizontal node index below the diagram;
+it docks the rail beside the diagram only when the iframe viewport is at least
+1280px wide, the viewer considers its labels readable, and the local storage
+key `archify-rail-placement` is `right`. The two Monolith vs Microservices
+artifacts use Archify 2.17.0-dev.1 and have no equivalent rail.
+
+The site may initialize that key to `right` once, before loading a 3.0.1
+iframe, **only if the key is absent**. It must not replace an existing `bottom`
+choice. Storage access must be guarded so blocked storage cannot break the
+page. Archify remains responsible for switching to bottom or a collapsed
+panel when width or readability is insufficient. This is a temporary bridge
+because the current renderer exposes no supported CLI or URL option for the
+initial placement. The key is renderer-internal and shared across all Archify
+viewers on this site origin; regeneration against a newer version must verify
+the behavior and remove or revise the bridge. Do not edit generated HTML or
+simulate clicks on its controls.
 
 ## Findings
 
