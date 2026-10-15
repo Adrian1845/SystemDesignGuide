@@ -12,7 +12,7 @@ const localeCopy = {
     footerOne: "Clear foundations for designing reliable systems.", footerTwo: "Static, repository-authored, and built for learning.",
     heroEyebrow: "A practical systems library", heroTitle: "Design with clarity.<br><em>Build with confidence.</em>",
     heroSummary: "A growing, visual guide to the trade-offs behind the systems we build—from the first request to the last stored record.",
-    explore: "Explore topics", startHere: "Start here", sectionTitle: "Topics that make the big picture click.",
+    explore: "Explore topics", startHere: "Start here", sectionTitle: "Topics that make the big picture click.", tocLabel: "Article sections", tocTitle: "In this guide",
     sectionSummary: "Each guide connects a clear mental model to the decisions you’ll make in real systems.", readGuide: "Read the guide",
   },
   es: {
@@ -21,7 +21,7 @@ const localeCopy = {
     footerOne: "Fundamentos claros para diseñar sistemas fiables.", footerTwo: "Estático, escrito en el repositorio y creado para aprender.",
     heroEyebrow: "Una biblioteca práctica de sistemas", heroTitle: "Diseña con claridad.<br><em>Construye con confianza.</em>",
     heroSummary: "Una guía visual en crecimiento sobre las decisiones y compensaciones de los sistemas que construimos, desde la primera petición hasta el último registro almacenado.",
-    explore: "Explorar temas", startHere: "Empieza aquí", sectionTitle: "Temas que hacen comprensible el conjunto.",
+    explore: "Explorar temas", startHere: "Empieza aquí", sectionTitle: "Temas que hacen comprensible el conjunto.", tocLabel: "Secciones del artículo", tocTitle: "En esta guía",
     sectionSummary: "Cada guía conecta un modelo mental claro con las decisiones que tomarás en sistemas reales.", readGuide: "Leer la guía",
   },
 };
@@ -41,6 +41,8 @@ function inlineMarkdown(value) {
 function renderMarkdown(body, diagrams, locale, topicSlug) {
   const lines = body.split("\n");
   const output = [];
+  const sections = [];
+  const headingIds = new Map();
   let paragraph = [];
   let list = [];
   const flushParagraph = () => { if (paragraph.length) { output.push(`<p>${paragraph.map(inlineMarkdown).join(" ")}</p>`); paragraph = []; } };
@@ -59,13 +61,27 @@ function renderMarkdown(body, diagrams, locale, topicSlug) {
     }
     if (!line.trim()) { flushParagraph(); flushList(); continue; }
     const heading = line.match(/^(#{2,4})\s+(.+)$/);
-    if (heading) { flushParagraph(); flushList(); output.push(`<h${heading[1].length}>${inlineMarkdown(heading[2])}</h${heading[1].length}>`); continue; }
+    if (heading) {
+      flushParagraph(); flushList();
+      if (heading[1].length === 2) {
+        const base = heading[2].normalize("NFKD").replace(/\p{M}/gu, "").toLocaleLowerCase(locale)
+          .replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
+        const count = (headingIds.get(base) ?? 0) + 1;
+        headingIds.set(base, count);
+        const id = `section-${base}${count > 1 ? `-${count}` : ""}`;
+        sections.push({ id, title: heading[2] });
+        output.push(`<h2 id="${escapeHtml(id)}">${inlineMarkdown(heading[2])}</h2>`);
+      } else {
+        output.push(`<h${heading[1].length}>${inlineMarkdown(heading[2])}</h${heading[1].length}>`);
+      }
+      continue;
+    }
     if (line.startsWith("- ")) { flushParagraph(); list.push(line.slice(2)); continue; }
     if (line.startsWith("> ")) { flushParagraph(); flushList(); output.push(`<blockquote>${inlineMarkdown(line.slice(2))}</blockquote>`); continue; }
     paragraph.push(line);
   }
   flushParagraph(); flushList();
-  return output.join("\n");
+  return { html: output.join("\n"), sections };
 }
 
 function routeFor(locale, slug = "") {
@@ -89,7 +105,7 @@ function renderDiagram(diagram, locale, topicSlug) {
   </figure>`;
 }
 
-function layout({ title, description, locale, route, content, topics, activeSlug = "", alternateRoutes }) {
+function layout({ title, description, locale, route, content, topics, activeSlug = "", alternateRoutes, hasDiagramFrames = false, preferDiagramRail = false }) {
   const copy = localeCopy[locale];
   const navigation = topics.map((topic) => `<a class="${topic.data.slug === activeSlug ? "active" : ""}" href="${routeFor(locale, topic.data.slug)}">${escapeHtml(topic.data.title)}</a>`).join("");
   const nextLocale = supportedLocales.find((candidate) => candidate !== locale) ?? locale;
@@ -103,6 +119,9 @@ function layout({ title, description, locale, route, content, topics, activeSlug
     ${supportedLocales.map((candidate) => `<link rel="alternate" hreflang="${candidate}" href="${alternateRoutes[candidate]}">`).join("\n    ")}
     <link rel="alternate" hreflang="x-default" href="${alternateRoutes.en}">
     <title>${escapeHtml(title)} · ${escapeHtml(copy.siteName)}</title><link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    ${preferDiagramRail ? `<script>try { if (localStorage.getItem("archify-rail-placement") === null) localStorage.setItem("archify-rail-placement", "right"); } catch {}</script>` : ""}
+    ${hasDiagramFrames ? `<script defer src="/diagram-frames.js"></script>` : ""}
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
@@ -134,6 +153,8 @@ async function build() {
   await fs.rm(dist, { recursive: true, force: true });
   await fs.mkdir(dist, { recursive: true });
   await fs.writeFile(path.join(dist, "styles.css"), await fs.readFile(path.join(root, "src", "styles.css"), "utf8"));
+  await fs.copyFile(path.join(root, "src", "diagram-frames.js"), path.join(dist, "diagram-frames.js"));
+  await fs.copyFile(path.join(root, "src", "favicon.svg"), path.join(dist, "favicon.svg"));
   const publishedPages = pages.filter((page) => page.data.status === "published");
 
   for (const locale of supportedLocales) {
@@ -144,9 +165,15 @@ async function build() {
 
     for (const topic of localeTopics) {
       const diagrams = new Map();
+      let hasDiagramFrames = false;
+      let preferDiagramRail = false;
       for (const diagramId of topic.diagramIds) {
         const diagram = (await readDiagram(topic.data.slug, diagramId)).data;
         diagrams.set(diagramId, diagram);
+        if (diagram.artifacts?.[locale] ?? diagram.artifact) {
+          hasDiagramFrames = true;
+          if (diagram.renderer?.name === "archify" && /^3\./.test(diagram.renderer.version ?? "")) preferDiagramRail = true;
+        }
         const artifactPaths = diagram.artifacts ?? { [locale]: diagram.artifact };
         for (const artifactPath of Object.values(artifactPaths)) {
           if (!artifactPath) continue;
@@ -157,10 +184,14 @@ async function build() {
         }
       }
       const route = routeFor(locale, topic.data.slug);
-      const topicContent = `<article class="article shell"><div class="article-header"><p class="eyebrow">${escapeHtml(localeCopy[locale].topicGuide)} · ${escapeHtml(localeCopy[locale].foundations)}</p><h1>${escapeHtml(topic.data.title)}</h1><p class="article-summary">${escapeHtml(topic.data.summary)}</p></div><div class="article-body">${renderMarkdown(topic.body, diagrams, locale, topic.data.slug)}</div></article>`;
+      const rendered = renderMarkdown(topic.body, diagrams, locale, topic.data.slug);
+      const toc = rendered.sections.length
+        ? `<nav class="article-toc" aria-label="${escapeHtml(localeCopy[locale].tocLabel)}"><p class="eyebrow">${escapeHtml(localeCopy[locale].tocTitle)}</p><ol>${rendered.sections.map((section) => `<li><a href="#${escapeHtml(section.id)}">${escapeHtml(section.title)}</a></li>`).join("")}</ol></nav>`
+        : "";
+      const topicContent = `<article class="article shell"><div class="article-intro"><div class="article-header"><p class="eyebrow">${escapeHtml(localeCopy[locale].topicGuide)} · ${escapeHtml(localeCopy[locale].foundations)}</p><h1>${escapeHtml(topic.data.title)}</h1><p class="article-summary">${escapeHtml(topic.data.summary)}</p></div>${toc}</div><div class="article-body">${rendered.html}</div></article>`;
       const topicOutputDirectory = path.join(dist, locale, "topics", topic.data.slug);
       await fs.mkdir(topicOutputDirectory, { recursive: true });
-      await fs.writeFile(path.join(topicOutputDirectory, "index.html"), layout({ title: topic.data.title, description: topic.data.summary, locale, route, alternateRoutes: Object.fromEntries(supportedLocales.map((candidate) => [candidate, routeFor(candidate, topic.data.slug)])), activeSlug: topic.data.slug, content: topicContent, topics: localeTopics }));
+      await fs.writeFile(path.join(topicOutputDirectory, "index.html"), layout({ title: topic.data.title, description: topic.data.summary, locale, route, alternateRoutes: Object.fromEntries(supportedLocales.map((candidate) => [candidate, routeFor(candidate, topic.data.slug)])), activeSlug: topic.data.slug, content: topicContent, topics: localeTopics, hasDiagramFrames, preferDiagramRail }));
     }
   }
 
